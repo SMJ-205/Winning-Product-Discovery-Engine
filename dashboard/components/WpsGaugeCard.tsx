@@ -24,20 +24,18 @@ export default function WpsGaugeCard({
   const strokeDashoffset = circumference * (1 - percentage)
 
   const isHighPriority = topScore >= 70
-  const statusColor = isHighPriority ? '#10b981' : topScore >= 50 ? '#f59e0b' : '#ef4444'
 
   return (
     <div style={{
-      background: '#ffffff',
-      border: '1px solid #e2e8f0',
+      background: '#151b2e',
+      border: '1px solid #202a48',
       borderRadius: 22,
       padding: '1.5rem',
-      boxShadow: '0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px -2px rgba(15, 23, 42, 0.02)',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       textAlign: 'center',
-      height: '100%',
+      width: '100%',
       boxSizing: 'border-box',
     }}>
       {/* Title */}
@@ -46,7 +44,7 @@ export default function WpsGaugeCard({
         textAlign: 'left',
         fontSize: '0.9375rem',
         fontWeight: 700,
-        color: '#0f172a',
+        color: '#f8fafc',
         marginBottom: '0.5rem',
       }}>
         Opportunity Score
@@ -70,9 +68,9 @@ export default function WpsGaugeCard({
         >
           <defs>
             <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#06b6d4" />
-              <stop offset="60%" stopColor="#10b981" />
-              <stop offset="100%" stopColor="#8b5cf6" />
+              <stop offset="0%" stopColor="#0ea5e9" />
+              <stop offset="50%" stopColor="#38bdf8" />
+              <stop offset="100%" stopColor="#10b981" />
             </linearGradient>
           </defs>
 
@@ -80,7 +78,7 @@ export default function WpsGaugeCard({
           <path
             d="M 22 100 A 78 78 0 0 1 178 100"
             fill="none"
-            stroke="#f1f5f9"
+            stroke="#1f2945"
             strokeWidth={strokeWidth}
             strokeLinecap="round"
           />
@@ -109,7 +107,7 @@ export default function WpsGaugeCard({
           <div style={{
             fontSize: '2.25rem',
             fontWeight: 800,
-            color: '#0f172a',
+            color: '#f8fafc',
             lineHeight: 1,
             letterSpacing: '-0.03em',
           }}>
@@ -117,7 +115,7 @@ export default function WpsGaugeCard({
           </div>
           <div style={{
             fontSize: '0.75rem',
-            color: '#94a3b8',
+            color: '#64748b',
             fontWeight: 600,
             marginTop: 4,
           }}>
@@ -131,18 +129,18 @@ export default function WpsGaugeCard({
         <div style={{
           fontSize: '0.9375rem',
           fontWeight: 700,
-          color: '#0f172a',
+          color: isHighPriority ? '#34d399' : '#f8fafc',
         }}>
           {isHighPriority ? "Top Niche is High Priority" : "Niche Needs Validation"}
         </div>
         <div style={{
           fontSize: '0.78125rem',
-          color: '#64748b',
+          color: '#94a3b8',
           marginTop: '0.25rem',
           lineHeight: 1.45,
           padding: '0 0.5rem',
         }}>
-          <b>{topNiche}</b> mengungguli kandidat lain dengan margin 28% & komplain kompetitor tinggi.
+          <b style={{ color: '#f8fafc' }}>{topNiche}</b> mengungguli kandidat lain dengan margin sehat dan rasio komplain kompetitor tinggi.
         </div>
       </div>
 
@@ -154,20 +152,19 @@ export default function WpsGaugeCard({
           width: '100%',
           padding: '0.7rem 1.25rem',
           borderRadius: 9999,
-          background: '#f8fafc',
-          border: '1px solid #e2e8f0',
-          color: '#4f46e5',
+          background: 'rgba(56, 189, 248, 0.1)',
+          border: '1px solid rgba(56, 189, 248, 0.35)',
+          color: '#38bdf8',
           fontSize: '0.8125rem',
           fontWeight: 700,
           textDecoration: 'none',
           textAlign: 'center',
           transition: 'all 0.15s ease',
-          boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
           display: 'block',
           boxSizing: 'border-box',
         }}
       >
-        Simulasi Sourcing →
+        Simulasi Sourcing
       </Link>
     </div>
   )

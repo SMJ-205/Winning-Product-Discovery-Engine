@@ -39,45 +39,45 @@ export default function PriceHistogram({ prices }: { prices: PricePoint[] }) {
 
   return (
     <div style={{
-      background: '#ffffff',
-      border: '1px solid #e2e8f0',
+      background: '#151b2e',
+      border: '1px solid #202a48',
       borderRadius: 22,
       padding: '1.5rem',
-      boxShadow: '0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px -2px rgba(15, 23, 42, 0.02)',
+      boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.2)',
     }}>
-      <div style={{ fontSize: '1rem', fontWeight: 800, color: '#0f172a', marginBottom: 2 }}>
+      <div style={{ fontSize: '1rem', fontWeight: 800, color: '#f8fafc', marginBottom: 2 }}>
         Distribusi Harga Kompetitor
       </div>
-      <div style={{ fontSize: '0.75rem', color: '#64748b', marginBottom: '1.25rem' }}>
+      <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginBottom: '1.25rem' }}>
         Kerapatan listing produk berdasarkan rentang harga pasar (Sweet Spot Pricing)
       </div>
       <ResponsiveContainer width="100%" height={290}>
         <BarChart data={bins} margin={{ top: 10, right: 10, bottom: 35, left: 0 }}>
-          <CartesianGrid stroke="#f1f5f9" strokeDasharray="3 3" vertical={false} />
+          <CartesianGrid stroke="#1a223a" strokeDasharray="3 3" vertical={false} />
           <XAxis
             dataKey="range"
-            tick={{ fill: '#64748b', fontSize: 10, fontWeight: 500 }}
+            tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 500 }}
             angle={-25}
             textAnchor="end"
-            axisLine={{ stroke: '#e2e8f0' }}
+            axisLine={{ stroke: '#202a48' }}
           />
-          <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={{ stroke: '#e2e8f0' }} />
+          <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={{ stroke: '#202a48' }} />
           <Tooltip
             contentStyle={{
-              background: '#ffffff',
-              border: '1px solid #e2e8f0',
+              background: '#151b2e',
+              border: '1px solid #202a48',
               borderRadius: 12,
-              boxShadow: '0 10px 25px -5px rgba(15, 23, 42, 0.1)',
+              boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5)',
               fontSize: 12,
-              color: '#0f172a',
+              color: '#f8fafc',
             }}
-            labelStyle={{ color: '#4f46e5', fontWeight: 700 }}
+            labelStyle={{ color: '#38bdf8', fontWeight: 700 }}
           />
           <Bar dataKey="count" radius={[6, 6, 0, 0]}>
             {bins.map((_, i) => (
               <Cell
                 key={i}
-                fill={i === Math.floor(bins.length / 2) ? '#6366f1' : '#cbd5e1'}
+                fill={i === Math.floor(bins.length / 2) ? '#38bdf8' : '#232d4d'}
               />
             ))}
           </Bar>

@@ -4,22 +4,22 @@ import Link from 'next/link'
 
 const LABEL_STYLE: Record<string, { bg: string; color: string; border: string; text: string }> = {
   'High Priority - Immediate Sourcing': {
-    bg: '#ecfdf5',
-    color: '#059669',
-    border: '#a7f3d0',
-    text: '🔥 High Priority',
+    bg: 'rgba(16, 185, 129, 0.15)',
+    color: '#34d399',
+    border: 'rgba(52, 211, 153, 0.3)',
+    text: 'High Priority',
   },
   'Monitor & Sample Testing': {
-    bg: '#fffbeb',
-    color: '#d97706',
-    border: '#fde68a',
-    text: '👁 Monitor',
+    bg: 'rgba(245, 158, 11, 0.15)',
+    color: '#fbbf24',
+    border: 'rgba(251, 191, 36, 0.3)',
+    text: 'Monitor',
   },
   'Reject - Saturated / Unfeasible': {
-    bg: '#fef2f2',
-    color: '#dc2626',
-    border: '#fecaca',
-    text: '❌ Reject',
+    bg: 'rgba(239, 68, 68, 0.15)',
+    color: '#f87171',
+    border: 'rgba(248, 113, 113, 0.3)',
+    text: 'Reject',
   },
 }
 
@@ -41,16 +41,16 @@ export default function WpsTable({ data }: { data: Row[] }) {
 
   return (
     <div style={{
-      background: '#ffffff',
-      border: '1px solid #e2e8f0',
+      background: '#151b2e',
+      border: '1px solid #202a48',
       borderRadius: 22,
       overflow: 'hidden',
-      boxShadow: '0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px -2px rgba(15, 23, 42, 0.02)',
+      boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.2)',
     }}>
       {/* Header */}
       <div style={{
         padding: '1.25rem 1.5rem',
-        borderBottom: '1px solid #f1f5f9',
+        borderBottom: '1px solid #1a223a',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -58,10 +58,10 @@ export default function WpsTable({ data }: { data: Row[] }) {
         gap: '0.5rem',
       }}>
         <div>
-          <div style={{ fontSize: '1rem', fontWeight: 800, color: '#0f172a' }}>
+          <div style={{ fontSize: '1rem', fontWeight: 800, color: '#f8fafc' }}>
             Top Product Opportunities
           </div>
-          <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: 2 }}>
+          <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>
             Peringkat niche berdasarkan validasi algoritma Winning Product Score (WPS)
           </div>
         </div>
@@ -69,13 +69,13 @@ export default function WpsTable({ data }: { data: Row[] }) {
         <div style={{
           fontSize: '0.75rem',
           fontWeight: 600,
-          color: '#475569',
+          color: '#94a3b8',
           padding: '0.35rem 0.85rem',
-          background: '#f8fafc',
+          background: '#11172a',
           borderRadius: 9999,
-          border: '1px solid #e2e8f0',
+          border: '1px solid #202a48',
         }}>
-          Weekly ▾
+          Weekly
         </div>
       </div>
 
@@ -83,7 +83,7 @@ export default function WpsTable({ data }: { data: Row[] }) {
       <div style={{ overflowX: 'auto' }}>
         <table>
           <thead>
-            <tr style={{ background: '#f8fafc' }}>
+            <tr style={{ background: '#11172a' }}>
               <th>Niche / Produk</th>
               <th>Kategori</th>
               <th>Units/Bln</th>
@@ -103,26 +103,26 @@ export default function WpsTable({ data }: { data: Row[] }) {
                 <tr key={row.keyword_id}>
                   {/* Product / Niche Name */}
                   <td>
-                    <div style={{ fontWeight: 700, color: '#0f172a', fontSize: '0.875rem' }}>
+                    <div style={{ fontWeight: 700, color: '#f8fafc', fontSize: '0.875rem' }}>
                       {row.sub_category}
                     </div>
-                    <div style={{ fontSize: '0.6875rem', color: '#94a3b8', marginTop: 2 }}>
+                    <div style={{ fontSize: '0.6875rem', color: '#64748b', marginTop: 2 }}>
                       {row.n_products ? `${row.n_products} listings dianalisis` : 'Kaggle Dataset'}
                     </div>
                   </td>
 
                   {/* Category */}
-                  <td style={{ color: '#64748b', fontSize: '0.8125rem' }}>
+                  <td style={{ color: '#94a3b8', fontSize: '0.8125rem' }}>
                     {row.category_name?.replace('_', ' ') ?? 'General'}
                   </td>
 
                   {/* Monthly Units */}
-                  <td style={{ fontWeight: 600, color: '#334155', fontSize: '0.8125rem' }}>
+                  <td style={{ fontWeight: 600, color: '#cbd5e1', fontSize: '0.8125rem' }}>
                     {row.monthly_sold_units?.toLocaleString('id-ID')}
                   </td>
 
                   {/* Median Price */}
-                  <td style={{ fontWeight: 700, color: '#0f172a', fontSize: '0.875rem' }}>
+                  <td style={{ fontWeight: 700, color: '#f8fafc', fontSize: '0.875rem' }}>
                     Rp {row.median_price?.toLocaleString('id-ID')}
                   </td>
 
@@ -132,7 +132,7 @@ export default function WpsTable({ data }: { data: Row[] }) {
                       <div style={{
                         width: 55,
                         height: 6,
-                        background: '#f1f5f9',
+                        background: '#11172a',
                         borderRadius: 3,
                         overflow: 'hidden',
                       }}>
@@ -149,7 +149,7 @@ export default function WpsTable({ data }: { data: Row[] }) {
                     </div>
                   </td>
 
-                  {/* Status Badge */}
+                  {/* Status Badge without emojis */}
                   <td>
                     <span style={{
                       display: 'inline-block',
@@ -173,14 +173,15 @@ export default function WpsTable({ data }: { data: Row[] }) {
                       style={{
                         fontSize: '0.75rem',
                         fontWeight: 700,
-                        color: '#6366f1',
+                        color: '#38bdf8',
                         textDecoration: 'none',
                         padding: '4px 10px',
                         borderRadius: 8,
-                        background: '#f5f3ff',
+                        background: 'rgba(56, 189, 248, 0.1)',
+                        border: '1px solid rgba(56, 189, 248, 0.25)',
                       }}
                     >
-                      Simulasi →
+                      Simulasi
                     </Link>
                   </td>
                 </tr>
@@ -189,7 +190,7 @@ export default function WpsTable({ data }: { data: Row[] }) {
 
             {sorted.length === 0 && (
               <tr>
-                <td colSpan={7} style={{ textAlign: 'center', color: '#94a3b8', padding: '3rem 1rem' }}>
+                <td colSpan={7} style={{ textAlign: 'center', color: '#64748b', padding: '3rem 1rem' }}>
                   Belum ada data scoring. Pastikan pipeline Python telah dijalankan.
                 </td>
               </tr>

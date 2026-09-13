@@ -14,7 +14,7 @@ export default function KpiCard({
   value,
   badge = '+2.4%',
   badgeType = 'positive',
-  sparklineColor = '#6366f1',
+  sparklineColor = '#38bdf8',
   sparklinePoints = [20, 35, 25, 45, 30, 60, 48, 75],
 }: Props) {
   // Generate SVG path for sparkline
@@ -33,19 +33,34 @@ export default function KpiCard({
     .join(' ')
 
   const badgeBg =
-    badgeType === 'positive' ? '#ecfdf5' : badgeType === 'negative' ? '#fef2f2' : '#f1f5f9'
+    badgeType === 'positive'
+      ? 'rgba(16, 185, 129, 0.15)'
+      : badgeType === 'negative'
+      ? 'rgba(239, 68, 68, 0.15)'
+      : 'rgba(56, 189, 248, 0.15)'
+
   const badgeColor =
-    badgeType === 'positive' ? '#10b981' : badgeType === 'negative' ? '#ef4444' : '#64748b'
+    badgeType === 'positive'
+      ? '#34d399'
+      : badgeType === 'negative'
+      ? '#f87171'
+      : '#38bdf8'
+
+  const badgeBorder =
+    badgeType === 'positive'
+      ? 'rgba(52, 211, 153, 0.3)'
+      : badgeType === 'negative'
+      ? 'rgba(248, 113, 113, 0.3)'
+      : 'rgba(56, 189, 248, 0.3)'
 
   return (
     <div style={{
-      background: '#ffffff',
-      border: '1px solid #e2e8f0',
+      background: '#151b2e',
+      border: '1px solid #202a48',
       borderRadius: 18,
       padding: '1.25rem 1.4rem 1rem 1.4rem',
       width: '100%',
       boxSizing: 'border-box',
-      boxShadow: '0 4px 16px -2px rgba(15, 23, 42, 0.03), 0 2px 4px -2px rgba(15, 23, 42, 0.02)',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
@@ -55,7 +70,7 @@ export default function KpiCard({
       {/* Title */}
       <div style={{
         fontSize: '0.8125rem',
-        color: '#64748b',
+        color: '#94a3b8',
         fontWeight: 600,
       }}>
         {title}
@@ -72,7 +87,7 @@ export default function KpiCard({
         <span style={{
           fontSize: '1.5rem',
           fontWeight: 800,
-          color: '#0f172a',
+          color: '#f8fafc',
           letterSpacing: '-0.02em',
         }}>
           {value}
@@ -83,6 +98,7 @@ export default function KpiCard({
             fontWeight: 700,
             background: badgeBg,
             color: badgeColor,
+            border: `1px solid ${badgeBorder}`,
             padding: '2px 8px',
             borderRadius: 9999,
           }}>
@@ -97,16 +113,10 @@ export default function KpiCard({
           viewBox={`0 0 ${width} ${height}`}
           style={{ width: '100%', height: 38, overflow: 'visible' }}
         >
-          <defs>
-            <linearGradient id={`grad-${sparklineColor.replace('#', '')}`} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={sparklineColor} stopOpacity={0.25} />
-              <stop offset="100%" stopColor={sparklineColor} stopOpacity={0.0} />
-            </linearGradient>
-          </defs>
           <polyline
             fill="none"
             stroke={sparklineColor}
-            strokeWidth={2.4}
+            strokeWidth={2.5}
             strokeLinecap="round"
             strokeLinejoin="round"
             points={points}

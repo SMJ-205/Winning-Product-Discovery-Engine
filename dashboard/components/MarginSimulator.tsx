@@ -11,10 +11,10 @@ type Props = {
 const INPUT_STYLE: React.CSSProperties = {
   width: '100%',
   padding: '0.65rem 0.875rem',
-  background: '#ffffff',
-  border: '1px solid #cbd5e1',
+  background: '#11172a',
+  border: '1px solid #202a48',
   borderRadius: 10,
-  color: '#0f172a',
+  color: '#f8fafc',
   fontSize: 14,
   fontWeight: 600,
   outline: 'none',
@@ -25,7 +25,7 @@ const INPUT_STYLE: React.CSSProperties = {
 const LABEL_STYLE: React.CSSProperties = {
   fontSize: 11,
   fontWeight: 700,
-  color: '#64748b',
+  color: '#94a3b8',
   textTransform: 'uppercase',
   letterSpacing: '0.06em',
   marginBottom: 6,
@@ -53,13 +53,13 @@ export default function MarginSimulator({
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
       {/* Input Panel */}
       <div style={{
-        background: '#ffffff',
-        border: '1px solid #e2e8f0',
+        background: '#151b2e',
+        border: '1px solid #202a48',
         borderRadius: 22,
         padding: '1.5rem',
-        boxShadow: '0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px -2px rgba(15, 23, 42, 0.02)',
+        boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.2)',
       }}>
-        <div style={{ fontSize: '1rem', fontWeight: 800, color: '#0f172a', marginBottom: '1.25rem' }}>
+        <div style={{ fontSize: '1rem', fontWeight: 800, color: '#f8fafc', marginBottom: '1.25rem' }}>
           Parameter Simulasi Sourcing
         </div>
 
@@ -82,13 +82,13 @@ export default function MarginSimulator({
           ))}
         </div>
 
-        {/* Max HPP Alert & Status */}
+        {/* Max HPP Alert & Status without emojis */}
         <div style={{
           marginTop: '1.25rem',
           padding: '1rem 1.25rem',
           borderRadius: 14,
-          background: isHealthy ? '#ecfdf5' : '#fef2f2',
-          border: `1px solid ${isHealthy ? '#a7f3d0' : '#fecaca'}`,
+          background: isHealthy ? 'rgba(16, 185, 129, 0.12)' : 'rgba(239, 68, 68, 0.12)',
+          border: `1px solid ${isHealthy ? 'rgba(52, 211, 153, 0.3)' : 'rgba(248, 113, 113, 0.3)'}`,
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -96,16 +96,16 @@ export default function MarginSimulator({
           gap: '0.75rem',
         }}>
           <div>
-            <div style={{ fontWeight: 800, fontSize: '0.9375rem', color: isHealthy ? '#065f46' : '#991b1b' }}>
-              {isHealthy ? '✅ Margin Sehat (≥ 25%)' : '⚠️ Margin di Bawah Target (< 25%)'}
+            <div style={{ fontWeight: 800, fontSize: '0.9375rem', color: isHealthy ? '#34d399' : '#f87171' }}>
+              {isHealthy ? 'Margin Sehat (Target >= 25% Terpenuhi)' : 'Margin di Bawah Target (< 25%)'}
             </div>
-            <div style={{ fontSize: '0.8125rem', color: isHealthy ? '#047857' : '#b91c1c', marginTop: 2 }}>
+            <div style={{ fontSize: '0.8125rem', color: isHealthy ? '#a7f3d0' : '#fca5a5', marginTop: 2 }}>
               Target batas maksimal HPP supplier: <b>Rp {Math.max(0, Math.round(maxHpp)).toLocaleString('id-ID')}</b>
             </div>
           </div>
           <div style={{ textAlign: 'right' }}>
-            <span style={{ fontSize: '0.75rem', color: isHealthy ? '#047857' : '#b91c1c' }}>Estimasi Profit:</span>
-            <div style={{ fontSize: '1.15rem', fontWeight: 800, color: isHealthy ? '#065f46' : '#991b1b' }}>
+            <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Estimasi Profit:</span>
+            <div style={{ fontSize: '1.15rem', fontWeight: 800, color: isHealthy ? '#34d399' : '#f87171' }}>
               Rp {Math.round(netProfit).toLocaleString('id-ID')} / unit
             </div>
           </div>

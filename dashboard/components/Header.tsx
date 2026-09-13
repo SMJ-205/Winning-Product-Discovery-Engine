@@ -8,8 +8,8 @@ type Props = {
 }
 
 export default function Header({
-  title = 'Good Evening, Product Hunter!',
-  subtitle = 'Have an in-depth look at all e-commerce opportunity metrics',
+  title = 'Good Evening, Product Hunter',
+  subtitle = 'In-depth analytics for e-commerce product discovery and sourcing',
 }: Props) {
   const [activeTab, setActiveTab] = useState<'24h' | 'week' | 'month'>('week')
   const [search, setSearch] = useState('')
@@ -25,10 +25,20 @@ export default function Header({
         gap: '1rem',
       }}>
         <div>
+          <div style={{
+            fontSize: '0.75rem',
+            color: '#38bdf8',
+            fontWeight: 700,
+            textTransform: 'uppercase',
+            letterSpacing: '0.06em',
+            marginBottom: 4,
+          }}>
+            Dashboard &gt; Market &gt; Sourcing Intelligence
+          </div>
           <h1 style={{
-            fontSize: '1.65rem',
+            fontSize: '1.75rem',
             fontWeight: 800,
-            color: '#0f172a',
+            color: '#f8fafc',
             letterSpacing: '-0.025em',
             margin: 0,
           }}>
@@ -36,7 +46,7 @@ export default function Header({
           </h1>
           <p style={{
             fontSize: '0.875rem',
-            color: '#64748b',
+            color: '#94a3b8',
             marginTop: '0.25rem',
             fontWeight: 500,
           }}>
@@ -58,7 +68,7 @@ export default function Header({
                 left: 14,
                 width: 15,
                 height: 15,
-                color: '#94a3b8',
+                color: '#64748b',
               }}
               fill="none"
               stroke="currentColor"
@@ -75,12 +85,11 @@ export default function Header({
                 width: 220,
                 padding: '0.55rem 1rem 0.55rem 2.35rem',
                 fontSize: '0.8125rem',
-                background: '#ffffff',
-                border: '1px solid #e2e8f0',
+                background: '#151b2e',
+                border: '1px solid #202a48',
                 borderRadius: '9999px',
                 outline: 'none',
-                color: '#1e293b',
-                boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+                color: '#f8fafc',
                 transition: 'all 0.15s ease',
               }}
             />
@@ -91,15 +100,14 @@ export default function Header({
             width: 38,
             height: 38,
             borderRadius: '50%',
-            background: '#ffffff',
-            border: '1px solid #e2e8f0',
+            background: '#151b2e',
+            border: '1px solid #202a48',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
             position: 'relative',
-            color: '#475569',
-            boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+            color: '#94a3b8',
           }}>
             <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
@@ -110,9 +118,9 @@ export default function Header({
               right: 9,
               width: 7,
               height: 7,
-              background: '#ef4444',
+              background: '#38bdf8',
               borderRadius: '50%',
-              border: '2px solid #ffffff',
+              border: '2px solid #151b2e',
             }} />
           </button>
 
@@ -122,22 +130,21 @@ export default function Header({
             alignItems: 'center',
             gap: 8,
             padding: '3px 8px 3px 4px',
-            background: '#ffffff',
-            border: '1px solid #e2e8f0',
+            background: '#151b2e',
+            border: '1px solid #202a48',
             borderRadius: '9999px',
-            boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
             cursor: 'pointer',
           }}>
             <div style={{
               width: 32,
               height: 32,
               borderRadius: '50%',
-              background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+              background: 'linear-gradient(135deg, #0284c7, #38bdf8)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               color: '#ffffff',
-              fontWeight: 700,
+              fontWeight: 800,
               fontSize: 12,
             }}>
               SM
@@ -155,7 +162,7 @@ export default function Header({
         alignItems: 'center',
         gap: '1.5rem',
         marginTop: '1.25rem',
-        borderBottom: '1px solid #e2e8f0',
+        borderBottom: '1px solid #1f2945',
         paddingBottom: '0.25rem',
       }}>
         {[
@@ -174,7 +181,7 @@ export default function Header({
                 padding: '0.5rem 0.25rem',
                 fontSize: '0.85rem',
                 fontWeight: active ? 700 : 500,
-                color: active ? '#4f46e5' : '#64748b',
+                color: active ? '#38bdf8' : '#64748b',
                 cursor: 'pointer',
                 position: 'relative',
                 transition: 'all 0.15s ease',
@@ -188,8 +195,9 @@ export default function Header({
                   left: 0,
                   right: 0,
                   height: 3,
-                  background: '#6366f1',
+                  background: '#38bdf8',
                   borderRadius: 3,
+                  boxShadow: '0 0 10px rgba(56, 189, 248, 0.7)',
                 }} />
               )}
             </button>

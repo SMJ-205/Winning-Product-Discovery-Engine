@@ -16,15 +16,15 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="id">
-      <body className={font.className} style={{ margin: 0, background: '#f1f3f7', color: '#1e293b' }}>
-        <div style={{ display: 'flex', minHeight: '100vh', width: '100%', background: '#f1f3f7' }}>
+      <body className={font.className} style={{ margin: 0, background: '#0c1021', color: '#f8fafc' }}>
+        <div style={{ display: 'flex', minHeight: '100vh', width: '100%', background: '#0c1021' }}>
           <Sidebar />
           <main style={{
             flex: 1,
             minWidth: 0,
             padding: '2rem 2.5rem',
             boxSizing: 'border-box',
-            background: '#f1f3f7',
+            background: '#0c1021',
           }}>
             {children}
           </main>

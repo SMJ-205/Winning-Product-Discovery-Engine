@@ -13,18 +13,19 @@ export default function QuickInsightsCard() {
 
   return (
     <div style={{
-      background: '#ffffff',
-      border: '1px solid #e2e8f0',
+      background: '#151b2e',
+      border: '1px solid #202a48',
       borderRadius: 22,
       padding: '1.5rem',
-      boxShadow: '0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px -2px rgba(15, 23, 42, 0.02)',
       display: 'flex',
       flexDirection: 'column',
       gap: '1.25rem',
+      width: '100%',
+      boxSizing: 'border-box',
     }}>
       {/* Header with arrows */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <span style={{ fontSize: '0.9375rem', fontWeight: 800, color: '#0f172a' }}>
+        <span style={{ fontSize: '0.9375rem', fontWeight: 800, color: '#f8fafc' }}>
           September 2026
         </span>
         <div style={{ display: 'flex', gap: 6 }}>
@@ -32,13 +33,13 @@ export default function QuickInsightsCard() {
             width: 26,
             height: 26,
             borderRadius: '50%',
-            border: '1px solid #e2e8f0',
-            background: '#ffffff',
+            border: '1px solid #202a48',
+            background: '#151b2e',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
-            color: '#64748b',
+            color: '#94a3b8',
           }}>
             <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
@@ -48,13 +49,13 @@ export default function QuickInsightsCard() {
             width: 26,
             height: 26,
             borderRadius: '50%',
-            border: '1px solid #e2e8f0',
-            background: '#ffffff',
+            border: '1px solid #202a48',
+            background: '#151b2e',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
-            color: '#64748b',
+            color: '#94a3b8',
           }}>
             <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
@@ -79,7 +80,7 @@ export default function QuickInsightsCard() {
               gap: 4,
             }}
           >
-            <span style={{ fontSize: '0.6875rem', color: '#94a3b8', fontWeight: 600 }}>
+            <span style={{ fontSize: '0.6875rem', color: '#64748b', fontWeight: 600 }}>
               {d.day}
             </span>
             <span style={{
@@ -91,8 +92,8 @@ export default function QuickInsightsCard() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: d.active ? '#6366f1' : 'transparent',
-              color: d.active ? '#ffffff' : '#334155',
+              background: d.active ? '#38bdf8' : 'transparent',
+              color: d.active ? '#0c1021' : '#cbd5e1',
             }}>
               {d.date}
             </span>
@@ -100,36 +101,37 @@ export default function QuickInsightsCard() {
         ))}
       </div>
 
-      {/* Quick Events / Insights list */}
+      {/* Quick Events / Insights list with clean SVG icons */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.25rem' }}>
         <div style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0.75rem',
-          background: '#f8fafc',
+          background: '#11172a',
           borderRadius: 12,
-          border: '1px solid #f1f5f9',
+          border: '1px solid #1a223a',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <div style={{
               width: 32,
               height: 32,
               borderRadius: 8,
-              background: '#e0e7ff',
-              color: '#4f46e5',
+              background: 'rgba(56, 189, 248, 0.15)',
+              color: '#38bdf8',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: 14,
             }}>
-              🤝
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
             </div>
             <div>
-              <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#0f172a' }}>
+              <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#f8fafc' }}>
                 Supplier Sample Review
               </div>
-              <div style={{ fontSize: '0.6875rem', color: '#64748b' }}>
+              <div style={{ fontSize: '0.6875rem', color: '#94a3b8' }}>
                 Holder HP Motor (Target HPP Rp 28k)
               </div>
             </div>
@@ -144,29 +146,30 @@ export default function QuickInsightsCard() {
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0.75rem',
-          background: '#f8fafc',
+          background: '#11172a',
           borderRadius: 12,
-          border: '1px solid #f1f5f9',
+          border: '1px solid #1a223a',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <div style={{
               width: 32,
               height: 32,
               borderRadius: 8,
-              background: '#dcfce7',
-              color: '#15803d',
+              background: 'rgba(16, 185, 129, 0.15)',
+              color: '#34d399',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: 14,
             }}>
-              🔄
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
             </div>
             <div>
-              <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#0f172a' }}>
+              <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#f8fafc' }}>
                 Weekly Pipeline Cron
               </div>
-              <div style={{ fontSize: '0.6875rem', color: '#64748b' }}>
+              <div style={{ fontSize: '0.6875rem', color: '#94a3b8' }}>
                 GitHub Actions Automated
               </div>
             </div>

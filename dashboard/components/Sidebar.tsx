@@ -46,14 +46,13 @@ export default function Sidebar() {
       width: 240,
       height: '100vh',
       flexShrink: 0,
-      background: '#ffffff',
-      borderRight: '1px solid #e2e8f0',
+      background: '#0f152b',
+      borderRight: '1px solid #1b2440',
       padding: '1.75rem 1rem',
       zIndex: 50,
       display: 'flex',
       flexDirection: 'column',
       boxSizing: 'border-box',
-      boxShadow: '1px 0 10px rgba(0, 0, 0, 0.02)',
     }}>
       {/* Brand Header: Biz-In-Sight */}
       <div style={{
@@ -61,13 +60,13 @@ export default function Sidebar() {
         alignItems: 'center',
         gap: '0.75rem',
         padding: '0 0.5rem',
-        marginBottom: '2.25rem',
+        marginBottom: '2.5rem',
       }}>
         <div style={{
           width: 38,
           height: 38,
           borderRadius: 12,
-          background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+          background: 'linear-gradient(135deg, #0284c7 0%, #38bdf8 100%)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -75,7 +74,7 @@ export default function Sidebar() {
           fontWeight: 800,
           fontSize: 15,
           letterSpacing: '-0.02em',
-          boxShadow: '0 4px 12px rgba(99, 102, 241, 0.35)',
+          boxShadow: '0 4px 12px rgba(14, 165, 233, 0.35)',
           flexShrink: 0,
         }}>
           BIS
@@ -84,7 +83,7 @@ export default function Sidebar() {
           <div style={{
             fontSize: '1.05rem',
             fontWeight: 800,
-            color: '#0f172a',
+            color: '#f8fafc',
             letterSpacing: '-0.03em',
             lineHeight: 1.15,
           }}>
@@ -92,7 +91,7 @@ export default function Sidebar() {
           </div>
           <div style={{
             fontSize: '0.6875rem',
-            color: '#6366f1',
+            color: '#38bdf8',
             fontWeight: 700,
             letterSpacing: '0.04em',
             textTransform: 'uppercase',
@@ -108,11 +107,11 @@ export default function Sidebar() {
         <div style={{
           fontSize: '0.6875rem',
           fontWeight: 700,
-          color: '#94a3b8',
+          color: '#64748b',
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
           padding: '0 0.75rem',
-          marginBottom: '0.4rem',
+          marginBottom: '0.5rem',
         }}>
           Menu
         </div>
@@ -127,16 +126,16 @@ export default function Sidebar() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.75rem',
-                padding: '0.7rem 0.875rem',
+                padding: '0.75rem 0.875rem',
                 borderRadius: 12,
                 fontSize: '0.875rem',
                 fontWeight: active ? 700 : 500,
-                color: active ? '#ffffff' : '#64748b',
+                color: active ? '#ffffff' : '#94a3b8',
                 textDecoration: 'none',
                 background: active
-                  ? 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)'
+                  ? 'linear-gradient(135deg, #0284c7 0%, #38bdf8 100%)'
                   : 'transparent',
-                boxShadow: active ? '0 4px 14px rgba(99, 102, 241, 0.35)' : 'none',
+                boxShadow: active ? '0 4px 14px rgba(14, 165, 233, 0.35)' : 'none',
                 transition: 'all 0.15s ease',
               }}
             >
@@ -144,7 +143,7 @@ export default function Sidebar() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: active ? '#ffffff' : '#94a3b8',
+                color: active ? '#ffffff' : '#64748b',
               }}>
                 {link.icon}
               </span>
@@ -154,42 +153,11 @@ export default function Sidebar() {
         })}
       </div>
 
-      {/* Secondary section */}
-      <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-        <div style={{
-          fontSize: '0.6875rem',
-          fontWeight: 700,
-          color: '#94a3b8',
-          letterSpacing: '0.08em',
-          textTransform: 'uppercase',
-          padding: '0 0.75rem',
-          marginBottom: '0.4rem',
-        }}>
-          System
-        </div>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.75rem',
-          padding: '0.65rem 0.875rem',
-          borderRadius: 12,
-          fontSize: '0.85rem',
-          color: '#94a3b8',
-          cursor: 'default',
-        }}>
-          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-          <span>Settings</span>
-        </div>
-      </div>
-
-      {/* Footer / Database Status Card */}
+      {/* Footer Status Card */}
       <div style={{
         marginTop: 'auto',
-        background: '#f8fafc',
-        border: '1px solid #e2e8f0',
+        background: '#151c33',
+        border: '1px solid #1f2945',
         borderRadius: 14,
         padding: '0.875rem',
       }}>
@@ -201,7 +169,7 @@ export default function Sidebar() {
             borderRadius: '50%',
             display: 'inline-block',
           }} />
-          <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#0f172a' }}>
+          <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#f8fafc' }}>
             Supabase Live
           </span>
         </div>

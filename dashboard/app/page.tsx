@@ -35,8 +35,8 @@ export default async function MarketPage() {
     <div style={{ maxWidth: 1440, margin: '0 auto' }}>
       {/* Top Header */}
       <Header
-        title="Good Evening, Product Hunter!"
-        subtitle="Have an in-depth look at all e-commerce market opportunity metrics"
+        title="Good Evening, Product Hunter"
+        subtitle="In-depth analytics for e-commerce product discovery and sourcing"
       />
 
       {/* Main Grid: Left Column & Right Column */}
