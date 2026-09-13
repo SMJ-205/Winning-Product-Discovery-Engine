@@ -41,9 +41,12 @@ export default function Sidebar() {
 
   return (
     <nav style={{
+      position: 'fixed',
+      top: 0,
+      bottom: 0,
+      left: 0,
       width: 240,
-      minHeight: '100vh',
-      alignSelf: 'stretch',
+      height: '100vh',
       flexShrink: 0,
       background: '#0f152b',
       borderRight: '1px solid #1b2440',
@@ -52,6 +55,7 @@ export default function Sidebar() {
       display: 'flex',
       flexDirection: 'column',
       boxSizing: 'border-box',
+      overflowY: 'auto',
     }}>
       {/* Brand Header: Biz-In-Sight */}
       <div style={{

@@ -35,7 +35,7 @@ export default async function MarketPage() {
     <div style={{ maxWidth: 1440, margin: '0 auto' }}>
       {/* Top Header */}
       <Header
-        title="Good Evening, Product Hunter"
+        title="Overall Summary"
         subtitle="In-depth analytics for e-commerce product discovery and sourcing"
       />
 
