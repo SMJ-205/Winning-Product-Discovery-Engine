@@ -1,0 +1,44 @@
+# =============================================================================
+# keywords_discovery.yaml — Seed Keywords untuk Discovery Pipeline
+# Pipeline akan ambil setiap keyword ke pytrends (max 5/run) lalu filter
+# berdasarkan stabilitas tren (volatility_cv < 0.3) dan skor pertumbuhan.
+# =============================================================================
+
+# Seed keywords awal — update berdasarkan riset TikTok Creative Center
+seed_keywords:
+  dapur_dan_makan:
+    - "rak bumbu dapur"
+    - "tempat sendok garpu"
+    - "talenan kayu"
+    - "toples kaca"
+    - "saringan minyak goreng"
+
+  peralatan_rumah:
+    - "rak sepatu minimalis"
+    - "organizer laci kamar"
+    - "tempat sabun kamar mandi"
+    - "gantungan baju lipat"
+    - "keranjang laundry anyaman"
+
+  kecantikan_skincare:
+    - "organizer makeup meja rias"
+    - "cermin kaca rias"
+    - "tempat kapas cotton bud"
+
+  elektronik_aksesoris:
+    - "kabel data type c"
+    - "holder hp motor"
+    - "earphone gaming murah"
+
+# Konfigurasi pytrends
+pytrends:
+  max_keywords_per_run: 5     # Batas per sesi untuk hindari rate-limit
+  timeframe: "today 12-m"     # 12 bulan terakhir
+  geo: "ID"                   # Indonesia
+  stability_cv_threshold: 0.3 # Keyword dianggap stabil jika CV < nilai ini
+  min_avg_interest: 20        # Filter keyword dengan rata-rata interest < 20
+
+# Output
+output:
+  table: dim_category_keyword  # Hasil discovery dimasukkan ke tabel ini
+  cache_dir: "data/cache/"     # Cache hasil trends per keyword

@@ -1,0 +1,43 @@
+name: Weekly Product Discovery Pipeline
+
+on:
+  schedule:
+    - cron: "0 20 * * 0"  # Setiap Minggu 20:00 UTC (~Senin 03:00 WIB)
+  workflow_dispatch: {}    # Tombol "Run workflow" manual di GitHub UI
+
+jobs:
+  run-pipeline:
+    name: Run Scoring Pipeline
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run smoke test (unit tests)
+        run: pytest pipeline/tests/ -v --tb=short
+        env:
+          # Unit tests tidak butuh DB — hanya test logika lokal
+          DATABASE_URL: ""
+
+      - name: Run full pipeline
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+        run: python pipeline/run_all.py
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "::error::Pipeline gagal. Periksa log di atas untuk detail."
+          echo "Run ID: ${{ github.run_id }}"

@@ -1,0 +1,49 @@
+# =============================================================================
+# cost_params.yaml — Konfigurasi biaya HPP & komisi per kategori
+# Refresh parameter ini setiap bulan. Tandai tanggal update terakhir di bawah.
+# Last updated: 2026-09-13
+# =============================================================================
+
+categories:
+  default:
+    cogs_ratio: 0.35            # HPP sebagai proporsi harga jual
+    marketplace_fee_pct: 0.085  # Komisi marketplace (Tokopedia/Shopee rata-rata)
+    ads_budget_pct: 0.10        # Alokasi iklan berbayar
+    target_net_margin: 0.25     # Target minimum net margin
+
+  dapur_dan_makan:
+    cogs_ratio: 0.38
+    marketplace_fee_pct: 0.085
+    ads_budget_pct: 0.10
+    target_net_margin: 0.22
+
+  fashion_wanita:
+    cogs_ratio: 0.30
+    marketplace_fee_pct: 0.10
+    ads_budget_pct: 0.12
+    target_net_margin: 0.25
+
+  peralatan_rumah:
+    cogs_ratio: 0.36
+    marketplace_fee_pct: 0.085
+    ads_budget_pct: 0.08
+    target_net_margin: 0.25
+
+  kecantikan_skincare:
+    cogs_ratio: 0.32
+    marketplace_fee_pct: 0.10
+    ads_budget_pct: 0.15
+    target_net_margin: 0.28
+
+  elektronik_aksesoris:
+    cogs_ratio: 0.40
+    marketplace_fee_pct: 0.085
+    ads_budget_pct: 0.08
+    target_net_margin: 0.20
+
+# Threshold rekomendasi WPS
+# Kalibrasi ulang setiap kuartal menggunakan persentil dari distribusi skor historis
+thresholds:
+  high_priority: 70   # WPS >= 70 → "High Priority - Immediate Sourcing"
+  monitor: 50         # WPS >= 50 → "Monitor & Sample Testing"
+                      # WPS <  50 → "Reject - Saturated / Unfeasible"
