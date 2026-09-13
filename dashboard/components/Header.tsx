@@ -32,24 +32,46 @@ export default function Header({
 
   return (
     <div style={{ marginBottom: '2rem' }}>
-      {/* Breadcrumb dengan nama tab aktif */}
+      {/* Row: Breadcrumb & Rentang Waktu Tren */}
       <div style={{
-        fontSize: '0.75rem',
-        color: '#38bdf8',
-        fontWeight: 700,
-        textTransform: 'uppercase',
-        letterSpacing: '0.06em',
-        marginBottom: 8,
         display: 'flex',
         alignItems: 'center',
-        gap: 6,
+        justifyContent: 'space-between',
         flexWrap: 'wrap',
+        gap: '0.75rem',
+        marginBottom: 10,
       }}>
-        <span>Biz-In-Sight</span>
-        <span style={{ color: '#64748b' }}>&gt;</span>
-        <span>Sourcing Intelligence</span>
-        <span style={{ color: '#64748b' }}>&gt;</span>
-        <span style={{ color: '#f8fafc', fontWeight: 800 }}>{currentTab}</span>
+        <div style={{
+          fontSize: '0.75rem',
+          color: '#38bdf8',
+          fontWeight: 700,
+          textTransform: 'uppercase',
+          letterSpacing: '0.06em',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 6,
+        }}>
+          <span>Biz-In-Sight</span>
+          <span style={{ color: '#64748b' }}>&gt;</span>
+          <span style={{ color: '#f8fafc', fontWeight: 800 }}>{currentTab}</span>
+        </div>
+
+        {/* Rentang waktu pengambilan tren */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 7,
+          background: 'rgba(21, 27, 46, 0.85)',
+          border: '1px solid #202a48',
+          padding: '4px 12px',
+          borderRadius: 9999,
+          fontSize: '0.72rem',
+          color: '#94a3b8',
+          fontWeight: 600,
+        }}>
+          <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#38bdf8' }} />
+          <span>Rentang Tren: <b style={{ color: '#f8fafc' }}>12 Bulan Terakhir (ID)</b></span>
+        </div>
       </div>
 
       <h1 style={{
