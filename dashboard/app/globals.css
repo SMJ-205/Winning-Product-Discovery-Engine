@@ -12,6 +12,7 @@ body {
   color: #1e293b;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  zoom: 0.9;
 }
 
 /* Custom Scrollbar */
