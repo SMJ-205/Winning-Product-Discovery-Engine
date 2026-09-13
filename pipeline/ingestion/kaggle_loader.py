@@ -144,13 +144,18 @@ def upsert_products(df: pd.DataFrame, engine) -> tuple[int, int]:
 
     with engine.begin() as conn:
         for _, row in df.iterrows():
-            # dim_competitor_product — ON CONFLICT DO NOTHING
+            # dim_competitor_product — ON CONFLICT DO UPDATE
             res = conn.execute(
                 text("""
                     INSERT INTO dim_competitor_product
                         (product_id, keyword_id, product_name, shop_name, is_mall_seller, location)
                     VALUES (:pid, :kid, :pname, :sname, :mall, :loc)
-                    ON CONFLICT (product_id) DO NOTHING
+                    ON CONFLICT (product_id) DO UPDATE
+                    SET keyword_id = EXCLUDED.keyword_id,
+                        product_name = EXCLUDED.product_name,
+                        shop_name = EXCLUDED.shop_name,
+                        is_mall_seller = EXCLUDED.is_mall_seller,
+                        location = EXCLUDED.location
                 """),
                 {
                     "pid":   str(row["product_id"]),
@@ -169,7 +174,9 @@ def upsert_products(df: pd.DataFrame, engine) -> tuple[int, int]:
                     INSERT INTO fact_product_snapshot
                         (product_id, snapshot_date, price, units_sold_monthly)
                     VALUES (:pid, CURRENT_DATE, :price, :sold)
-                    ON CONFLICT (product_id, snapshot_date) DO NOTHING
+                    ON CONFLICT (product_id, snapshot_date) DO UPDATE
+                    SET price = EXCLUDED.price,
+                        units_sold_monthly = EXCLUDED.units_sold_monthly
                 """),
                 {
                     "pid":   str(row["product_id"]),

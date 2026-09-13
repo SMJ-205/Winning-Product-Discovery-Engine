@@ -62,10 +62,13 @@ const CustomTooltip = ({ active, payload }: any) => {
 
 export default function BubbleChart({ data }: { data: DataPoint[] }) {
   const [filter, setFilter] = useState('all')
+  const categories = Array.from(
+    new Set(data.map(d => d.category_name).filter(Boolean))
+  ) as string[]
 
   const filtered = filter === 'all'
     ? data
-    : data.filter(d => d.category_name?.toLowerCase().includes(filter.toLowerCase()))
+    : data.filter(d => d.category_name === filter)
 
   const withAxes = filtered.map(d => ({
     ...d,
@@ -128,9 +131,12 @@ export default function BubbleChart({ data }: { data: DataPoint[] }) {
               cursor: 'pointer',
             }}
           >
-            <option value="all">Semua Kategori</option>
-            <option value="elektronik">Elektronik</option>
-            <option value="dapur">Dapur &amp; Rumah</option>
+            <option value="all">Semua Kategori ({data.length})</option>
+            {categories.map(cat => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
           </select>
         </div>
       </div>

@@ -12,10 +12,10 @@ categories:
     target_net_margin: 0.25     # Target minimum net margin
 
   dapur_dan_makan:
-    cogs_ratio: 0.38
+    cogs_ratio: 0.35
     marketplace_fee_pct: 0.085
     ads_budget_pct: 0.10
-    target_net_margin: 0.22
+    target_net_margin: 0.25
 
   fashion_wanita:
     cogs_ratio: 0.30
@@ -30,16 +30,28 @@ categories:
     target_net_margin: 0.25
 
   kecantikan_skincare:
-    cogs_ratio: 0.32
+    cogs_ratio: 0.28
     marketplace_fee_pct: 0.10
     ads_budget_pct: 0.15
-    target_net_margin: 0.28
+    target_net_margin: 0.30
 
   elektronik_aksesoris:
     cogs_ratio: 0.40
     marketplace_fee_pct: 0.085
     ads_budget_pct: 0.08
     target_net_margin: 0.20
+
+  otomotif_aksesoris:
+    cogs_ratio: 0.38
+    marketplace_fee_pct: 0.085
+    ads_budget_pct: 0.09
+    target_net_margin: 0.22
+
+  ibu_dan_bayi:
+    cogs_ratio: 0.32
+    marketplace_fee_pct: 0.09
+    ads_budget_pct: 0.12
+    target_net_margin: 0.26
 
 # Threshold rekomendasi WPS
 # Kalibrasi ulang setiap kuartal menggunakan persentil dari distribusi skor historis

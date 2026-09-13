@@ -6,29 +6,30 @@
 
 # Seed keywords awal — update berdasarkan riset TikTok Creative Center
 seed_keywords:
-  dapur_dan_makan:
+  dapur_dan_makanan:
+    - "bumbu instan"
     - "rak bumbu dapur"
-    - "tempat sendok garpu"
-    - "talenan kayu"
-    - "toples kaca"
     - "saringan minyak goreng"
 
   peralatan_rumah:
+    - "talenan kayu"
     - "rak sepatu minimalis"
     - "organizer laci kamar"
-    - "tempat sabun kamar mandi"
-    - "gantungan baju lipat"
-    - "keranjang laundry anyaman"
 
   kecantikan_skincare:
+    - "serum pencerah wajah"
     - "organizer makeup meja rias"
     - "cermin kaca rias"
-    - "tempat kapas cotton bud"
 
   elektronik_aksesoris:
     - "kabel data type c"
-    - "holder hp motor"
     - "earphone gaming murah"
+
+  otomotif_aksesoris:
+    - "holder hp motor"
+
+  ibu_dan_bayi:
+    - "botol susu bayi"
 
 # Konfigurasi pytrends
 pytrends:

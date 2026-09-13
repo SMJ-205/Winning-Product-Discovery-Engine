@@ -1,13 +1,25 @@
 review_id,product_id,rating_star,review_text
 R101,P101,5,"Pengiriman sangat cepat, packing aman, fast charging berfungsi dengan baik."
 R102,P101,4,"Kabel tebal dan bagus, sesuai deskripsi."
-R103,P101,1,Barang cepat rusak baru 3 hari dipakai kepala patah kendor tidak mengisi daya.
-R104,P101,2,"Kecepatan lambat tidak sesuai klaim fast charging, packing tipis hanya plastik."
+R103,P101,1,Barang cepat rusak baru 3 hari dipakai kepala patah kendor tidak mengisi daya bahan jelek.
+R104,P101,2,"Kecepatan lambat tidak sesuai klaim fast charging, packing jelek hanya plastik biasa."
 R105,P102,5,Mantap kabel braided kuat tidak mudah putus recommended seller.
 R106,P102,1,"Kecewa barang cacat tidak berfungsi sama sekali, seller slow respon retur ditolak."
 R201,P201,5,Sangat kokoh saat dipakai jalan berlubang hp tetap aman tidak goyang.
-R202,P201,2,"Baut doll tidak kencang gampang kendor saat getaran tinggi, bahan plastik agak rapuh."
-R203,P201,1,"Plastik tipis patah saat dipasang, tidak tahan air embun masuk ke dalam layar."
+R202,P201,2,"Baut doll tidak kencang gampang kendor saat getaran tinggi, bahan rapuh dan goyang."
+R203,P201,1,"Plastik tipis patah saat dipasang, tidak tahan air embun masuk ke dalam layar kemasan rusak."
 R301,P301,5,"Kayu jati asli halus tanpa serpihan, tebal dan berat mantap."
 R302,P301,5,Bagus banget aesthetic dan tidak berjamur saat basah.
-R303,P301,2,"Ada retakan halus di bagian tengah, bau lem menyengat."
+R303,P301,2,"Ada retakan halus di bagian tengah, bau menyengat cacat bahan."
+R401,P401,5,"Rasa bumbu rendang sangat otentik gurih meresap sampai ke serat daging, praktis sekali."
+R402,P401,2,"Bungkus rusak saat pengiriman, rembes minyak keluar karena packing jelek tidak ada bubble wrap."
+R403,P401,1,"Rasa terlalu asin dan bau tengik minyak, kualitas buruk tidak sesuai deskripsi."
+R404,P402,5,"Nasi goreng jadi wangi khas abang-abang gerobak, takaran bumbu pas mantap recommended."
+R405,P402,2,"Kemasan rusak sobek di ujung, petunjuk takaran air tidak ada membingungkan."
+R501,P501,5,"Serum terbaik! Noda hitam bekas jerawat memudar dalam 2 minggu, tekstur ringan cepat meresap."
+R502,P501,1,"Pipet kaca pecah saat dibuka, packing jelek kardus penyok parah cairan tumpah separuh."
+R503,P501,2,"Kulit jadi gatal dan panas kemerahan, bahan tidak cocok kualitas meragukan."
+R504,P502,5,"Kulit langsung glowing cerah dalam seminggu, aroma segar dan tidak lengket."
+R601,P601,5,"Bayi tidak kembung sama sekali, katup anti kolik bekerja sempurna dan dot sangat lembut."
+R602,P601,2,"Tulisan angka ml takaran susu luntur hilang setelah direbus air panas, petunjuk tidak ada."
+R603,P601,1,"Plastik bau menyengat bahan tipis gampang peyang saat disterilkan, sangat kecewa."

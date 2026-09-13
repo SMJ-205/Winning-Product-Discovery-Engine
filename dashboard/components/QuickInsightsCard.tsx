@@ -109,7 +109,7 @@ export default function QuickInsightsCard() {
                 Supplier Sample Review
               </div>
               <div style={{ fontSize: '0.6875rem', color: '#94a3b8' }}>
-                Holder HP Motor (Target HPP Rp 28k)
+                Bumbu Instan (Target HPP Rp 6.800)
               </div>
             </div>
           </div>
