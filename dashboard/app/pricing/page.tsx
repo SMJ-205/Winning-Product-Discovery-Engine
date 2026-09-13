@@ -1,17 +1,11 @@
 export const dynamic = 'force-dynamic'
 
+import { getComplaintsData } from '@/lib/data'
 import PriceHistogram from '@/components/PriceHistogram'
 import ComplaintBar    from '@/components/ComplaintBar'
 
-async function getData() {
-  const base = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'
-  const res  = await fetch(`${base}/api/complaints`, { next: { revalidate: 3600 } })
-  if (!res.ok) return { complaints: [], prices: [] }
-  return res.json()
-}
-
 export default async function PricingPage() {
-  const { complaints, prices } = await getData()
+  const { complaints, prices } = await getComplaintsData()
 
   const totalComplaints = complaints.reduce((s: number, c: any) => s + c.count, 0)
   const topComplaint    = complaints[0]?.aspect ?? '—'

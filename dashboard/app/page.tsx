@@ -4,15 +4,10 @@ import KpiCard    from '@/components/KpiCard'
 import BubbleChart from '@/components/BubbleChart'
 import WpsTable    from '@/components/WpsTable'
 
-async function getData() {
-  const base = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'
-  const res  = await fetch(`${base}/api/market`, { next: { revalidate: 3600 } })
-  if (!res.ok) return []
-  return res.json()
-}
+import { getMarketData } from '@/lib/data'
 
 export default async function MarketPage() {
-  const data: any[] = await getData()
+  const data: any[] = await getMarketData()
 
   const totalRevenue  = data.reduce((s: number, d: any) => s + (d.monthly_sold_units * d.median_price || 0), 0)
   const avgPrice      = data.length ? data.reduce((s: number, d: any) => s + (d.median_price || 0), 0) / data.length : 0

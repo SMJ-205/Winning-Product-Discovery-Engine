@@ -1,14 +1,12 @@
 export const dynamic = 'force-dynamic'
 
+import { getScoringData } from '@/lib/data'
 import MarginSimulator from '@/components/MarginSimulator'
 
 async function getDefaultPrice() {
   try {
-    const base = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'
-    const res  = await fetch(`${base}/api/scoring`, { next: { revalidate: 3600 } })
-    const data = await res.json()
-    // Ambil median_price dari top WPS keyword sebagai default
-    return data?.[0]?.dim_category_keyword?.target_price_min ?? 89000
+    const data = await getScoringData()
+    return (data as any)?.[0]?.dim_category_keyword?.target_price_min ?? 89000
   } catch {
     return 89000
   }
