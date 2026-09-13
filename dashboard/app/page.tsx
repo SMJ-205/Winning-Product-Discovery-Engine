@@ -39,17 +39,29 @@ export default async function MarketPage() {
         subtitle="Have an in-depth look at all e-commerce market opportunity metrics"
       />
 
-      {/* Main Grid: Left 70% Analytics & Table, Right 30% Gauge & Insights */}
+      {/* Main Grid: Left Column & Right Column */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: '1fr 340px',
-        gap: '1.75rem',
+        gridTemplateColumns: 'minmax(0, 1fr) 320px',
+        gap: '1.5rem',
         alignItems: 'start',
+        width: '100%',
       }}>
         {/* Left Column */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1.5rem',
+          minWidth: 0,
+          width: '100%',
+        }}>
           {/* 3 Metric Cards with sparklines */}
-          <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+            gap: '1rem',
+            width: '100%',
+          }}>
             <KpiCard
               title="Est. Total GMV Bulanan"
               value={`Rp ${(totalRevenue / 1_000_000).toFixed(1)}M`}

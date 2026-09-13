@@ -41,20 +41,21 @@ export default function Sidebar() {
 
   return (
     <nav style={{
-      position: 'fixed',
+      position: 'sticky',
       top: 0,
-      left: 0,
-      width: 236,
+      width: 240,
       height: '100vh',
+      flexShrink: 0,
       background: '#ffffff',
       borderRight: '1px solid #e2e8f0',
       padding: '1.75rem 1rem',
-      zIndex: 100,
+      zIndex: 50,
       display: 'flex',
       flexDirection: 'column',
-      boxShadow: '2px 0 12px rgba(0, 0, 0, 0.02)',
+      boxSizing: 'border-box',
+      boxShadow: '1px 0 10px rgba(0, 0, 0, 0.02)',
     }}>
-      {/* Brand Header */}
+      {/* Brand Header: Biz-In-Sight */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
@@ -63,34 +64,36 @@ export default function Sidebar() {
         marginBottom: '2.25rem',
       }}>
         <div style={{
-          width: 36,
-          height: 36,
-          borderRadius: 10,
+          width: 38,
+          height: 38,
+          borderRadius: 12,
           background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           color: '#ffffff',
           fontWeight: 800,
-          fontSize: 16,
-          boxShadow: '0 4px 10px rgba(99, 102, 241, 0.3)',
+          fontSize: 15,
+          letterSpacing: '-0.02em',
+          boxShadow: '0 4px 12px rgba(99, 102, 241, 0.35)',
+          flexShrink: 0,
         }}>
-          WP
+          BIS
         </div>
         <div>
           <div style={{
-            fontSize: '1rem',
+            fontSize: '1.05rem',
             fontWeight: 800,
             color: '#0f172a',
-            letterSpacing: '-0.02em',
-            lineHeight: 1.1,
+            letterSpacing: '-0.03em',
+            lineHeight: 1.15,
           }}>
-            SaleSpyder
+            Biz-In-Sight
           </div>
           <div style={{
             fontSize: '0.6875rem',
             color: '#6366f1',
-            fontWeight: 600,
+            fontWeight: 700,
             letterSpacing: '0.04em',
             textTransform: 'uppercase',
             marginTop: 2,
@@ -203,7 +206,7 @@ export default function Sidebar() {
           </span>
         </div>
         <div style={{ fontSize: '0.6875rem', color: '#64748b', lineHeight: 1.4 }}>
-          Auto-sync via GitHub Actions cron setiap minggu
+          Auto-sync via GitHub Actions weekly pipeline
         </div>
       </div>
     </nav>
