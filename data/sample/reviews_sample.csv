@@ -1,0 +1,13 @@
+review_id,product_id,rating_star,review_text
+R101,P101,5,"Pengiriman sangat cepat, packing aman, fast charging berfungsi dengan baik."
+R102,P101,4,"Kabel tebal dan bagus, sesuai deskripsi."
+R103,P101,1,Barang cepat rusak baru 3 hari dipakai kepala patah kendor tidak mengisi daya.
+R104,P101,2,"Kecepatan lambat tidak sesuai klaim fast charging, packing tipis hanya plastik."
+R105,P102,5,Mantap kabel braided kuat tidak mudah putus recommended seller.
+R106,P102,1,"Kecewa barang cacat tidak berfungsi sama sekali, seller slow respon retur ditolak."
+R201,P201,5,Sangat kokoh saat dipakai jalan berlubang hp tetap aman tidak goyang.
+R202,P201,2,"Baut doll tidak kencang gampang kendor saat getaran tinggi, bahan plastik agak rapuh."
+R203,P201,1,"Plastik tipis patah saat dipasang, tidak tahan air embun masuk ke dalam layar."
+R301,P301,5,"Kayu jati asli halus tanpa serpihan, tebal dan berat mantap."
+R302,P301,5,Bagus banget aesthetic dan tidak berjamur saat basah.
+R303,P301,2,"Ada retakan halus di bagian tengah, bau lem menyengat."

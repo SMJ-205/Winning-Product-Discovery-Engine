@@ -46,8 +46,13 @@ REQUIRED_REVIEW_COLS  = {"review_id", "product_id", "rating_star", "review_text"
 def load_products_csv(filepath: str = "data/raw/products.csv") -> Optional[pd.DataFrame]:
     path = BASE_DIR / filepath
     if not path.exists():
-        log.error("File produk tidak ditemukan: %s", path)
-        return None
+        fallback = BASE_DIR / "data" / "sample" / "products_sample.csv"
+        if fallback.exists():
+            log.info("Menggunakan fallback sampel: %s", fallback)
+            path = fallback
+        else:
+            log.error("File produk tidak ditemukan: %s", path)
+            return None
 
     df = pd.read_csv(path, dtype={"product_id": str})
     log.info("Dimuat: %d baris dari %s", len(df), path.name)
@@ -63,8 +68,13 @@ def load_products_csv(filepath: str = "data/raw/products.csv") -> Optional[pd.Da
 def load_reviews_csv(filepath: str = "data/raw/reviews.csv") -> Optional[pd.DataFrame]:
     path = BASE_DIR / filepath
     if not path.exists():
-        log.error("File ulasan tidak ditemukan: %s", path)
-        return None
+        fallback = BASE_DIR / "data" / "sample" / "reviews_sample.csv"
+        if fallback.exists():
+            log.info("Menggunakan fallback sampel: %s", fallback)
+            path = fallback
+        else:
+            log.error("File ulasan tidak ditemukan: %s", path)
+            return None
 
     df = pd.read_csv(path, dtype={"product_id": str, "review_id": str})
     log.info("Dimuat: %d baris dari %s", len(df), path.name)
@@ -91,7 +101,8 @@ def transform_products(df: pd.DataFrame, keyword_id: Optional[int] = None) -> pd
     df["price"]       = pd.to_numeric(df["price"], errors="coerce")
     df["item_sold"]   = pd.to_numeric(df["item_sold"].astype(str).str.replace(r"[^\d]", "", regex=True), errors="coerce")
     df["is_mall_seller"] = df["shop_type"].str.lower().str.contains("official|star|mall", na=False)
-    df["keyword_id"]  = keyword_id  # Bisa None; di-assign manual via Supabase UI jika perlu
+    if "keyword_id" not in df.columns:
+        df["keyword_id"] = keyword_id
 
     # Hapus duplikat product_id
     before = len(df)

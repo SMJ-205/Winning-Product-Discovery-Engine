@@ -20,6 +20,10 @@ import logging
 import os
 import sys
 from datetime import datetime
+from pathlib import Path
+
+# Pastikan root direktori selalu ada di sys.path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from dotenv import load_dotenv
 
