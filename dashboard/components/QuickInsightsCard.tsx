@@ -23,45 +23,22 @@ export default function QuickInsightsCard() {
       width: '100%',
       boxSizing: 'border-box',
     }}>
-      {/* Header with arrows */}
+      {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <span style={{ fontSize: '0.9375rem', fontWeight: 800, color: '#f8fafc' }}>
           September 2026
         </span>
-        <div style={{ display: 'flex', gap: 6 }}>
-          <button style={{
-            width: 26,
-            height: 26,
-            borderRadius: '50%',
-            border: '1px solid #202a48',
-            background: '#151b2e',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            color: '#94a3b8',
-          }}>
-            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <button style={{
-            width: 26,
-            height: 26,
-            borderRadius: '50%',
-            border: '1px solid #202a48',
-            background: '#151b2e',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            color: '#94a3b8',
-          }}>
-            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
+        <span style={{
+          fontSize: '0.6875rem',
+          fontWeight: 700,
+          color: '#38bdf8',
+          background: 'rgba(56, 189, 248, 0.1)',
+          padding: '2px 8px',
+          borderRadius: 9999,
+          border: '1px solid rgba(56, 189, 248, 0.25)',
+        }}>
+          Automated
+        </span>
       </div>
 
       {/* Calendar day pills */}

@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 const NAV_LINKS = [
   {
     href: '/',
-    label: 'Home',
+    label: 'Overall Summary',
     sublabel: 'Market Landscape',
     icon: (
       <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -26,8 +26,8 @@ const NAV_LINKS = [
   },
   {
     href: '/sourcing',
-    label: 'Explore',
-    sublabel: 'Sourcing Simulator',
+    label: 'Sim Calculator',
+    sublabel: 'Sourcing Feasibility',
     icon: (
       <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
@@ -41,14 +41,13 @@ export default function Sidebar() {
 
   return (
     <nav style={{
-      position: 'sticky',
-      top: 0,
       width: 240,
-      height: '100vh',
+      minHeight: '100vh',
+      alignSelf: 'stretch',
       flexShrink: 0,
       background: '#0f152b',
       borderRight: '1px solid #1b2440',
-      padding: '1.75rem 1rem',
+      padding: '2rem 1rem',
       zIndex: 50,
       display: 'flex',
       flexDirection: 'column',
@@ -60,7 +59,7 @@ export default function Sidebar() {
         alignItems: 'center',
         gap: '0.75rem',
         padding: '0 0.5rem',
-        marginBottom: '2.5rem',
+        marginBottom: '2.75rem',
       }}>
         <div style={{
           width: 38,
@@ -103,7 +102,7 @@ export default function Sidebar() {
       </div>
 
       {/* Nav links */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         <div style={{
           fontSize: '0.6875rem',
           fontWeight: 700,
@@ -126,7 +125,7 @@ export default function Sidebar() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.75rem',
-                padding: '0.75rem 0.875rem',
+                padding: '0.8rem 0.875rem',
                 borderRadius: 12,
                 fontSize: '0.875rem',
                 fontWeight: active ? 700 : 500,
@@ -136,7 +135,7 @@ export default function Sidebar() {
                   ? 'linear-gradient(135deg, #0284c7 0%, #38bdf8 100%)'
                   : 'transparent',
                 boxShadow: active ? '0 4px 14px rgba(14, 165, 233, 0.35)' : 'none',
-                transition: 'all 0.15s ease',
+                transition: 'all 0.2s ease',
               }}
             >
               <span style={{
@@ -151,31 +150,6 @@ export default function Sidebar() {
             </Link>
           )
         })}
-      </div>
-
-      {/* Footer Status Card */}
-      <div style={{
-        marginTop: 'auto',
-        background: '#151c33',
-        border: '1px solid #1f2945',
-        borderRadius: 14,
-        padding: '0.875rem',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-          <span style={{
-            width: 8,
-            height: 8,
-            background: '#10b981',
-            borderRadius: '50%',
-            display: 'inline-block',
-          }} />
-          <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#f8fafc' }}>
-            Supabase Live
-          </span>
-        </div>
-        <div style={{ fontSize: '0.6875rem', color: '#64748b', lineHeight: 1.4 }}>
-          Auto-sync via GitHub Actions weekly pipeline
-        </div>
       </div>
     </nav>
   )

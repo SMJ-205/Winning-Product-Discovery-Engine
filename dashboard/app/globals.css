@@ -78,3 +78,20 @@ tr:hover td {
 .fade-in {
   animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+/* Minimalist Smooth Page & Tab Transition */
+@keyframes tabSlideFade {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tab-fade-enter {
+  animation: tabSlideFade 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  width: 100%;
+}

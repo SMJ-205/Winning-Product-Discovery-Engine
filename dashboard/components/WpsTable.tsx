@@ -69,13 +69,13 @@ export default function WpsTable({ data }: { data: Row[] }) {
         <div style={{
           fontSize: '0.75rem',
           fontWeight: 600,
-          color: '#94a3b8',
+          color: '#38bdf8',
           padding: '0.35rem 0.85rem',
-          background: '#11172a',
+          background: 'rgba(56, 189, 248, 0.1)',
           borderRadius: 9999,
-          border: '1px solid #202a48',
+          border: '1px solid rgba(56, 189, 248, 0.25)',
         }}>
-          Weekly
+          {sorted.length} Niche Dianalisis
         </div>
       </div>
 
