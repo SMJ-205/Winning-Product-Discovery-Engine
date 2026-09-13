@@ -1,28 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #0f1117;
-  color: #e2e8f0;
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f1f3f7;
+  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #1a1d2e; }
-::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #e2e8f0;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
 
-/* Recharts tooltip override */
+/* Tooltips */
 .recharts-tooltip-wrapper .recharts-default-tooltip {
-  background: #1e2235 !important;
-  border: 1px solid #334155 !important;
-  border-radius: 8px !important;
-  color: #e2e8f0 !important;
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.05) !important;
+  color: #0f172a !important;
+  padding: 10px 14px !important;
 }
 
-/* Table styles */
-table { border-collapse: collapse; width: 100%; }
-th { font-size: 11px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.5rem 1rem; text-align: left; }
-td { padding: 0.75rem 1rem; font-size: 13px; border-top: 1px solid #1e2235; }
-tr:hover td { background: #1a1d2e; }
+/* Table styling */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
+
+th {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.85rem 1.25rem;
+  text-align: left;
+}
+
+td {
+  padding: 1rem 1.25rem;
+  font-size: 13px;
+  border-top: 1px solid #f1f5f9;
+  color: #334155;
+}
+
+tr:hover td {
+  background: #f8fafc;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

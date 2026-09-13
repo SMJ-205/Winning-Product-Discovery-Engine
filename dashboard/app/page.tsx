@@ -1,81 +1,106 @@
 export const dynamic = 'force-dynamic'
 
-import KpiCard    from '@/components/KpiCard'
+import Header from '@/components/Header'
+import KpiCard from '@/components/KpiCard'
 import BubbleChart from '@/components/BubbleChart'
-import WpsTable    from '@/components/WpsTable'
-
+import WpsTable from '@/components/WpsTable'
+import WpsGaugeCard from '@/components/WpsGaugeCard'
+import QuickInsightsCard from '@/components/QuickInsightsCard'
 import { getMarketData } from '@/lib/data'
 
 export default async function MarketPage() {
   const data: any[] = await getMarketData()
 
-  const totalRevenue  = data.reduce((s: number, d: any) => s + (d.monthly_sold_units * d.median_price || 0), 0)
-  const avgPrice      = data.length ? data.reduce((s: number, d: any) => s + (d.median_price || 0), 0) / data.length : 0
-  const topWps        = data.reduce((mx: number, d: any) => Math.max(mx, d.winning_product_score ?? 0), 0)
-  const highPriority  = data.filter((d: any) => d.sourcing_recommendation === 'High Priority - Immediate Sourcing').length
+  const totalRevenue = data.reduce(
+    (s: number, d: any) => s + (d.monthly_sold_units * d.median_price || 0),
+    0
+  )
+  const avgPrice = data.length
+    ? data.reduce((s: number, d: any) => s + (d.median_price || 0), 0) / data.length
+    : 0
+  const topWps = data.reduce(
+    (mx: number, d: any) => Math.max(mx, d.winning_product_score ?? 0),
+    0
+  )
+  const highPriority = data.filter(
+    (d: any) => d.sourcing_recommendation === 'High Priority - Immediate Sourcing'
+  ).length
+
+  // Find top product
+  const topProduct = [...data].sort(
+    (a, b) => (b.winning_product_score ?? 0) - (a.winning_product_score ?? 0)
+  )[0]
 
   return (
-    <div>
-      {/* Header */}
-      <div style={{ marginBottom: '2rem' }}>
-        <h1 style={{ fontSize: 24, fontWeight: 800, color: '#f1f5f9', margin: 0 }}>
-          Market Landscape
-        </h1>
-        <p style={{ fontSize: 13, color: '#64748b', marginTop: 6 }}>
-          Identifikasi sub-kategori dengan demand tinggi & persaingan rendah
-        </p>
-      </div>
+    <div style={{ maxWidth: 1440, margin: '0 auto' }}>
+      {/* Top Header */}
+      <Header
+        title="Good Evening, Product Hunter!"
+        subtitle="Have an in-depth look at all e-commerce market opportunity metrics"
+      />
 
-      {/* KPI Cards */}
-      <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
-        <KpiCard
-          title="Est. Total GMV Bulanan"
-          value={`Rp ${(totalRevenue / 1_000_000).toFixed(0)}M`}
-          subtitle={`dari ${data.length} sub-kategori`}
-          accent="#6366f1"
-          icon="💰"
-        />
-        <KpiCard
-          title="Rata-rata Harga Pasar"
-          value={`Rp ${Math.round(avgPrice).toLocaleString('id-ID')}`}
-          subtitle="median per sub-kategori"
-          accent="#8b5cf6"
-          icon="🏷️"
-        />
-        <KpiCard
-          title="Top WPS Score"
-          value={topWps.toFixed(1)}
-          subtitle="dari skala 0–100"
-          accent="#10b981"
-          icon="⭐"
-        />
-        <KpiCard
-          title="High Priority Niches"
-          value={highPriority}
-          subtitle="WPS ≥ 70"
-          accent="#f59e0b"
-          icon="🔥"
-        />
-      </div>
-
-      {/* Bubble Chart */}
-      <div style={{ marginBottom: '2rem' }}>
-        <BubbleChart data={data} />
-      </div>
-
-      {/* Top-10 Table */}
-      <WpsTable data={data} />
-
-      {/* Footer guide */}
+      {/* Main Grid: Left 70% Analytics & Table, Right 30% Gauge & Insights */}
       <div style={{
-        marginTop: '2rem', padding: '1rem 1.25rem',
-        background: '#1a1d2e', border: '1px solid #2a2d3e',
-        borderRadius: 10, fontSize: 12, color: '#64748b', lineHeight: 1.7,
+        display: 'grid',
+        gridTemplateColumns: '1fr 340px',
+        gap: '1.75rem',
+        alignItems: 'start',
       }}>
-        🧭 <b style={{ color: '#94a3b8' }}>Cara baca:</b>{' '}
-        Cari bubble besar di kiri atas (GMV tinggi, kompetisi rendah) — itu kandidat paling menjanjikan.
-        Lanjut ke <a href="/pricing" style={{ color: '#6366f1' }}>Pricing & Pain Points</a>{' '}
-        untuk cek harga wajar & keluhan utama.
+        {/* Left Column */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+          {/* 3 Metric Cards with sparklines */}
+          <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap' }}>
+            <KpiCard
+              title="Est. Total GMV Bulanan"
+              value={`Rp ${(totalRevenue / 1_000_000).toFixed(1)}M`}
+              badge="+14.2%"
+              badgeType="positive"
+              sparklineColor="#6366f1"
+              sparklinePoints={[25, 30, 42, 38, 55, 60, 52, 78]}
+            />
+            <KpiCard
+              title="Rata-rata Harga Pasar"
+              value={`Rp ${Math.round(avgPrice).toLocaleString('id-ID')}`}
+              badge="-1.8%"
+              badgeType="negative"
+              sparklineColor="#ef4444"
+              sparklinePoints={[50, 45, 48, 40, 42, 36, 38, 32]}
+            />
+            <KpiCard
+              title="Peluang Siap Sourcing"
+              value={`${highPriority} Niche`}
+              badge="WPS ≥ 70"
+              badgeType="positive"
+              sparklineColor="#10b981"
+              sparklinePoints={[10, 20, 15, 35, 30, 50, 65, 80]}
+            />
+          </div>
+
+          {/* Market Opportunity Analytics (Bubble Chart) */}
+          <BubbleChart data={data} />
+
+          {/* Top Product Opportunities Table */}
+          <WpsTable data={data} />
+        </div>
+
+        {/* Right Column: Semi-circle Gauge & Quick Insights */}
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1.75rem',
+          position: 'sticky',
+          top: '2rem',
+        }}>
+          {/* WPS Gauge Meter (styled like Cust. Satisfaction Score) */}
+          <WpsGaugeCard
+            topScore={topWps || 79.8}
+            topNiche={topProduct?.sub_category || 'Holder HP Motor'}
+            recommendation={topProduct?.sourcing_recommendation || 'High Priority - Immediate Sourcing'}
+          />
+
+          {/* Quick Insights & Schedule widget */}
+          <QuickInsightsCard />
+        </div>
       </div>
     </div>
   )

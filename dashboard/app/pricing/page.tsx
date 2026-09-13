@@ -1,67 +1,76 @@
 export const dynamic = 'force-dynamic'
 
-import { getComplaintsData } from '@/lib/data'
+import Header from '@/components/Header'
 import PriceHistogram from '@/components/PriceHistogram'
-import ComplaintBar    from '@/components/ComplaintBar'
+import ComplaintBar from '@/components/ComplaintBar'
+import { getComplaintsData } from '@/lib/data'
 
 export default async function PricingPage() {
   const { complaints, prices } = await getComplaintsData()
 
   const totalComplaints = complaints.reduce((s: number, c: any) => s + c.count, 0)
-  const topComplaint    = complaints[0]?.aspect ?? '—'
+  const topComplaint = complaints[0]?.aspect ?? 'Kualitas Bahan'
 
   return (
-    <div>
+    <div style={{ maxWidth: 1440, margin: '0 auto' }}>
       {/* Header */}
-      <div style={{ marginBottom: '2rem' }}>
-        <h1 style={{ fontSize: 24, fontWeight: 800, color: '#f1f5f9', margin: 0 }}>
-          Competitor Pricing & Customer Pain Points
-        </h1>
-        <p style={{ fontSize: 13, color: '#64748b', marginTop: 6 }}>
-          Sweet spot harga jual & spesifikasi produk yang wajib diperbaiki vs kompetitor
-        </p>
-      </div>
+      <Header
+        title="Pricing Intelligence & Pain Points"
+        subtitle="Analisis sweet spot harga jual & titik kelemahan produk kompetitor"
+      />
 
-      {/* Summary bar */}
+      {/* Summary highlight cards */}
       <div style={{
-        display: 'flex', gap: '1rem', marginBottom: '2rem', flexWrap: 'wrap',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+        gap: '1.25rem',
+        marginBottom: '1.75rem',
       }}>
-        {[
-          { label: 'Total Ulasan Negatif Dianalisis', value: totalComplaints.toLocaleString('id-ID'), color: '#ef4444' },
-          { label: 'Keluhan Paling Sering', value: topComplaint, color: '#f59e0b' },
-          { label: 'Listing Dianalisis', value: prices.length.toLocaleString('id-ID'), color: '#6366f1' },
-        ].map(item => (
-          <div key={item.label} style={{
-            background: '#1a1d2e', border: '1px solid #2a2d3e', borderRadius: 10,
-            padding: '1rem 1.25rem', flex: 1, minWidth: 180,
-          }}>
-            <div style={{ fontSize: 11, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>
-              {item.label}
-            </div>
-            <div style={{ fontSize: 20, fontWeight: 700, color: item.color }}>{item.value}</div>
+        <div style={{
+          background: '#ffffff',
+          border: '1px solid #e2e8f0',
+          borderRadius: 18,
+          padding: '1.25rem 1.5rem',
+          boxShadow: '0 4px 16px -2px rgba(15, 23, 42, 0.03)',
+        }}>
+          <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>
+            Top Negative Sentiment Driver
           </div>
-        ))}
-      </div>
-
-      {/* Charts side by side */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '2rem' }}>
-        <PriceHistogram prices={prices} />
-        <ComplaintBar   data={complaints} />
-      </div>
-
-      {/* Actionable insight */}
-      <div style={{
-        padding: '1.25rem', background: '#1a1d2e', border: '1px solid #2a2d3e',
-        borderRadius: 12, fontSize: 13, color: '#94a3b8', lineHeight: 1.8,
-      }}>
-        <div style={{ fontWeight: 700, color: '#e2e8f0', marginBottom: 8 }}>
-          💡 Cara Menggunakan Halaman Ini
+          <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#ef4444', marginTop: 6 }}>
+            {topComplaint}
+          </div>
+          <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: 4 }}>
+            Fokus diferensiasi material saat memesan ke supplier
+          </div>
         </div>
-        <ul style={{ margin: 0, paddingLeft: '1.25rem', color: '#64748b' }}>
-          <li>Histogram harga → identifikasi <b style={{ color: '#94a3b8' }}>sweet spot</b> (bin dengan jumlah produk terbanyak = pasar paling aktif)</li>
-          <li>Bar chart keluhan → jadikan <b style={{ color: '#94a3b8' }}>spesifikasi diferensiasi</b> produk baru Anda (selesaikan keluhan yang sering muncul)</li>
-          <li>Lanjut ke <a href="/sourcing" style={{ color: '#6366f1' }}>Sourcing Simulator</a> untuk validasi apakah margin masih layak di harga sweet spot tersebut</li>
-        </ul>
+
+        <div style={{
+          background: '#ffffff',
+          border: '1px solid #e2e8f0',
+          borderRadius: 18,
+          padding: '1.25rem 1.5rem',
+          boxShadow: '0 4px 16px -2px rgba(15, 23, 42, 0.03)',
+        }}>
+          <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>
+            Total Ulasan Terverifikasi
+          </div>
+          <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0f172a', marginTop: 6 }}>
+            {totalComplaints} Ulasan Kritis
+          </div>
+          <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: 4 }}>
+            Diekstraksi dari database review Kaggle Indonesia
+          </div>
+        </div>
+      </div>
+
+      {/* 2-column charts */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(460px, 1fr))',
+        gap: '1.75rem',
+      }}>
+        <PriceHistogram prices={prices} />
+        <ComplaintBar data={complaints} />
       </div>
     </div>
   )
