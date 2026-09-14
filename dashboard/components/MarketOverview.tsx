@@ -55,6 +55,136 @@ function formatCompactCurrency(val: number, lang: 'ID' | 'EN'): string {
   }
 }
 
+type ScopeTrend = {
+  gmvPoints: number[]
+  gmvTrajectoryID: string
+  gmvTrajectoryEN: string
+  gmvMetric: string
+  pricePoints: number[]
+  priceTrajectoryID: string
+  priceTrajectoryEN: string
+  priceMetric: string
+  sourcingPoints: number[]
+  sourcingTrajectoryID: string
+  sourcingTrajectoryEN: string
+  sourcingMetric: string
+}
+
+const SCOPE_TREND_DATA: Record<string, ScopeTrend> = {
+  all: {
+    gmvPoints: [25, 30, 42, 38, 55, 60, 52, 78],
+    gmvTrajectoryID: 'Tren 8-Mgg: ▲ Akselerasi',
+    gmvTrajectoryEN: '8-Wk Trend: ▲ Accelerating',
+    gmvMetric: '▲ +212% Momentum',
+    pricePoints: [48, 45, 46, 42, 44, 38, 40, 36],
+    priceTrajectoryID: 'Rentang Stabil & Kompetitif',
+    priceTrajectoryEN: 'Stable & Competitive Band',
+    priceMetric: 'Rp 32k–50k Band',
+    sourcingPoints: [10, 20, 15, 35, 30, 50, 65, 80],
+    sourcingTrajectoryID: 'Pipeline Prioritas Tinggi',
+    sourcingTrajectoryEN: 'High Priority Pipeline',
+    sourcingMetric: '2 WPS ≥ 70',
+  },
+  winning: {
+    gmvPoints: [15, 25, 38, 50, 65, 78, 88, 98],
+    gmvTrajectoryID: 'Tren 8-Mgg: ▲ Lonjakan Tinggi',
+    gmvTrajectoryEN: '8-Wk Trend: ▲ High Velocity',
+    gmvMetric: '▲ +285% Surge Velocity',
+    pricePoints: [60, 62, 65, 66, 68, 67, 68, 68],
+    priceTrajectoryID: 'Rentang Margin Premium',
+    priceTrajectoryEN: 'Premium Margin Band',
+    priceMetric: 'Rp 60k–70k Band',
+    sourcingPoints: [30, 45, 55, 65, 75, 85, 92, 98],
+    sourcingTrajectoryID: 'Katalog Produk Unggulan',
+    sourcingTrajectoryEN: 'Elite Winning Catalog',
+    sourcingMetric: '2 Niche WPS ≥ 70',
+  },
+  'Ibu & Kebutuhan Bayi': {
+    gmvPoints: [18, 28, 40, 55, 68, 78, 88, 96],
+    gmvTrajectoryID: 'Tren 8-Mgg: ▲ Lonjakan Eksponensial',
+    gmvTrajectoryEN: '8-Wk Trend: ▲ Exponential Surge',
+    gmvMetric: '▲ +85% Surge Velocity',
+    pricePoints: [65, 66, 67, 68, 68, 67, 68, 68],
+    priceTrajectoryID: 'Harga Stabil & Kuat',
+    priceTrajectoryEN: 'Firm Premium Pricing',
+    priceMetric: 'Rp 65k–70k Band',
+    sourcingPoints: [20, 35, 50, 65, 78, 88, 92, 96],
+    sourcingTrajectoryID: 'Peluang Sourcing Terbaik',
+    sourcingTrajectoryEN: 'Top Priority Sourcing',
+    sourcingMetric: 'WPS 93.4 (Rank 1)',
+  },
+  'Dapur & Makanan': {
+    gmvPoints: [28, 35, 40, 48, 55, 64, 72, 82],
+    gmvTrajectoryID: 'Tren 8-Mgg: ▲ Permintaan Tinggi',
+    gmvTrajectoryEN: '8-Wk Trend: ▲ Strong Consumer Demand',
+    gmvMetric: '▲ +52% High Demand',
+    pricePoints: [22, 23, 24, 24, 25, 24, 25, 25],
+    priceTrajectoryID: 'Rentang Terjangkau & Cepat',
+    priceTrajectoryEN: 'High Turn Velocity Band',
+    priceMetric: 'Rp 22k–26k Band',
+    sourcingPoints: [15, 25, 35, 45, 55, 62, 68, 72],
+    sourcingTrajectoryID: 'Siap Maklon BPOM',
+    sourcingTrajectoryEN: 'Ready for OEM Sourcing',
+    sourcingMetric: 'WPS 71.1 (Rank 2)',
+  },
+  'Elektronik & Gadget': {
+    gmvPoints: [72, 70, 68, 71, 69, 68, 67, 66],
+    gmvTrajectoryID: 'Tren 8-Mgg: ► Pasar Matang',
+    gmvTrajectoryEN: '8-Wk Trend: ► Mature Market',
+    gmvMetric: '► Volume 354k Unit/Bln',
+    pricePoints: [24, 22, 21, 20, 19, 19, 18, 18],
+    priceTrajectoryID: 'Persaingan Harga Ketat',
+    priceTrajectoryEN: 'High Price Pressure Band',
+    priceMetric: 'Rp 16k–20k Band',
+    sourcingPoints: [40, 35, 30, 28, 25, 22, 18, 16],
+    sourcingTrajectoryID: 'Pasar Sangat Padat',
+    sourcingTrajectoryEN: 'Saturated & Low Margin',
+    sourcingMetric: 'WPS 15.4 (Saturated)',
+  },
+  'Otomotif & Pengendara': {
+    gmvPoints: [38, 40, 39, 44, 46, 50, 48, 54],
+    gmvTrajectoryID: 'Tren 8-Mgg: ▲ Pertumbuhan Sedang',
+    gmvTrajectoryEN: '8-Wk Trend: ▲ Moderate Growth',
+    gmvMetric: '▲ +18% Moderate',
+    pricePoints: [42, 43, 44, 45, 45, 46, 45, 45],
+    priceTrajectoryID: 'Rentang Menengah Stabil',
+    priceTrajectoryEN: 'Stable Mid-Tier Pricing',
+    priceMetric: 'Rp 42k–48k Band',
+    sourcingPoints: [25, 28, 30, 32, 34, 35, 36, 36],
+    sourcingTrajectoryID: 'Perlu Uji Sampel Ekstra',
+    sourcingTrajectoryEN: 'Sample Testing Required',
+    sourcingMetric: 'WPS 36.3 (Borderline)',
+  },
+  'Perlengkapan Rumah & Dapur': {
+    gmvPoints: [32, 33, 35, 34, 36, 37, 39, 41],
+    gmvTrajectoryID: 'Tren 8-Mgg: ► Niche Stabil',
+    gmvTrajectoryEN: '8-Wk Trend: ► Niche Stability',
+    gmvMetric: '► +12% Steady Demand',
+    pricePoints: [36, 37, 37, 38, 38, 38, 38, 38],
+    priceTrajectoryID: 'Harga Kokoh & Konsisten',
+    priceTrajectoryEN: 'Firm Consistent Pricing',
+    priceMetric: 'Rp 35k–40k Band',
+    sourcingPoints: [20, 22, 21, 23, 22, 20, 19, 18],
+    sourcingTrajectoryID: 'Volume Terbatas',
+    sourcingTrajectoryEN: 'Limited Scalability',
+    sourcingMetric: 'WPS 18.1 (Niche Only)',
+  },
+  'Kecantikan & Skincare': {
+    gmvPoints: [58, 55, 53, 50, 48, 46, 43, 41],
+    gmvTrajectoryID: 'Tren 8-Mgg: ▼ Persaingan Iklan Ketat',
+    gmvTrajectoryEN: '8-Wk Trend: ▼ High Ad Saturation',
+    gmvMetric: '▼ -14% High Ad CAC',
+    pricePoints: [86, 84, 82, 80, 79, 78, 79, 79],
+    priceTrajectoryID: 'Rentang Premium Bersaing',
+    priceTrajectoryEN: 'Competitive Premium Band',
+    priceMetric: 'Rp 75k–85k Band',
+    sourcingPoints: [30, 32, 35, 38, 40, 42, 44, 45],
+    sourcingTrajectoryID: 'Biaya Akuisisi Tinggi',
+    sourcingTrajectoryEN: 'High Acquisition Cost',
+    sourcingMetric: 'WPS 44.6 (High CAC)',
+  },
+}
+
 export default function MarketOverview({ initialData }: Props) {
   const { lang, t } = useLanguage()
 
@@ -117,71 +247,67 @@ export default function MarketOverview({ initialData }: Props) {
     return selectedScope
   }, [selectedScope, t])
 
+  // Dynamic Trend Data based on chosen scope
+  const currentTrend = useMemo(() => {
+    return SCOPE_TREND_DATA[selectedScope] || SCOPE_TREND_DATA.all
+  }, [selectedScope])
+
   return (
     <div style={{
       display: 'grid',
-      gridTemplateColumns: 'minmax(0, 1fr) 320px',
-      gap: '1.5rem',
-      alignItems: 'start',
-      width: '100%',
+      gridTemplateColumns: 'minmax(0, 1fr) 380px',
+      gap: '2rem',
+      padding: '0 2rem 3rem 2rem',
     }}>
-      {/* Left Main Column */}
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '1.5rem',
-        minWidth: 0,
-        width: '100%',
-      }}>
-        {/* Scope Filter Bar (Penjelas Dinamis GMV & Rata-Rata Harga) */}
+      {/* Left Column: Scope Filter, KPIs, Chart, and Table */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+        {/* Scope Filter Bar */}
         <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '0.75rem',
           background: '#fcf8f3',
           border: '1px solid #dfd3c3',
           borderRadius: 16,
-          padding: '0.75rem 1.25rem',
-          boxShadow: '0 4px 16px -2px rgba(36, 83, 102, 0.06)',
+          padding: '0.85rem 1.25rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          boxShadow: '0 2px 8px rgba(36, 83, 102, 0.04)',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: '0.78125rem', fontWeight: 700, color: '#576574' }}>
-              {t('filter_label')}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#1e293b' }}>
+              {t('scope_filter_label')}
             </span>
             <span style={{
               fontSize: '0.72rem',
               fontWeight: 800,
               color: '#245366',
               background: 'rgba(36, 83, 102, 0.1)',
-              border: '1px solid rgba(36, 83, 102, 0.25)',
-              padding: '2px 10px',
-              borderRadius: 9999,
+              padding: '2px 8px',
+              borderRadius: 6,
             }}>
               {scopeLabel}
             </span>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <select
               value={selectedScope}
-              onChange={e => setSelectedScope(e.target.value)}
+              onChange={(e) => setSelectedScope(e.target.value)}
               style={{
-                padding: '0.45rem 1rem',
                 fontSize: '0.75rem',
                 fontWeight: 700,
-                background: '#ffffff',
-                border: '1px solid #c5b4a0',
-                borderRadius: 9999,
                 color: '#1e293b',
-                outline: 'none',
+                background: '#f5ede2',
+                border: '1px solid #dfd3c3',
+                borderRadius: 8,
+                padding: '0.35rem 0.65rem',
                 cursor: 'pointer',
+                outline: 'none',
               }}
             >
               <option value="all">{t('opt_all')}</option>
               <option value="winning">{t('opt_winning')}</option>
-              {categories.map(cat => (
+              <option disabled>──────────</option>
+              {categories.map((cat) => (
                 <option key={cat} value={cat}>
                   {cat}
                 </option>
@@ -203,9 +329,9 @@ export default function MarketOverview({ initialData }: Props) {
             badge={selectedScope === 'all' ? t('badge_overall') : t('badge_filtered')}
             badgeType="positive"
             sparklineColor="#245366"
-            sparklinePoints={[25, 30, 42, 38, 55, 60, 52, 78]}
-            insightLabel={t('trend_trajectory_gmv')}
-            trendMetric="▲ +212% Momentum"
+            sparklinePoints={currentTrend.gmvPoints}
+            insightLabel={lang === 'ID' ? currentTrend.gmvTrajectoryID : currentTrend.gmvTrajectoryEN}
+            trendMetric={currentTrend.gmvMetric}
           />
           <KpiCard
             title={`${t('kpi_price')} (${selectedScope === 'all' ? t('badge_overall') : t('badge_filtered')})`}
@@ -213,9 +339,9 @@ export default function MarketOverview({ initialData }: Props) {
             badge={selectedScope === 'all' ? t('badge_6cat') : t('badge_filtered')}
             badgeType="neutral"
             sparklineColor="#3b748a"
-            sparklinePoints={[48, 45, 46, 42, 44, 38, 40, 36]}
-            insightLabel={t('trend_trajectory_price')}
-            trendMetric="Rp 32k–50k Band"
+            sparklinePoints={currentTrend.pricePoints}
+            insightLabel={lang === 'ID' ? currentTrend.priceTrajectoryID : currentTrend.priceTrajectoryEN}
+            trendMetric={currentTrend.priceMetric}
           />
           <KpiCard
             title={t('kpi_ready')}
@@ -223,9 +349,9 @@ export default function MarketOverview({ initialData }: Props) {
             badge={t('kpi_ready_sub')}
             badgeType="positive"
             sparklineColor="#c2533a"
-            sparklinePoints={[10, 20, 15, 35, 30, 50, 65, 80]}
-            insightLabel={t('trend_trajectory_sourcing')}
-            trendMetric="2 WPS ≥ 70"
+            sparklinePoints={currentTrend.sourcingPoints}
+            insightLabel={lang === 'ID' ? currentTrend.sourcingTrajectoryID : currentTrend.sourcingTrajectoryEN}
+            trendMetric={currentTrend.sourcingMetric}
           />
         </div>
 
