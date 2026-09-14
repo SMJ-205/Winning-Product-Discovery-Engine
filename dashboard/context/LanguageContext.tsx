@@ -25,6 +25,11 @@ const DICTIONARY: Record<Language, Translations> = {
     sub_pricing_sim: 'Validasi batas maksimal HPP supplier sebelum melakukan pemesanan stok',
 
     // Scope Filter & KPI Cards
+    scope_filter_label: 'Filter Cakupan Kategori:',
+    scope_filter_sub: 'Pilih cakupan data untuk analisis mendalam',
+    scope_filter_active: 'Cakupan Aktif',
+    scope_all_categories: 'Semua Kategori (Lintas Pasar)',
+    scope_winning_niches: 'Winning Niches Saja (WPS ≥ 70)',
     filter_label: 'Filter Scope Metrik:',
     opt_all: 'Semua Kategori (Overall - 6 Niche)',
     opt_winning: 'Winning Niche Saja (WPS ≥ 70)',
@@ -221,6 +226,11 @@ const DICTIONARY: Record<Language, Translations> = {
     sub_pricing_sim: 'Validate supplier COGS ceiling before placing pilot stock orders',
 
     // Scope Filter & KPI Cards
+    scope_filter_label: 'Category Scope Filter:',
+    scope_filter_sub: 'Select data scope for deep-dive intelligence',
+    scope_filter_active: 'Active Scope',
+    scope_all_categories: 'All Categories (Cross-Market)',
+    scope_winning_niches: 'Winning Niches Only (WPS ≥ 70)',
     filter_label: 'Metric Scope Filter:',
     opt_all: 'All Categories (Overall - 6 Niches)',
     opt_winning: 'Winning Niches Only (WPS ≥ 70)',

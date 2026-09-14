@@ -7,6 +7,7 @@ import BubbleChart from './BubbleChart'
 import WpsTable from './WpsTable'
 import WpsGaugeCard from './WpsGaugeCard'
 import QuickInsightsCard from './QuickInsightsCard'
+import ScopeFilterBar from './ScopeFilterBar'
 
 type Props = {
   initialData: any[]
@@ -262,59 +263,14 @@ export default function MarketOverview({ initialData }: Props) {
       {/* Left Column: Scope Filter, KPIs, Chart, and Table */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
         {/* Scope Filter Bar */}
-        <div style={{
-          background: '#fcf8f3',
-          border: '1px solid #dfd3c3',
-          borderRadius: 16,
-          padding: '0.85rem 1.25rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          boxShadow: '0 2px 8px rgba(36, 83, 102, 0.04)',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#1e293b' }}>
-              {t('scope_filter_label')}
-            </span>
-            <span style={{
-              fontSize: '0.72rem',
-              fontWeight: 800,
-              color: '#245366',
-              background: 'rgba(36, 83, 102, 0.1)',
-              padding: '2px 8px',
-              borderRadius: 6,
-            }}>
-              {scopeLabel}
-            </span>
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <select
-              value={selectedScope}
-              onChange={(e) => setSelectedScope(e.target.value)}
-              style={{
-                fontSize: '0.75rem',
-                fontWeight: 700,
-                color: '#1e293b',
-                background: '#f5ede2',
-                border: '1px solid #dfd3c3',
-                borderRadius: 8,
-                padding: '0.35rem 0.65rem',
-                cursor: 'pointer',
-                outline: 'none',
-              }}
-            >
-              <option value="all">{t('opt_all')}</option>
-              <option value="winning">{t('opt_winning')}</option>
-              <option disabled>──────────</option>
-              {categories.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
+        <ScopeFilterBar
+          selectedScope={selectedScope}
+          onScopeChange={setSelectedScope}
+          categories={categories}
+          showWinningNichesOption={true}
+          totalItemsCount={filteredData.length}
+          itemsLabel={t('niche_analyzed')}
+        />
 
         {/* 3 Metric Cards with sparklines — Disesuaikan secara dinamis */}
         <div style={{

@@ -7,6 +7,7 @@ import ComplaintBar from '@/components/ComplaintBar'
 import CustomerInfoSection from '@/components/CustomerInfoSection'
 import BrandAwarenessSection from '@/components/BrandAwarenessSection'
 import BrandImageSection from '@/components/BrandImageSection'
+import ScopeFilterBar from '@/components/ScopeFilterBar'
 import { useLanguage } from '@/context/LanguageContext'
 
 type PriceItem = { price: number; product_id: string; category_name?: string }
@@ -106,60 +107,15 @@ export default function PricingClientView({ complaints = [], prices = [], review
       <Header />
 
       {/* Category Scope Filter Bar */}
-      <div style={{
-        background: '#fcf8f3',
-        border: '1px solid #dfd3c3',
-        borderRadius: 16,
-        padding: '0.85rem 1.25rem',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-        gap: '0.75rem',
-        boxShadow: '0 2px 8px rgba(36, 83, 102, 0.04)',
-        marginBottom: '1.25rem',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#1e293b' }}>
-            {t('scope_filter_label')}
-          </span>
-          <span style={{
-            fontSize: '0.72rem',
-            fontWeight: 800,
-            color: '#245366',
-            background: 'rgba(36, 83, 102, 0.1)',
-            padding: '3px 9px',
-            borderRadius: 6,
-            border: '1px solid rgba(36, 83, 102, 0.25)',
-          }}>
-            {selectedCategory === 'all'
-              ? (lang === 'ID' ? 'Semua Kategori' : 'All Categories')
-              : selectedCategory}
-          </span>
-        </div>
-
-        <select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-          style={{
-            background: '#f5ede2',
-            border: '1px solid #dfd3c3',
-            borderRadius: 10,
-            padding: '0.45rem 0.9rem',
-            fontSize: '0.78125rem',
-            fontWeight: 600,
-            color: '#1e293b',
-            cursor: 'pointer',
-            outline: 'none',
-          }}
-        >
-          <option value="all">
-            {lang === 'ID' ? 'Semua Kategori (Lintas Pasar)' : 'All Categories (Cross-Market)'}
-          </option>
-          {availableCategories.map((cat) => (
-            <option key={cat} value={cat}>{cat}</option>
-          ))}
-        </select>
+      <div style={{ marginBottom: '1.25rem' }}>
+        <ScopeFilterBar
+          selectedScope={selectedCategory}
+          onScopeChange={setSelectedCategory}
+          categories={availableCategories}
+          showWinningNichesOption={false}
+          totalItemsCount={filteredPrices.length}
+          itemsLabel={lang === 'ID' ? 'Produk Terpantau' : 'Monitored Products'}
+        />
       </div>
 
       {/* View Switcher Sub-Tabs */}
