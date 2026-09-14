@@ -106,3 +106,23 @@ tr:hover td {
   0%, 100% { opacity: 0.6; }
   50% { opacity: 0.25; }
 }
+
+/* Remove unwanted blue focus ring/box when selecting SVG circles or chart area */
+.recharts-wrapper,
+.recharts-surface,
+.recharts-layer,
+.recharts-scatter,
+.recharts-scatter-symbol,
+.recharts-wrapper *:focus,
+.recharts-surface:focus,
+.recharts-layer:focus,
+svg:focus,
+svg:focus-visible,
+g:focus,
+path:focus,
+circle:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}

@@ -26,7 +26,7 @@ const NAV_LINKS = [
   },
   {
     href: '/sourcing',
-    label: 'Sim Calculator',
+    label: 'Pricing Simulator',
     sublabel: 'Sourcing Feasibility',
     icon: (
       <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">

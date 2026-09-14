@@ -141,8 +141,8 @@ export default function BubbleChart({ data }: { data: DataPoint[] }) {
         </div>
       </div>
 
-      <ResponsiveContainer width="100%" height={320}>
-        <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
+      <ResponsiveContainer width="100%" height={320} style={{ outline: 'none' }}>
+        <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 0 }} style={{ outline: 'none' }}>
           <CartesianGrid stroke="#1a223a" strokeDasharray="3 3" vertical={false} />
           <XAxis
             dataKey="x"
@@ -163,7 +163,7 @@ export default function BubbleChart({ data }: { data: DataPoint[] }) {
           />
           <ZAxis dataKey="z" range={[250, 1800]} />
           <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#38bdf8', strokeDasharray: '4 4' }} />
-          <Scatter data={withAxes}>
+          <Scatter data={withAxes} activeShape={false} stroke="none">
             {withAxes.map((_, i) => (
               <Cell
                 key={i}

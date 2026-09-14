@@ -1,0 +1,206 @@
+'use client'
+
+import { useState, useMemo } from 'react'
+import KpiCard from './KpiCard'
+import BubbleChart from './BubbleChart'
+import WpsTable from './WpsTable'
+import WpsGaugeCard from './WpsGaugeCard'
+import QuickInsightsCard from './QuickInsightsCard'
+
+type Props = {
+  initialData: any[]
+}
+
+export default function MarketOverview({ initialData }: Props) {
+  // Filter Scope: 'all' | 'winning' | category_name
+  const [selectedScope, setSelectedScope] = useState<string>('all')
+
+  // List unique categories
+  const categories = useMemo(() => {
+    return Array.from(new Set(initialData.map(d => d.category_name).filter(Boolean))) as string[]
+  }, [initialData])
+
+  // Filtered dataset according to chosen scope
+  const filteredData = useMemo(() => {
+    if (selectedScope === 'all') {
+      return initialData
+    }
+    if (selectedScope === 'winning') {
+      return initialData.filter(d => (d.winning_product_score ?? 0) >= 70)
+    }
+    return initialData.filter(d => d.category_name === selectedScope)
+  }, [initialData, selectedScope])
+
+  // Dynamic KPI Calculations based on filteredData
+  const totalRevenue = useMemo(() => {
+    return filteredData.reduce(
+      (s: number, d: any) => s + (d.monthly_sold_units * d.median_price || 0),
+      0
+    )
+  }, [filteredData])
+
+  const avgPrice = useMemo(() => {
+    return filteredData.length
+      ? filteredData.reduce((s: number, d: any) => s + (d.median_price || 0), 0) / filteredData.length
+      : 0
+  }, [filteredData])
+
+  const highPriorityCount = useMemo(() => {
+    return filteredData.filter(
+      (d: any) => (d.winning_product_score ?? 0) >= 70
+    ).length
+  }, [filteredData])
+
+  const topWps = useMemo(() => {
+    return filteredData.reduce(
+      (mx: number, d: any) => Math.max(mx, d.winning_product_score ?? 0),
+      0
+    )
+  }, [filteredData])
+
+  const topProduct = useMemo(() => {
+    return [...filteredData].sort(
+      (a, b) => (b.winning_product_score ?? 0) - (a.winning_product_score ?? 0)
+    )[0]
+  }, [filteredData])
+
+  // Label scope text for clarification
+  const scopeLabel = useMemo(() => {
+    if (selectedScope === 'all') return 'Overall (6 Kategori)'
+    if (selectedScope === 'winning') return 'Winning Niche Only (WPS ≥ 70)'
+    return selectedScope
+  }, [selectedScope])
+
+  return (
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: 'minmax(0, 1fr) 320px',
+      gap: '1.5rem',
+      alignItems: 'start',
+      width: '100%',
+    }}>
+      {/* Left Main Column */}
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1.5rem',
+        minWidth: 0,
+        width: '100%',
+      }}>
+        {/* Scope Filter Bar (Penjelas Dinamis GMV & Rata-Rata Harga) */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '0.75rem',
+          background: '#151b2e',
+          border: '1px solid #202a48',
+          borderRadius: 16,
+          padding: '0.75rem 1.25rem',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontSize: '0.78125rem', fontWeight: 700, color: '#94a3b8' }}>
+              Filter Scope Metrik:
+            </span>
+            <span style={{
+              fontSize: '0.72rem',
+              fontWeight: 800,
+              color: '#38bdf8',
+              background: 'rgba(56, 189, 248, 0.12)',
+              border: '1px solid rgba(56, 189, 248, 0.25)',
+              padding: '2px 10px',
+              borderRadius: 9999,
+            }}>
+              {scopeLabel}
+            </span>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+            <select
+              value={selectedScope}
+              onChange={e => setSelectedScope(e.target.value)}
+              style={{
+                padding: '0.45rem 1rem',
+                fontSize: '0.75rem',
+                fontWeight: 700,
+                background: '#11172a',
+                border: '1px solid #202a48',
+                borderRadius: 9999,
+                color: '#f8fafc',
+                outline: 'none',
+                cursor: 'pointer',
+              }}
+            >
+              <option value="all">Semua Kategori (Overall - 6 Niche)</option>
+              <option value="winning">Winning Niche Only (WPS ≥ 70)</option>
+              {categories.map(cat => (
+                <option key={cat} value={cat}>
+                  Kategori: {cat}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* 3 Metric Cards with sparklines — Disesuaikan secara dinamis */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+          gap: '1rem',
+          width: '100%',
+        }}>
+          <KpiCard
+            title={`Est. GMV Bulanan (${selectedScope === 'all' ? 'Overall' : 'Kategori'})`}
+            value={`Rp ${(totalRevenue / 1_000_000).toFixed(1)}M`}
+            badge={selectedScope === 'all' ? 'Overall' : 'Filtered'}
+            badgeType="positive"
+            sparklineColor="#6366f1"
+            sparklinePoints={[25, 30, 42, 38, 55, 60, 52, 78]}
+          />
+          <KpiCard
+            title={`Rata-rata Harga (${selectedScope === 'all' ? 'Overall' : 'Kategori'})`}
+            value={`Rp ${Math.round(avgPrice).toLocaleString('id-ID')}`}
+            badge={selectedScope === 'all' ? '6 Kategori' : 'Kategori Terpilih'}
+            badgeType="neutral"
+            sparklineColor="#38bdf8"
+            sparklinePoints={[50, 45, 48, 40, 42, 36, 38, 32]}
+          />
+          <KpiCard
+            title="Peluang Siap Sourcing"
+            value={`${highPriorityCount} Niche`}
+            badge="WPS ≥ 70"
+            badgeType="positive"
+            sparklineColor="#10b981"
+            sparklinePoints={[10, 20, 15, 35, 30, 50, 65, 80]}
+          />
+        </div>
+
+        {/* Market Opportunity Analytics (Bubble Chart) */}
+        <BubbleChart data={filteredData} />
+
+        {/* Top Product Opportunities Table */}
+        <WpsTable data={filteredData} />
+      </div>
+
+      {/* Right Column: Semi-circle Gauge & Quick Insights */}
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1.75rem',
+        position: 'sticky',
+        top: '2rem',
+      }}>
+        {/* WPS Gauge Meter */}
+        <WpsGaugeCard
+          topScore={topWps || 87.6}
+          topNiche={topProduct?.sub_category || 'Botol Susu Anti Kolik'}
+          recommendation={topProduct?.sourcing_recommendation || 'High Priority - Immediate Sourcing'}
+        />
+
+        {/* Quick Insights & Schedule widget */}
+        <QuickInsightsCard />
+      </div>
+    </div>
+  )
+}

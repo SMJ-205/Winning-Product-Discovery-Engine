@@ -164,7 +164,7 @@ export default function WpsGaugeCard({
           boxSizing: 'border-box',
         }}
       >
-        Simulasi Sourcing
+        Simulasi Pricing
       </Link>
     </div>
   )

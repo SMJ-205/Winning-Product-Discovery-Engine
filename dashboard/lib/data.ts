@@ -1,6 +1,40 @@
 import { getSupabase } from './supabase'
 
+// In-memory session cache untuk menghemat kuota Supabase Free Tier
+// dan mempercepat response time perpindahan tab (0ms)
+const CACHE_TTL_MS = 15 * 60 * 1000 // 15 menit per sesi
+
+type CacheEntry<T> = {
+  data: T
+  timestamp: number
+}
+
+const memoryCache = new Map<string, CacheEntry<any>>()
+
+function getCached<T>(key: string): T | null {
+  const entry = memoryCache.get(key)
+  if (!entry) return null
+  if (Date.now() - entry.timestamp > CACHE_TTL_MS) {
+    memoryCache.delete(key)
+    return null
+  }
+  return entry.data
+}
+
+function setCache<T>(key: string, data: T): void {
+  memoryCache.set(key, { data, timestamp: Date.now() })
+}
+
+export function clearDataCache(): void {
+  memoryCache.clear()
+}
+
 export async function getMarketData() {
+  const cached = getCached<any[]>('market_data')
+  if (cached) {
+    return cached
+  }
+
   const supabase = getSupabase()
   
   const { data, error } = await supabase
@@ -31,10 +65,16 @@ export async function getMarketData() {
     sourcing_recommendation: scoresMap.get(row.keyword_id)?.sourcing_recommendation ?? null,
   })) ?? []
 
+  setCache('market_data', enriched)
   return enriched
 }
 
 export async function getComplaintsData() {
+  const cached = getCached<any>('complaints_data')
+  if (cached) {
+    return cached
+  }
+
   const supabase = getSupabase()
 
   // Ambil aspek keluhan dari ulasan rating 1-2
@@ -69,10 +109,18 @@ export async function getComplaintsData() {
     .order('snapshot_date', { ascending: false })
     .limit(2000)
 
-  return { complaints: sorted, prices: prices ?? [] }
+  const result = { complaints: sorted, prices: prices ?? [] }
+  setCache('complaints_data', result)
+  return result
 }
 
 export async function getScoringData(keywordId?: string | null) {
+  const cacheKey = `scoring_data_${keywordId || 'all'}`
+  const cached = getCached<any[]>(cacheKey)
+  if (cached) {
+    return cached
+  }
+
   const supabase = getSupabase()
 
   let query = supabase
@@ -98,5 +146,7 @@ export async function getScoringData(keywordId?: string | null) {
     return []
   }
 
-  return data ?? []
+  const result = data ?? []
+  setCache(cacheKey, result)
+  return result
 }
