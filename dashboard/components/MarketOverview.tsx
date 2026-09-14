@@ -12,8 +12,51 @@ type Props = {
   initialData: any[]
 }
 
+function formatCompactCurrency(val: number, lang: 'ID' | 'EN'): string {
+  if (!val || isNaN(val)) return 'Rp 0'
+
+  if (lang === 'ID') {
+    if (val >= 1_000_000_000_000) {
+      const num = (val / 1_000_000_000_000).toFixed(1).replace(/\.0$/, '').replace('.', ',')
+      return `Rp ${num} Triliun`
+    }
+    if (val >= 1_000_000_000) {
+      const num = (val / 1_000_000_000).toFixed(1).replace(/\.0$/, '').replace('.', ',')
+      return `Rp ${num} Milyar`
+    }
+    if (val >= 1_000_000) {
+      const num = (val / 1_000_000).toFixed(1).replace(/\.0$/, '').replace('.', ',')
+      return `Rp ${num} Juta`
+    }
+    if (val >= 1_000) {
+      const num = (val / 1_000).toFixed(1).replace(/\.0$/, '').replace('.', ',')
+      return `Rp ${num} Ribu`
+    }
+    return `Rp ${Math.round(val).toLocaleString('id-ID')}`
+  } else {
+    // English
+    if (val >= 1_000_000_000_000) {
+      const num = (val / 1_000_000_000_000).toFixed(1).replace(/\.0$/, '')
+      return `Rp ${num} Trillion`
+    }
+    if (val >= 1_000_000_000) {
+      const num = (val / 1_000_000_000).toFixed(1).replace(/\.0$/, '')
+      return `Rp ${num} Billion`
+    }
+    if (val >= 1_000_000) {
+      const num = (val / 1_000_000).toFixed(1).replace(/\.0$/, '')
+      return `Rp ${num} Million`
+    }
+    if (val >= 1_000) {
+      const num = (val / 1_000).toFixed(1).replace(/\.0$/, '')
+      return `Rp ${num} Thousand`
+    }
+    return `Rp ${Math.round(val).toLocaleString('en-US')}`
+  }
+}
+
 export default function MarketOverview({ initialData }: Props) {
-  const { t } = useLanguage()
+  const { lang, t } = useLanguage()
 
   // Filter Scope: 'all' | 'winning' | category_name
   const [selectedScope, setSelectedScope] = useState<string>('all')
@@ -156,7 +199,7 @@ export default function MarketOverview({ initialData }: Props) {
         }}>
           <KpiCard
             title={`${t('kpi_gmv')} (${selectedScope === 'all' ? t('badge_overall') : t('badge_filtered')})`}
-            value={`Rp ${(totalRevenue / 1_000_000).toFixed(1)}M`}
+            value={formatCompactCurrency(totalRevenue, lang)}
             badge={selectedScope === 'all' ? t('badge_overall') : t('badge_filtered')}
             badgeType="positive"
             sparklineColor="#245366"
