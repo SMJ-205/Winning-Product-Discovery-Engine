@@ -208,8 +208,8 @@ export default function MarketOverview({ initialData }: Props) {
           recommendation={topProduct?.sourcing_recommendation || 'High Priority - Immediate Sourcing'}
         />
 
-        {/* Quick Insights & Schedule widget */}
-        <QuickInsightsCard />
+        {/* Winning Playbook & Opportunity Radar */}
+        <QuickInsightsCard topNiche={topProduct} />
       </div>
     </div>
   )

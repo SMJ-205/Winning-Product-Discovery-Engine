@@ -1,166 +1,261 @@
 'use client'
 
+import Link from 'next/link'
 import { useLanguage } from '@/context/LanguageContext'
 
-export default function QuickInsightsCard() {
-  const { t } = useLanguage()
+type Props = {
+  topNiche?: {
+    sub_category?: string
+    winning_product_score?: number
+    monthly_sold_units?: number
+    median_price?: number
+    category_name?: string
+    search_trend_index?: number
+  }
+}
 
-  const days = [
-    { dayKey: 'day_sun', date: '11' },
-    { dayKey: 'day_mon', date: '12' },
-    { dayKey: 'day_tue', date: '13' },
-    { dayKey: 'day_wed', date: '14', active: true },
-    { dayKey: 'day_thu', date: '15' },
-    { dayKey: 'day_fri', date: '16' },
-    { dayKey: 'day_sat', date: '17' },
-  ]
+export default function QuickInsightsCard({ topNiche }: Props) {
+  const { t, lang } = useLanguage()
+
+  const productName = topNiche?.sub_category || 'Botol Susu Anti Kolik BPA Free'
+  const wpsScore = topNiche?.winning_product_score ? topNiche.winning_product_score.toFixed(1) : '87.6'
+  const categoryName = topNiche?.category_name || (lang === 'ID' ? 'Ibu & Kebutuhan Bayi' : 'Mom & Baby')
+  const medianPrice = topNiche?.median_price || 68000
+  const targetHpp = Math.round(medianPrice * 0.35)
+  const monthlyUnits = topNiche?.monthly_sold_units
+    ? `${topNiche.monthly_sold_units.toLocaleString(lang === 'ID' ? 'id-ID' : 'en-US')} units/mo`
+    : '95.600 units/mo'
 
   return (
     <div style={{
       background: '#fcf8f3',
       border: '1px solid #dfd3c3',
       borderRadius: 22,
-      padding: '1.5rem',
+      padding: '1.4rem 1.4rem 1.25rem 1.4rem',
       display: 'flex',
       flexDirection: 'column',
-      gap: '1.25rem',
+      gap: '1.1rem',
       width: '100%',
       boxSizing: 'border-box',
       boxShadow: '0 4px 16px -2px rgba(36, 83, 102, 0.06)',
     }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <span style={{ fontSize: '0.9375rem', fontWeight: 800, color: '#1e293b' }}>
-          {t('calendar_month')}
-        </span>
+        <div>
+          <div style={{ fontSize: '0.9375rem', fontWeight: 800, color: '#1e293b' }}>
+            {t('playbook_title')}
+          </div>
+          <div style={{ fontSize: '0.72rem', color: '#576574', marginTop: 1 }}>
+            {t('playbook_sub')}
+          </div>
+        </div>
         <span style={{
-          fontSize: '0.6875rem',
-          fontWeight: 700,
+          fontSize: '0.72rem',
+          fontWeight: 800,
           color: '#245366',
           background: 'rgba(36, 83, 102, 0.1)',
-          padding: '2px 8px',
+          padding: '3px 9px',
           borderRadius: 9999,
           border: '1px solid rgba(36, 83, 102, 0.25)',
         }}>
-          {t('automated')}
+          {wpsScore} WPS
         </span>
       </div>
 
-      {/* Calendar day pills */}
+      {/* Featured Winning Product Banner */}
       <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        padding: '0.4rem 0',
+        background: '#f5ede2',
+        border: '1px solid #e2d5c5',
+        borderRadius: 14,
+        padding: '0.85rem 1rem',
       }}>
-        {days.map(d => (
-          <div
-            key={d.date}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 4,
-            }}
-          >
-            <span style={{ fontSize: '0.6875rem', color: '#64748b', fontWeight: 600 }}>
-              {t(d.dayKey)}
-            </span>
-            <span style={{
-              fontSize: '0.8125rem',
-              fontWeight: d.active ? 800 : 600,
-              width: 26,
-              height: 26,
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: d.active ? '#245366' : 'transparent',
-              color: d.active ? '#ffffff' : '#334155',
-            }}>
-              {d.date}
-            </span>
-          </div>
-        ))}
-      </div>
-
-      {/* Quick Events / Insights list with clean SVG icons */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.25rem' }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '0.75rem',
-          background: '#f5ede2',
-          borderRadius: 12,
-          border: '1px solid #e2d5c5',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <div style={{
-              width: 32,
-              height: 32,
-              borderRadius: 8,
-              background: 'rgba(36, 83, 102, 0.15)',
-              color: '#245366',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-              </svg>
-            </div>
-            <div>
-              <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#1e293b' }}>
-                {t('task_sample')}
-              </div>
-              <div style={{ fontSize: '0.6875rem', color: '#576574' }}>
-                {t('task_sample_sub')}
-              </div>
-            </div>
-          </div>
-          <span style={{ fontSize: '0.6875rem', color: '#576574', fontWeight: 600 }}>
-            12pm
-          </span>
+        <div style={{ fontSize: '0.65rem', fontWeight: 800, color: '#245366', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+          Top Opportunity Target
         </div>
-
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '0.75rem',
-          background: '#f5ede2',
-          borderRadius: 12,
-          border: '1px solid #e2d5c5',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <div style={{
-              width: 32,
-              height: 32,
-              borderRadius: 8,
-              background: 'rgba(92, 158, 175, 0.2)',
-              color: '#245366',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
-            </div>
-            <div>
-              <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#1e293b' }}>
-                {t('task_cron')}
-              </div>
-              <div style={{ fontSize: '0.6875rem', color: '#576574' }}>
-                {t('task_cron_sub')}
-              </div>
-            </div>
-          </div>
-          <span style={{ fontSize: '0.6875rem', color: '#576574', fontWeight: 600 }}>
-            9pm
-          </span>
+        <div style={{ fontSize: '0.9375rem', fontWeight: 800, color: '#1e293b', marginTop: 3 }}>
+          {productName}
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4, fontSize: '0.72rem', color: '#576574', fontWeight: 600 }}>
+          <span>{categoryName}</span>
+          <span>•</span>
+          <span style={{ color: '#245366', fontWeight: 700 }}>{monthlyUnits}</span>
         </div>
       </div>
+
+      {/* 4 Pillars of Winning Product Discovery (2x2 Grid) */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+        gap: '0.625rem',
+      }}>
+        {/* Pillar 1: Demand Velocity */}
+        <div style={{
+          background: '#f5ede2',
+          border: '1px solid #e2d5c5',
+          borderRadius: 12,
+          padding: '0.65rem 0.75rem',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 2 }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#245366' }} />
+            <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#576574' }}>
+              {t('pillar_demand')}
+            </span>
+          </div>
+          <div style={{ fontSize: '0.8125rem', fontWeight: 800, color: '#245366' }}>
+            +44% Spike
+          </div>
+          <div style={{ fontSize: '0.625rem', color: '#576574', marginTop: 1 }}>
+            {monthlyUnits}
+          </div>
+        </div>
+
+        {/* Pillar 2: Target COGS & Margin */}
+        <div style={{
+          background: '#f5ede2',
+          border: '1px solid #e2d5c5',
+          borderRadius: 12,
+          padding: '0.65rem 0.75rem',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 2 }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#3b748a' }} />
+            <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#576574' }}>
+              {t('pillar_margin')}
+            </span>
+          </div>
+          <div style={{ fontSize: '0.8125rem', fontWeight: 800, color: '#1e293b' }}>
+            Rp {targetHpp.toLocaleString(lang === 'ID' ? 'id-ID' : 'en-US')}
+          </div>
+          <div style={{ fontSize: '0.625rem', color: '#226338', fontWeight: 700, marginTop: 1 }}>
+            Net Margin ~34%
+          </div>
+        </div>
+
+        {/* Pillar 3: Competitor Pain Point Gap */}
+        <div style={{
+          background: '#f5ede2',
+          border: '1px solid #e2d5c5',
+          borderRadius: 12,
+          padding: '0.65rem 0.75rem',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 2 }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#c2533a' }} />
+            <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#576574' }}>
+              {t('pillar_flaw')}
+            </span>
+          </div>
+          <div style={{ fontSize: '0.8125rem', fontWeight: 800, color: '#c2533a' }}>
+            Kemasan Bocor (38%)
+          </div>
+          <div style={{ fontSize: '0.625rem', color: '#576574', marginTop: 1 }}>
+            Celah diferensiasi produk
+          </div>
+        </div>
+
+        {/* Pillar 4: Supplier Readiness */}
+        <div style={{
+          background: '#f5ede2',
+          border: '1px solid #e2d5c5',
+          borderRadius: 12,
+          padding: '0.65rem 0.75rem',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 2 }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#9c6f50' }} />
+            <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#576574' }}>
+              {t('pillar_oem')}
+            </span>
+          </div>
+          <div style={{ fontSize: '0.8125rem', fontWeight: 800, color: '#1e293b' }}>
+            Direct OEM Ready
+          </div>
+          <div style={{ fontSize: '0.625rem', color: '#576574', marginTop: 1 }}>
+            Tangerang & 1688 Fast Turn
+          </div>
+        </div>
+      </div>
+
+      {/* Actionable Strategy Playbook */}
+      <div style={{
+        background: '#f5ede2',
+        border: '1px solid #e2d5c5',
+        borderRadius: 14,
+        padding: '0.75rem 0.85rem',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0.5rem',
+      }}>
+        <div style={{ fontSize: '0.6875rem', fontWeight: 800, color: '#1e293b', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+          {t('playbook_strategy_header')}
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+          <span style={{
+            width: 16,
+            height: 16,
+            borderRadius: '50%',
+            background: '#245366',
+            color: '#ffffff',
+            fontSize: '0.625rem',
+            fontWeight: 800,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+            marginTop: 1,
+          }}>
+            1
+          </span>
+          <div style={{ fontSize: '0.6875rem', color: '#1e293b', lineHeight: 1.35 }}>
+            <b style={{ color: '#245366' }}>{t('step1_title')}</b> {t('step1_desc')}
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+          <span style={{
+            width: 16,
+            height: 16,
+            borderRadius: '50%',
+            background: '#245366',
+            color: '#ffffff',
+            fontSize: '0.625rem',
+            fontWeight: 800,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+            marginTop: 1,
+          }}>
+            2
+          </span>
+          <div style={{ fontSize: '0.6875rem', color: '#1e293b', lineHeight: 1.35 }}>
+            <b style={{ color: '#245366' }}>{t('step2_title')}</b> {t('step2_desc')}
+          </div>
+        </div>
+      </div>
+
+      {/* Action CTA Button */}
+      <Link
+        href="/sourcing"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 6,
+          padding: '0.6rem 1rem',
+          background: '#245366',
+          color: '#ffffff',
+          borderRadius: 12,
+          fontSize: '0.75rem',
+          fontWeight: 700,
+          textDecoration: 'none',
+          boxShadow: '0 2px 8px rgba(36, 83, 102, 0.2)',
+          transition: 'all 0.15s ease',
+        }}
+      >
+        <span>{t('btn_sourcing_action')}</span>
+        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </Link>
     </div>
   )
 }
