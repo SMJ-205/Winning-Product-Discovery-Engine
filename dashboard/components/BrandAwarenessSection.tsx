@@ -266,17 +266,6 @@ export default function BrandAwarenessSection() {
                   </Pie>
                 </PieChart>
               </ResponsiveContainer>
-              <div style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                textAlign: 'center',
-                pointerEvents: 'none',
-              }}>
-                <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#245366' }}>41%</div>
-                <div style={{ fontSize: '0.55rem', color: '#576574' }}>Live</div>
-              </div>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6, flex: 1 }}>

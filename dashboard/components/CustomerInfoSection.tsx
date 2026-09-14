@@ -115,17 +115,6 @@ export default function CustomerInfoSection() {
                 </Pie>
               </PieChart>
             </ResponsiveContainer>
-            <div style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              textAlign: 'center',
-              pointerEvents: 'none',
-            }}>
-              <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#1e293b' }}>28%</div>
-              <div style={{ fontSize: '0.5625rem', color: '#576574' }}>25-34</div>
-            </div>
           </div>
 
           {/* Age Legend pills */}
