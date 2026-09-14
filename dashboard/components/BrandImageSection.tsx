@@ -21,34 +21,34 @@ const PERCEPTIONS: PerceptionRow[] = [
 ]
 
 const COLORS = {
-  totallyAgree: '#be185d',    // Dark Fuchsia / Rose
-  agree: '#ec4899',           // Rose Pink
-  maybe: '#f472b6',           // Light Rose Pink
-  disagree: '#fbcfe8',        // Pale Pink
-  totallyDisagree: '#fdf2f8', // Soft Muted White Pink
+  totallyAgree: '#245366',    // Deep ocean teal
+  agree: '#5c9eaf',           // Muted cyan
+  maybe: '#a5d3dd',           // Soft ice cyan
+  disagree: '#dfbfa8',        // Warm tan / sand
+  totallyDisagree: '#e8a89b', // Warm terracotta / peach
 }
 
 export default function BrandImageSection() {
   const { t } = useLanguage()
 
   const legendItems = [
-    { label: t('scale_totally_agree'), color: '#be185d' },
-    { label: t('scale_agree'),         color: '#ec4899' },
-    { label: t('scale_maybe'),         color: '#f472b6' },
-    { label: t('scale_disagree'),      color: '#fbcfe8' },
-    { label: t('scale_totally_disagree'), color: '#fdf2f8' },
+    { label: t('scale_totally_agree'),    color: COLORS.totallyAgree },
+    { label: t('scale_agree'),            color: COLORS.agree },
+    { label: t('scale_maybe'),            color: COLORS.maybe },
+    { label: t('scale_disagree'),         color: COLORS.disagree },
+    { label: t('scale_totally_disagree'), color: COLORS.totallyDisagree },
   ]
 
   return (
     <div style={{
-      background: '#151b2e',
-      border: '1px solid #202a48',
+      background: '#fcf8f3',
+      border: '1px solid #dfd3c3',
       borderRadius: 22,
       padding: '1.5rem',
       display: 'flex',
       flexDirection: 'column',
       gap: '1.5rem',
-      boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.2)',
+      boxShadow: '0 4px 20px -2px rgba(36, 83, 102, 0.05)',
       height: '100%',
       boxSizing: 'border-box',
     }}>
@@ -57,22 +57,22 @@ export default function BrandImageSection() {
         <div style={{
           fontSize: '0.8125rem',
           fontWeight: 800,
-          color: '#ec4899',
+          color: '#245366',
           textTransform: 'uppercase',
           letterSpacing: '0.06em',
           marginBottom: 4,
         }}>
           {t('sec_brand_image')}
         </div>
-        <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#f8fafc' }}>
+        <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#1e293b' }}>
           {t('brand_image_title')}
         </div>
       </div>
 
       {/* Stacked Likert Scale Bars */}
       <div style={{
-        background: '#11172a',
-        border: '1px solid #1a223a',
+        background: '#f5ede2',
+        border: '1px solid #e2d5c5',
         borderRadius: 16,
         padding: '1.25rem 1rem',
         display: 'flex',
@@ -88,10 +88,10 @@ export default function BrandImageSection() {
               alignItems: 'center',
               marginBottom: 5,
             }}>
-              <span style={{ fontSize: '0.78125rem', fontWeight: 700, color: '#f8fafc' }}>
+              <span style={{ fontSize: '0.78125rem', fontWeight: 700, color: '#1e293b' }}>
                 {t(row.key)}
               </span>
-              <span style={{ fontSize: '0.7rem', color: '#94a3b8', fontWeight: 600 }}>
+              <span style={{ fontSize: '0.7rem', color: '#245366', fontWeight: 700 }}>
                 {row.totallyAgree + row.agree}% Positive
               </span>
             </div>
@@ -102,7 +102,7 @@ export default function BrandImageSection() {
               height: 22,
               borderRadius: 6,
               overflow: 'hidden',
-              background: '#1f2945',
+              background: '#dfd3c3',
               fontSize: '0.625rem',
               fontWeight: 800,
               lineHeight: '22px',
@@ -114,13 +114,13 @@ export default function BrandImageSection() {
               <div style={{ width: `${row.agree}%`, background: COLORS.agree, color: '#ffffff' }}>
                 {row.agree}%
               </div>
-              <div style={{ width: `${row.maybe}%`, background: COLORS.maybe, color: '#0f172a' }}>
+              <div style={{ width: `${row.maybe}%`, background: COLORS.maybe, color: '#1e293b' }}>
                 {row.maybe}%
               </div>
-              <div style={{ width: `${row.disagree}%`, background: COLORS.disagree, color: '#0f172a' }}>
+              <div style={{ width: `${row.disagree}%`, background: COLORS.disagree, color: '#1e293b' }}>
                 {row.disagree}%
               </div>
-              <div style={{ width: `${row.totallyDisagree}%`, background: COLORS.totallyDisagree, color: '#0f172a' }}>
+              <div style={{ width: `${row.totallyDisagree}%`, background: COLORS.totallyDisagree, color: '#1e293b' }}>
                 {row.totallyDisagree}%
               </div>
             </div>
@@ -146,7 +146,7 @@ export default function BrandImageSection() {
               background: item.color,
               display: 'inline-block',
             }} />
-            <span style={{ fontSize: '0.6875rem', color: '#cbd5e1', fontWeight: 600 }}>
+            <span style={{ fontSize: '0.6875rem', color: '#576574', fontWeight: 600 }}>
               {item.label}
             </span>
           </div>

@@ -7,50 +7,50 @@ import {
 } from 'recharts'
 
 const BRANDS_RECOGNIZED = [
-  { name: 'MotoGadget Official', share: 45, color: '#1e3a8a' },
-  { name: 'Bintang Aksesoris',    share: 36, color: '#2563eb' },
-  { name: 'Dapur Cantik ID',      share: 27, color: '#3b82f6' },
-  { name: 'Anker Style Store',    share: 19, color: '#60a5fa' },
-  { name: 'Dapur Minang',         share: 12, color: '#93c5fd' },
-  { name: 'Toko Kabel Murah',     share: 10, color: '#bfdbfe' },
+  { name: 'MotoGadget Official', share: 45, color: '#245366' },
+  { name: 'Bintang Aksesoris',    share: 36, color: '#2e6378' },
+  { name: 'Dapur Cantik ID',      share: 27, color: '#48879e' },
+  { name: 'Anker Style Store',    share: 19, color: '#62a0b3' },
+  { name: 'Dapur Minang',         share: 12, color: '#82bdcb' },
+  { name: 'Toko Kabel Murah',     share: 10, color: '#a8d8e3' },
 ]
 
 const CUSTOMER_LOYALTY = [
-  { name: 'MotoGadget Official', loyalty: 52, color: '#0f172a' },
-  { name: 'Bintang Aksesoris',    loyalty: 41, color: '#1e293b' },
-  { name: 'Dapur Cantik ID',      loyalty: 29, color: '#2563eb' },
-  { name: 'Anker Style Store',    loyalty: 21, color: '#38bdf8' },
-  { name: 'Dapur Minang',         loyalty: 14, color: '#0ea5e9' },
-  { name: 'Toko Kabel Murah',     loyalty: 12, color: '#0284c7' },
+  { name: 'MotoGadget Official', loyalty: 52, color: '#1b4352' },
+  { name: 'Bintang Aksesoris',    loyalty: 41, color: '#245366' },
+  { name: 'Dapur Cantik ID',      loyalty: 29, color: '#357288' },
+  { name: 'Anker Style Store',    loyalty: 21, color: '#5091a7' },
+  { name: 'Dapur Minang',         loyalty: 14, color: '#75b1c5' },
+  { name: 'Toko Kabel Murah',     loyalty: 12, color: '#9fcde0' },
 ]
 
 const DISCOVERY_CHANNELS = [
-  { name: 'TikTok Live & Affiliate', value: 41, color: '#38bdf8' },
-  { name: 'Shopee & Tokopedia Video', value: 34, color: '#1e293b' },
-  { name: 'Organic Search & Ads', value: 25, color: '#60a5fa' },
+  { name: 'TikTok Live & Affiliate', value: 41, color: '#245366' },
+  { name: 'Shopee & Tokopedia Video', value: 34, color: '#5c9eaf' },
+  { name: 'Organic Search & Ads', value: 25, color: '#dfbfa8' },
 ]
 
 export default function BrandAwarenessSection() {
   const { t } = useLanguage()
 
   const emotionalThemes = [
-    { name: t('hook_practical'), score: 4.6, color: '#0f172a' },
-    { name: t('hook_durable'),   score: 4.1, color: '#1e293b' },
-    { name: t('hook_guarantee'), score: 3.7, color: '#2563eb' },
-    { name: t('hook_budget'),    score: 3.4, color: '#38bdf8' },
-    { name: t('hook_design'),    score: 2.9, color: '#93c5fd' },
+    { name: t('hook_practical'), score: 4.6, color: '#245366' },
+    { name: t('hook_durable'),   score: 4.1, color: '#2e6378' },
+    { name: t('hook_guarantee'), score: 3.7, color: '#48879e' },
+    { name: t('hook_budget'),    score: 3.4, color: '#62a0b3' },
+    { name: t('hook_design'),    score: 2.9, color: '#dfbfa8' },
   ]
 
   return (
     <div style={{
-      background: '#151b2e',
-      border: '1px solid #202a48',
+      background: '#fcf8f3',
+      border: '1px solid #dfd3c3',
       borderRadius: 22,
       padding: '1.5rem',
       display: 'flex',
       flexDirection: 'column',
       gap: '1.5rem',
-      boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.2)',
+      boxShadow: '0 4px 16px -2px rgba(36, 83, 102, 0.06)',
       height: '100%',
       boxSizing: 'border-box',
     }}>
@@ -59,14 +59,14 @@ export default function BrandAwarenessSection() {
         <div style={{
           fontSize: '0.8125rem',
           fontWeight: 800,
-          color: '#38bdf8',
+          color: '#245366',
           textTransform: 'uppercase',
           letterSpacing: '0.06em',
           marginBottom: 4,
         }}>
           {t('sec_brand_awareness')}
         </div>
-        <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#f8fafc' }}>
+        <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#1e293b' }}>
           Brand Recognition & Market Positioning
         </div>
       </div>
@@ -79,12 +79,12 @@ export default function BrandAwarenessSection() {
       }}>
         {/* Most Brands Recognized */}
         <div style={{
-          background: '#11172a',
-          border: '1px solid #1a223a',
+          background: '#f5ede2',
+          border: '1px solid #e2d5c5',
           borderRadius: 16,
           padding: '1rem',
         }}>
-          <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#cbd5e1', marginBottom: 6 }}>
+          <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#1e293b', marginBottom: 6 }}>
             {t('most_recognized_brands')}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.5rem' }}>
@@ -92,7 +92,7 @@ export default function BrandAwarenessSection() {
               <div key={b.name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{
                   fontSize: '0.7rem',
-                  color: '#94a3b8',
+                  color: '#576574',
                   width: 105,
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
@@ -100,15 +100,15 @@ export default function BrandAwarenessSection() {
                 }}>
                   {b.name}
                 </span>
-                <div style={{ flex: 1, height: 16, background: '#1f2945', borderRadius: 4, overflow: 'hidden' }}>
+                <div style={{ flex: 1, height: 16, background: '#e5dacb', borderRadius: 4, overflow: 'hidden' }}>
                   <div style={{
                     width: `${b.share}%`,
                     height: '100%',
-                    background: 'linear-gradient(90deg, #1e3a8a 0%, #38bdf8 100%)',
+                    background: 'linear-gradient(90deg, #1b4352 0%, #245366 50%, #5c9eaf 100%)',
                     borderRadius: 4,
                   }} />
                 </div>
-                <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#f8fafc', width: 32, textAlign: 'right' }}>
+                <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#1e293b', width: 32, textAlign: 'right' }}>
                   {b.share}%
                 </span>
               </div>
@@ -118,12 +118,12 @@ export default function BrandAwarenessSection() {
 
         {/* Customer Loyalty towards Brand */}
         <div style={{
-          background: '#11172a',
-          border: '1px solid #1a223a',
+          background: '#f5ede2',
+          border: '1px solid #e2d5c5',
           borderRadius: 16,
           padding: '1rem',
         }}>
-          <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#cbd5e1', marginBottom: 6 }}>
+          <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#1e293b', marginBottom: 6 }}>
             {t('customer_loyalty')}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.5rem' }}>
@@ -131,7 +131,7 @@ export default function BrandAwarenessSection() {
               <div key={b.name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{
                   fontSize: '0.7rem',
-                  color: '#94a3b8',
+                  color: '#576574',
                   width: 105,
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
@@ -139,15 +139,15 @@ export default function BrandAwarenessSection() {
                 }}>
                   {b.name}
                 </span>
-                <div style={{ flex: 1, height: 16, background: '#1f2945', borderRadius: 4, overflow: 'hidden' }}>
+                <div style={{ flex: 1, height: 16, background: '#e5dacb', borderRadius: 4, overflow: 'hidden' }}>
                   <div style={{
                     width: `${b.loyalty}%`,
                     height: '100%',
-                    background: 'linear-gradient(90deg, #0284c7 0%, #38bdf8 100%)',
+                    background: 'linear-gradient(90deg, #245366 0%, #76b3c4 100%)',
                     borderRadius: 4,
                   }} />
                 </div>
-                <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#38bdf8', width: 32, textAlign: 'right' }}>
+                <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#245366', width: 32, textAlign: 'right' }}>
                   {b.loyalty}%
                 </span>
               </div>
@@ -164,12 +164,12 @@ export default function BrandAwarenessSection() {
       }}>
         {/* Advertising Themes Touching Emotional Points */}
         <div style={{
-          background: '#11172a',
-          border: '1px solid #1a223a',
+          background: '#f5ede2',
+          border: '1px solid #e2d5c5',
           borderRadius: 16,
           padding: '1rem',
         }}>
-          <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#cbd5e1', marginBottom: 2 }}>
+          <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#1e293b', marginBottom: 2 }}>
             {t('ad_themes_title')}
           </div>
           <div style={{ fontSize: '0.6875rem', color: '#64748b', marginBottom: '0.75rem' }}>
@@ -181,7 +181,7 @@ export default function BrandAwarenessSection() {
               <div key={item.name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{
                   fontSize: '0.7rem',
-                  color: '#cbd5e1',
+                  color: '#334155',
                   width: 120,
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
@@ -189,15 +189,15 @@ export default function BrandAwarenessSection() {
                 }}>
                   {item.name}
                 </span>
-                <div style={{ flex: 1, height: 16, background: '#1f2945', borderRadius: 4, overflow: 'hidden' }}>
+                <div style={{ flex: 1, height: 16, background: '#e5dacb', borderRadius: 4, overflow: 'hidden' }}>
                   <div style={{
                     width: `${(item.score / 5) * 100}%`,
                     height: '100%',
-                    background: '#38bdf8',
+                    background: '#245366',
                     borderRadius: 4,
                   }} />
                 </div>
-                <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#38bdf8', width: 28, textAlign: 'right' }}>
+                <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#245366', width: 28, textAlign: 'right' }}>
                   {item.score}
                 </span>
               </div>
@@ -207,8 +207,8 @@ export default function BrandAwarenessSection() {
 
         {/* Product Discovery & Brand Channels */}
         <div style={{
-          background: '#11172a',
-          border: '1px solid #1a223a',
+          background: '#f5ede2',
+          border: '1px solid #e2d5c5',
           borderRadius: 16,
           padding: '1rem',
           display: 'flex',
@@ -216,7 +216,7 @@ export default function BrandAwarenessSection() {
           justifyContent: 'space-between',
         }}>
           <div>
-            <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#cbd5e1', marginBottom: 2 }}>
+            <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#1e293b', marginBottom: 2 }}>
               {t('channel_title')}
             </div>
             <div style={{ fontSize: '0.6875rem', color: '#64748b', marginBottom: '0.5rem' }}>
@@ -230,11 +230,11 @@ export default function BrandAwarenessSection() {
                 <PieChart>
                   <Tooltip
                     contentStyle={{
-                      background: '#151b2e',
-                      border: '1px solid #202a48',
+                      background: '#ffffff',
+                      border: '1px solid #245366',
                       borderRadius: 10,
                       fontSize: 12,
-                      color: '#f8fafc',
+                      color: '#1e293b',
                     }}
                     formatter={(v: any) => [`${v}%`, 'Share']}
                   />
@@ -261,8 +261,8 @@ export default function BrandAwarenessSection() {
                 textAlign: 'center',
                 pointerEvents: 'none',
               }}>
-                <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#38bdf8' }}>41%</div>
-                <div style={{ fontSize: '0.55rem', color: '#94a3b8' }}>Live</div>
+                <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#245366' }}>41%</div>
+                <div style={{ fontSize: '0.55rem', color: '#576574' }}>Live</div>
               </div>
             </div>
 
@@ -270,10 +270,10 @@ export default function BrandAwarenessSection() {
               {DISCOVERY_CHANNELS.map(ch => (
                 <div key={ch.name} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.6875rem' }}>
                   <span style={{ width: 7, height: 7, borderRadius: '50%', background: ch.color }} />
-                  <span style={{ color: '#94a3b8', flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  <span style={{ color: '#576574', flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {ch.name}
                   </span>
-                  <b style={{ color: '#f8fafc' }}>{ch.value}%</b>
+                  <b style={{ color: '#1e293b' }}>{ch.value}%</b>
                 </div>
               ))}
             </div>

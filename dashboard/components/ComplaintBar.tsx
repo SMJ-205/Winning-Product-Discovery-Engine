@@ -8,7 +8,7 @@ import {
 
 type Complaint = { aspect: string; count: number }
 
-const COLORS = ['#ff6b4a', '#f59e0b', '#8b5cf6', '#38bdf8', '#10b981', '#6366f1', '#ec4899']
+const COLORS = ['#c2533a', '#d97736', '#d99b6c', '#dfbfa8', '#5c9eaf', '#3b748a', '#245366']
 
 const ASPECT_KEYS: Record<string, string> = {
   'Kualitas Bahan': 'aspect_material',
@@ -30,16 +30,16 @@ export default function ComplaintBar({ data }: { data: Complaint[] }) {
 
   return (
     <div style={{
-      background: '#151b2e',
-      border: '1px solid #202a48',
+      background: '#fcf8f3',
+      border: '1px solid #dfd3c3',
       borderRadius: 22,
       padding: '1.5rem',
-      boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.2)',
+      boxShadow: '0 4px 20px -2px rgba(36, 83, 102, 0.05)',
     }}>
-      <div style={{ fontSize: '1rem', fontWeight: 800, color: '#f8fafc', marginBottom: 2 }}>
+      <div style={{ fontSize: '1rem', fontWeight: 800, color: '#1e293b', marginBottom: 2 }}>
         {t('chart_complaint')}
       </div>
-      <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginBottom: '1.25rem' }}>
+      <div style={{ fontSize: '0.75rem', color: '#576574', marginBottom: '1.25rem' }}>
         {total.toLocaleString('id-ID')} {t('chart_complaint_sub')}
       </div>
       <ResponsiveContainer width="100%" height={290}>
@@ -48,23 +48,23 @@ export default function ComplaintBar({ data }: { data: Complaint[] }) {
           data={top}
           margin={{ top: 0, right: 80, bottom: 0, left: 10 }}
         >
-          <CartesianGrid stroke="#1a223a" strokeDasharray="3 3" horizontal={false} />
-          <XAxis type="number" tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={{ stroke: '#202a48' }} />
+          <CartesianGrid stroke="#e5dacb" strokeDasharray="3 3" horizontal={false} />
+          <XAxis type="number" tick={{ fill: '#576574', fontSize: 11 }} axisLine={{ stroke: '#dfd3c3' }} />
           <YAxis
             type="category"
             dataKey="displayAspect"
             width={120}
-            tick={{ fill: '#cbd5e1', fontSize: 12, fontWeight: 600 }}
-            axisLine={{ stroke: '#202a48' }}
+            tick={{ fill: '#1e293b', fontSize: 12, fontWeight: 600 }}
+            axisLine={{ stroke: '#dfd3c3' }}
           />
           <Tooltip
             contentStyle={{
-              background: '#151b2e',
-              border: '1px solid #202a48',
+              background: '#ffffff',
+              border: '1px solid #245366',
               borderRadius: 12,
-              boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5)',
+              boxShadow: '0 10px 25px -5px rgba(36, 83, 102, 0.15)',
               fontSize: 12,
-              color: '#f8fafc',
+              color: '#1e293b',
             }}
             formatter={(v: any) => [`${v} ${t('reviews_unit')} (${((v / (total || 1)) * 100).toFixed(1)}%)`, t('freq_label')]}
           />
@@ -73,7 +73,7 @@ export default function ComplaintBar({ data }: { data: Complaint[] }) {
             <LabelList
               dataKey="count"
               position="right"
-              style={{ fill: '#94a3b8', fontSize: 12, fontWeight: 700 }}
+              style={{ fill: '#576574', fontSize: 12, fontWeight: 700 }}
               formatter={(v: any) => `${v}`}
             />
           </Bar>

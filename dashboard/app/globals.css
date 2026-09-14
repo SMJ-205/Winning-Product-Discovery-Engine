@@ -7,14 +7,14 @@
 }
 
 html {
-  background: #0c1021;
+  background: #f3ece3;
   min-height: 100%;
 }
 
 body {
   font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #0c1021;
-  color: #f1f5f9;
+  background: #f3ece3;
+  color: #1e293b;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   zoom: 0.9;
@@ -27,23 +27,23 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0e1428;
+  background: #ebe1d5;
 }
 ::-webkit-scrollbar-thumb {
-  background: #232d4d;
+  background: #c5b4a0;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #38bdf8;
+  background: #245366;
 }
 
 /* Tooltips */
 .recharts-tooltip-wrapper .recharts-default-tooltip {
-  background: #151b2e !important;
-  border: 1px solid #232d4d !important;
+  background: #ffffff !important;
+  border: 1px solid #245366 !important;
   border-radius: 12px !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
-  color: #f8fafc !important;
+  box-shadow: 0 10px 25px -5px rgba(36, 83, 102, 0.15) !important;
+  color: #1e293b !important;
   padding: 10px 14px !important;
 }
 
@@ -57,22 +57,23 @@ table {
 th {
   font-size: 11px;
   font-weight: 700;
-  color: #64748b;
+  color: #475569;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   padding: 0.85rem 1.25rem;
   text-align: left;
+  background: #ede3d5;
 }
 
 td {
   padding: 1rem 1.25rem;
   font-size: 13px;
-  border-top: 1px solid #1a223a;
-  color: #cbd5e1;
+  border-top: 1px solid #e5dacb;
+  color: #2d3748;
 }
 
 tr:hover td {
-  background: #192138;
+  background: #f5ece1;
 }
 
 /* Animations */

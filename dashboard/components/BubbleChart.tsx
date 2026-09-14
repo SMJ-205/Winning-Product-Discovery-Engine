@@ -18,31 +18,31 @@ type DataPoint = {
   winning_product_score?: number
 }
 
-const PALETTE = ['#38bdf8', '#ff6b4a', '#8b5cf6', '#10b981', '#f59e0b', '#ec4899']
+const PALETTE = ['#245366', '#5c9eaf', '#dfbfa8', '#d97d64', '#7cb8c8', '#b88972']
 
 const CustomTooltip = ({ active, payload, lang = 'ID' }: any) => {
   if (!active || !payload?.length) return null
   const d = payload[0].payload as DataPoint
   return (
     <div style={{
-      background: '#151b2e',
-      border: '1px solid #202a48',
+      background: '#ffffff',
+      border: '1px solid #245366',
       borderRadius: 14,
       padding: '0.875rem 1.125rem',
       fontSize: 12,
-      color: '#f8fafc',
-      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5)',
+      color: '#1e293b',
+      boxShadow: '0 10px 25px -5px rgba(36, 83, 102, 0.15)',
       minWidth: 210,
     }}>
-      <div style={{ fontWeight: 800, fontSize: 13, marginBottom: 6, color: '#38bdf8' }}>
+      <div style={{ fontWeight: 800, fontSize: 13, marginBottom: 6, color: '#245366' }}>
         {d.sub_category}
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
-        <span style={{ color: '#94a3b8' }}>Trend Index:</span>
+        <span style={{ color: '#576574' }}>Trend Index:</span>
         <b>{d.search_trend_index?.toFixed(1)}</b>
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
-        <span style={{ color: '#94a3b8' }}>{lang === 'ID' ? 'Units / Bulan:' : 'Units / Month:'}</span>
+        <span style={{ color: '#576574' }}>{lang === 'ID' ? 'Units / Bulan:' : 'Units / Month:'}</span>
         <b>{d.monthly_sold_units?.toLocaleString(lang === 'ID' ? 'id-ID' : 'en-US')}</b>
       </div>
       {d.winning_product_score && (
@@ -51,10 +51,10 @@ const CustomTooltip = ({ active, payload, lang = 'ID' }: any) => {
           justifyContent: 'space-between',
           marginTop: 6,
           paddingTop: 6,
-          borderTop: '1px solid #1a223a',
+          borderTop: '1px solid #e5dacb',
         }}>
-          <span style={{ color: '#94a3b8' }}>WPS Score:</span>
-          <b style={{ color: '#34d399', fontSize: 13 }}>{d.winning_product_score.toFixed(1)}</b>
+          <span style={{ color: '#576574' }}>WPS Score:</span>
+          <b style={{ color: '#245366', fontSize: 13 }}>{d.winning_product_score.toFixed(1)}</b>
         </div>
       )}
     </div>
@@ -81,11 +81,11 @@ export default function BubbleChart({ data }: { data: DataPoint[] }) {
 
   return (
     <div style={{
-      background: '#151b2e',
-      border: '1px solid #202a48',
+      background: '#fcf8f3',
+      border: '1px solid #dfd3c3',
       borderRadius: 22,
       padding: '1.5rem',
-      boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.2)',
+      boxShadow: '0 4px 16px -2px rgba(36, 83, 102, 0.06)',
     }}>
       {/* Header with Title, Legends, and Dropdown */}
       <div style={{
@@ -97,23 +97,23 @@ export default function BubbleChart({ data }: { data: DataPoint[] }) {
         marginBottom: '1.25rem',
       }}>
         <div>
-          <div style={{ fontSize: '1rem', fontWeight: 800, color: '#f8fafc' }}>
+          <div style={{ fontSize: '1rem', fontWeight: 800, color: '#1e293b' }}>
             {t('chart_title')}
           </div>
-          <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>
+          <div style={{ fontSize: '0.75rem', color: '#576574', marginTop: 2 }}>
             {t('chart_sub')}
           </div>
         </div>
 
         {/* Legend dots & Category filter */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.875rem', fontSize: '0.75rem', color: '#94a3b8' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.875rem', fontSize: '0.75rem', color: '#576574' }}>
             <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-              <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#38bdf8' }} />
+              <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#245366' }} />
               {t('high_demand')}
             </span>
             <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-              <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#ff6b4a' }} />
+              <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#dfbfa8' }} />
               {t('balanced')}
             </span>
           </div>
@@ -125,10 +125,10 @@ export default function BubbleChart({ data }: { data: DataPoint[] }) {
               padding: '0.4rem 0.85rem',
               fontSize: '0.75rem',
               fontWeight: 600,
-              background: '#11172a',
-              border: '1px solid #202a48',
+              background: '#ffffff',
+              border: '1px solid #c5b4a0',
               borderRadius: 9999,
-              color: '#f8fafc',
+              color: '#1e293b',
               outline: 'none',
               cursor: 'pointer',
             }}
@@ -145,26 +145,26 @@ export default function BubbleChart({ data }: { data: DataPoint[] }) {
 
       <ResponsiveContainer width="100%" height={320} style={{ outline: 'none' }}>
         <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 0 }} style={{ outline: 'none' }}>
-          <CartesianGrid stroke="#1a223a" strokeDasharray="3 3" vertical={false} />
+          <CartesianGrid stroke="#e5dacb" strokeDasharray="3 3" vertical={false} />
           <XAxis
             dataKey="x"
             name={t('units_axis')}
             type="number"
-            tick={{ fill: '#94a3b8', fontSize: 11 }}
+            tick={{ fill: '#576574', fontSize: 11 }}
             tickFormatter={v => v >= 1000 ? `${(v/1000).toFixed(0)}k units` : String(v)}
-            axisLine={{ stroke: '#202a48' }}
+            axisLine={{ stroke: '#c5b4a0' }}
             tickLine={false}
           />
           <YAxis
             dataKey="y"
             name={t('trend_axis')}
             type="number"
-            tick={{ fill: '#94a3b8', fontSize: 11 }}
-            axisLine={{ stroke: '#202a48' }}
+            tick={{ fill: '#576574', fontSize: 11 }}
+            axisLine={{ stroke: '#c5b4a0' }}
             tickLine={false}
           />
           <ZAxis dataKey="z" range={[250, 1800]} />
-          <Tooltip content={<CustomTooltip lang={lang} />} cursor={{ stroke: '#38bdf8', strokeDasharray: '4 4' }} />
+          <Tooltip content={<CustomTooltip lang={lang} />} cursor={{ stroke: '#245366', strokeDasharray: '4 4' }} />
           <Scatter data={withAxes} activeShape={false} stroke="none">
             {withAxes.map((_, i) => (
               <Cell

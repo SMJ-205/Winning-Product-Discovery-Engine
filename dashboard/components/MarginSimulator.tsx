@@ -12,10 +12,10 @@ type Props = {
 const INPUT_STYLE: React.CSSProperties = {
   width: '100%',
   padding: '0.65rem 0.875rem',
-  background: '#11172a',
-  border: '1px solid #202a48',
+  background: '#ffffff',
+  border: '1px solid #dfd3c3',
   borderRadius: 10,
-  color: '#f8fafc',
+  color: '#1e293b',
   fontSize: 14,
   fontWeight: 600,
   outline: 'none',
@@ -26,7 +26,7 @@ const INPUT_STYLE: React.CSSProperties = {
 const LABEL_STYLE: React.CSSProperties = {
   fontSize: 11,
   fontWeight: 700,
-  color: '#94a3b8',
+  color: '#576574',
   textTransform: 'uppercase',
   letterSpacing: '0.06em',
   marginBottom: 6,
@@ -55,13 +55,13 @@ export default function MarginSimulator({
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
       {/* Input Panel */}
       <div style={{
-        background: '#151b2e',
-        border: '1px solid #202a48',
+        background: '#fcf8f3',
+        border: '1px solid #dfd3c3',
         borderRadius: 22,
         padding: '1.5rem',
-        boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.2)',
+        boxShadow: '0 4px 20px -2px rgba(36, 83, 102, 0.05)',
       }}>
-        <div style={{ fontSize: '1rem', fontWeight: 800, color: '#f8fafc', marginBottom: '1.25rem' }}>
+        <div style={{ fontSize: '1rem', fontWeight: 800, color: '#1e293b', marginBottom: '1.25rem' }}>
           {t('sim_param_title')}
         </div>
 
@@ -89,8 +89,8 @@ export default function MarginSimulator({
           marginTop: '1.25rem',
           padding: '1rem 1.25rem',
           borderRadius: 14,
-          background: isHealthy ? 'rgba(16, 185, 129, 0.12)' : 'rgba(239, 68, 68, 0.12)',
-          border: `1px solid ${isHealthy ? 'rgba(52, 211, 153, 0.3)' : 'rgba(248, 113, 113, 0.3)'}`,
+          background: isHealthy ? '#eef7f0' : '#fcf0ed',
+          border: `1px solid ${isHealthy ? '#b8dfc4' : '#f5c5bd'}`,
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -98,16 +98,16 @@ export default function MarginSimulator({
           gap: '0.75rem',
         }}>
           <div>
-            <div style={{ fontWeight: 800, fontSize: '0.9375rem', color: isHealthy ? '#34d399' : '#f87171' }}>
+            <div style={{ fontWeight: 800, fontSize: '0.9375rem', color: isHealthy ? '#226338' : '#b83223' }}>
               {isHealthy ? t('sim_healthy_margin') : t('sim_low_margin')}
             </div>
-            <div style={{ fontSize: '0.8125rem', color: isHealthy ? '#a7f3d0' : '#fca5a5', marginTop: 2 }}>
+            <div style={{ fontSize: '0.8125rem', color: isHealthy ? '#2e7d4d' : '#99261a', marginTop: 2 }}>
               {t('sim_max_hpp_target')} <b>Rp {Math.max(0, Math.round(maxHpp)).toLocaleString('id-ID')}</b>
             </div>
           </div>
           <div style={{ textAlign: 'right' }}>
-            <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{t('sim_est_profit_label')}</span>
-            <div style={{ fontSize: '1.15rem', fontWeight: 800, color: isHealthy ? '#34d399' : '#f87171' }}>
+            <span style={{ fontSize: '0.75rem', color: '#576574' }}>{t('sim_est_profit_label')}</span>
+            <div style={{ fontSize: '1.15rem', fontWeight: 800, color: isHealthy ? '#226338' : '#b83223' }}>
               Rp {Math.round(netProfit).toLocaleString('id-ID')} {t('sim_unit_suffix')}
             </div>
           </div>

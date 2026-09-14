@@ -47,8 +47,8 @@ export default function PricingClientView({ complaints, prices }: Props) {
         flexWrap: 'wrap',
         gap: '0.75rem',
         marginBottom: '1.5rem',
-        background: '#151b2e',
-        border: '1px solid #202a48',
+        background: '#fcf8f3',
+        border: '1px solid #dfd3c3',
         borderRadius: 16,
         padding: '0.625rem 1rem',
       }}>
@@ -60,9 +60,9 @@ export default function PricingClientView({ complaints, prices }: Props) {
               fontSize: '0.78125rem',
               fontWeight: 700,
               borderRadius: 10,
-              border: activeTab === 'research' ? '1px solid #38bdf8' : '1px solid transparent',
-              background: activeTab === 'research' ? 'rgba(56, 189, 248, 0.15)' : 'transparent',
-              color: activeTab === 'research' ? '#38bdf8' : '#94a3b8',
+              border: activeTab === 'research' ? '1px solid #245366' : '1px solid transparent',
+              background: activeTab === 'research' ? '#245366' : 'transparent',
+              color: activeTab === 'research' ? '#ffffff' : '#576574',
               cursor: 'pointer',
               transition: 'all 0.15s ease',
             }}
@@ -76,9 +76,9 @@ export default function PricingClientView({ complaints, prices }: Props) {
               fontSize: '0.78125rem',
               fontWeight: 700,
               borderRadius: 10,
-              border: activeTab === 'pricing' ? '1px solid #38bdf8' : '1px solid transparent',
-              background: activeTab === 'pricing' ? 'rgba(56, 189, 248, 0.15)' : 'transparent',
-              color: activeTab === 'pricing' ? '#38bdf8' : '#94a3b8',
+              border: activeTab === 'pricing' ? '1px solid #245366' : '1px solid transparent',
+              background: activeTab === 'pricing' ? '#245366' : 'transparent',
+              color: activeTab === 'pricing' ? '#ffffff' : '#576574',
               cursor: 'pointer',
               transition: 'all 0.15s ease',
             }}
@@ -87,7 +87,7 @@ export default function PricingClientView({ complaints, prices }: Props) {
           </button>
         </div>
 
-        <div style={{ fontSize: '0.72rem', color: '#64748b', fontWeight: 600 }}>
+        <div style={{ fontSize: '0.72rem', color: '#576574', fontWeight: 600 }}>
           {activeTab === 'research'
             ? 'Market Perception & Customer Demographics Module'
             : 'Price Sweet Spot & Negative Review NLP Clusters'}
@@ -124,37 +124,37 @@ export default function PricingClientView({ complaints, prices }: Props) {
             marginBottom: '1.75rem',
           }}>
             <div style={{
-              background: '#151b2e',
-              border: '1px solid #202a48',
+              background: '#fcf8f3',
+              border: '1px solid #dfd3c3',
               borderRadius: 18,
               padding: '1.25rem 1.5rem',
-              boxShadow: '0 4px 16px -2px rgba(0, 0, 0, 0.2)',
+              boxShadow: '0 4px 16px -2px rgba(36, 83, 102, 0.05)',
             }}>
-              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase' }}>
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#576574', textTransform: 'uppercase' }}>
                 {t('card_pain_point')}
               </div>
-              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#ff6b4a', marginTop: 6 }}>
+              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#c2533a', marginTop: 6 }}>
                 {topComplaintTranslated}
               </div>
-              <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 4 }}>
+              <div style={{ fontSize: '0.75rem', color: '#576574', marginTop: 4 }}>
                 {t('card_pain_sub')}
               </div>
             </div>
 
             <div style={{
-              background: '#151b2e',
-              border: '1px solid #202a48',
+              background: '#fcf8f3',
+              border: '1px solid #dfd3c3',
               borderRadius: 18,
               padding: '1.25rem 1.5rem',
-              boxShadow: '0 4px 16px -2px rgba(0, 0, 0, 0.2)',
+              boxShadow: '0 4px 16px -2px rgba(36, 83, 102, 0.05)',
             }}>
-              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase' }}>
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#576574', textTransform: 'uppercase' }}>
                 {t('card_verified')}
               </div>
-              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#f8fafc', marginTop: 6 }}>
+              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#1e293b', marginTop: 6 }}>
                 {totalComplaints.toLocaleString()} {t('critical_reviews')}
               </div>
-              <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 4 }}>
+              <div style={{ fontSize: '0.75rem', color: '#576574', marginTop: 4 }}>
                 {t('card_verified_sub')}
               </div>
             </div>

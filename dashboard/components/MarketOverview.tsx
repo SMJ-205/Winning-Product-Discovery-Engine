@@ -97,21 +97,22 @@ export default function MarketOverview({ initialData }: Props) {
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: '0.75rem',
-          background: '#151b2e',
-          border: '1px solid #202a48',
+          background: '#fcf8f3',
+          border: '1px solid #dfd3c3',
           borderRadius: 16,
           padding: '0.75rem 1.25rem',
+          boxShadow: '0 4px 16px -2px rgba(36, 83, 102, 0.06)',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: '0.78125rem', fontWeight: 700, color: '#94a3b8' }}>
+            <span style={{ fontSize: '0.78125rem', fontWeight: 700, color: '#576574' }}>
               {t('filter_label')}
             </span>
             <span style={{
               fontSize: '0.72rem',
               fontWeight: 800,
-              color: '#38bdf8',
-              background: 'rgba(56, 189, 248, 0.12)',
-              border: '1px solid rgba(56, 189, 248, 0.25)',
+              color: '#245366',
+              background: 'rgba(36, 83, 102, 0.1)',
+              border: '1px solid rgba(36, 83, 102, 0.25)',
               padding: '2px 10px',
               borderRadius: 9999,
             }}>
@@ -127,10 +128,10 @@ export default function MarketOverview({ initialData }: Props) {
                 padding: '0.45rem 1rem',
                 fontSize: '0.75rem',
                 fontWeight: 700,
-                background: '#11172a',
-                border: '1px solid #202a48',
+                background: '#ffffff',
+                border: '1px solid #c5b4a0',
                 borderRadius: 9999,
-                color: '#f8fafc',
+                color: '#1e293b',
                 outline: 'none',
                 cursor: 'pointer',
               }}
@@ -158,7 +159,7 @@ export default function MarketOverview({ initialData }: Props) {
             value={`Rp ${(totalRevenue / 1_000_000).toFixed(1)}M`}
             badge={selectedScope === 'all' ? t('badge_overall') : t('badge_filtered')}
             badgeType="positive"
-            sparklineColor="#6366f1"
+            sparklineColor="#245366"
             sparklinePoints={[25, 30, 42, 38, 55, 60, 52, 78]}
           />
           <KpiCard
@@ -166,7 +167,7 @@ export default function MarketOverview({ initialData }: Props) {
             value={`Rp ${Math.round(avgPrice).toLocaleString('id-ID')}`}
             badge={selectedScope === 'all' ? t('badge_6cat') : t('badge_filtered')}
             badgeType="neutral"
-            sparklineColor="#38bdf8"
+            sparklineColor="#5c9eaf"
             sparklinePoints={[50, 45, 48, 40, 42, 36, 38, 32]}
           />
           <KpiCard
@@ -174,7 +175,7 @@ export default function MarketOverview({ initialData }: Props) {
             value={`${highPriorityCount} ${t('niche_unit')}`}
             badge={t('kpi_ready_sub')}
             badgeType="positive"
-            sparklineColor="#10b981"
+            sparklineColor="#245366"
             sparklinePoints={[10, 20, 15, 35, 30, 50, 65, 80]}
           />
         </div>

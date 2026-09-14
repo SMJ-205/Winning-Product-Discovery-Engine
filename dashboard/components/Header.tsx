@@ -67,7 +67,7 @@ export default function Header({
         {/* Breadcrumb */}
         <div style={{
           fontSize: '0.75rem',
-          color: '#38bdf8',
+          color: '#245366',
           fontWeight: 700,
           textTransform: 'uppercase',
           letterSpacing: '0.06em',
@@ -76,8 +76,8 @@ export default function Header({
           gap: 6,
         }}>
           <span>Biz-In-Sight</span>
-          <span style={{ color: '#64748b' }}>&gt;</span>
-          <span style={{ color: '#f8fafc', fontWeight: 800 }}>{currentTab}</span>
+          <span style={{ color: '#94a3b8' }}>&gt;</span>
+          <span style={{ color: '#1e293b', fontWeight: 800 }}>{currentTab}</span>
         </div>
 
         {/* Right Controls: Rentang Waktu 1 Minggu & Switch Bahasa */}
@@ -87,16 +87,16 @@ export default function Header({
             display: 'flex',
             alignItems: 'center',
             gap: 7,
-            background: 'rgba(21, 27, 46, 0.85)',
-            border: '1px solid #202a48',
+            background: '#ede3d5',
+            border: '1px solid #dfd0bf',
             padding: '4px 12px',
             borderRadius: 9999,
             fontSize: '0.72rem',
-            color: '#94a3b8',
+            color: '#576574',
             fontWeight: 600,
           }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#38bdf8' }} />
-            <span>{lang === 'ID' ? 'Siklus Mingguan:' : 'Weekly Window:'} <b style={{ color: '#f8fafc' }}>{weekRangeText}</b> <span style={{ color: '#38bdf8', fontWeight: 700 }}>(7D)</span></span>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#245366' }} />
+            <span>{lang === 'ID' ? 'Siklus Mingguan:' : 'Weekly Window:'} <b style={{ color: '#1e293b' }}>{weekRangeText}</b> <span style={{ color: '#245366', fontWeight: 700 }}>(7D)</span></span>
           </div>
 
           {/* Icon / Button Fitur Bahasa ENG & IND */}
@@ -107,24 +107,24 @@ export default function Header({
               display: 'flex',
               alignItems: 'center',
               gap: 5,
-              background: 'rgba(21, 27, 46, 0.85)',
-              border: '1px solid #202a48',
+              background: '#ede3d5',
+              border: '1px solid #dfd0bf',
               padding: '4px 10px',
               borderRadius: 9999,
               fontSize: '0.72rem',
               fontWeight: 700,
-              color: '#f8fafc',
+              color: '#1e293b',
               cursor: 'pointer',
               outline: 'none',
               transition: 'all 0.2s ease',
             }}
           >
-            <svg width="13" height="13" fill="none" stroke="#38bdf8" viewBox="0 0 24 24">
+            <svg width="13" height="13" fill="none" stroke="#245366" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
             </svg>
-            <span style={{ color: lang === 'ID' ? '#38bdf8' : '#64748b', fontWeight: 800 }}>ID</span>
-            <span style={{ color: '#334155' }}>/</span>
-            <span style={{ color: lang === 'EN' ? '#38bdf8' : '#64748b', fontWeight: 800 }}>EN</span>
+            <span style={{ color: lang === 'ID' ? '#245366' : '#94a3b8', fontWeight: 800 }}>ID</span>
+            <span style={{ color: '#cbd5e1' }}>/</span>
+            <span style={{ color: lang === 'EN' ? '#245366' : '#94a3b8', fontWeight: 800 }}>EN</span>
           </button>
         </div>
       </div>
@@ -132,7 +132,7 @@ export default function Header({
       <h1 style={{
         fontSize: '1.85rem',
         fontWeight: 800,
-        color: '#f8fafc',
+        color: '#1e293b',
         letterSpacing: '-0.025em',
         margin: 0,
         lineHeight: 1.2,
@@ -141,9 +141,9 @@ export default function Header({
       </h1>
       <p style={{
         fontSize: '0.9rem',
-        color: '#94a3b8',
+        color: '#576574',
         marginTop: '0.35rem',
-        fontWeight: 500,
+        lineHeight: 1.5,
       }}>
         {activeSubtitle}
       </p>

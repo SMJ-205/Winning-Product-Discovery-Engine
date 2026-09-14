@@ -17,8 +17,8 @@ export default function QuickInsightsCard() {
 
   return (
     <div style={{
-      background: '#151b2e',
-      border: '1px solid #202a48',
+      background: '#fcf8f3',
+      border: '1px solid #dfd3c3',
       borderRadius: 22,
       padding: '1.5rem',
       display: 'flex',
@@ -26,20 +26,21 @@ export default function QuickInsightsCard() {
       gap: '1.25rem',
       width: '100%',
       boxSizing: 'border-box',
+      boxShadow: '0 4px 16px -2px rgba(36, 83, 102, 0.06)',
     }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <span style={{ fontSize: '0.9375rem', fontWeight: 800, color: '#f8fafc' }}>
+        <span style={{ fontSize: '0.9375rem', fontWeight: 800, color: '#1e293b' }}>
           {t('calendar_month')}
         </span>
         <span style={{
           fontSize: '0.6875rem',
           fontWeight: 700,
-          color: '#38bdf8',
-          background: 'rgba(56, 189, 248, 0.1)',
+          color: '#245366',
+          background: 'rgba(36, 83, 102, 0.1)',
           padding: '2px 8px',
           borderRadius: 9999,
-          border: '1px solid rgba(56, 189, 248, 0.25)',
+          border: '1px solid rgba(36, 83, 102, 0.25)',
         }}>
           {t('automated')}
         </span>
@@ -73,8 +74,8 @@ export default function QuickInsightsCard() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: d.active ? '#38bdf8' : 'transparent',
-              color: d.active ? '#0c1021' : '#cbd5e1',
+              background: d.active ? '#245366' : 'transparent',
+              color: d.active ? '#ffffff' : '#334155',
             }}>
               {d.date}
             </span>
@@ -89,17 +90,17 @@ export default function QuickInsightsCard() {
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0.75rem',
-          background: '#11172a',
+          background: '#f5ede2',
           borderRadius: 12,
-          border: '1px solid #1a223a',
+          border: '1px solid #e2d5c5',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <div style={{
               width: 32,
               height: 32,
               borderRadius: 8,
-              background: 'rgba(56, 189, 248, 0.15)',
-              color: '#38bdf8',
+              background: 'rgba(36, 83, 102, 0.15)',
+              color: '#245366',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -109,15 +110,15 @@ export default function QuickInsightsCard() {
               </svg>
             </div>
             <div>
-              <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#f8fafc' }}>
+              <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#1e293b' }}>
                 {t('task_sample')}
               </div>
-              <div style={{ fontSize: '0.6875rem', color: '#94a3b8' }}>
+              <div style={{ fontSize: '0.6875rem', color: '#576574' }}>
                 {t('task_sample_sub')}
               </div>
             </div>
           </div>
-          <span style={{ fontSize: '0.6875rem', color: '#64748b', fontWeight: 600 }}>
+          <span style={{ fontSize: '0.6875rem', color: '#576574', fontWeight: 600 }}>
             12pm
           </span>
         </div>
@@ -127,17 +128,17 @@ export default function QuickInsightsCard() {
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0.75rem',
-          background: '#11172a',
+          background: '#f5ede2',
           borderRadius: 12,
-          border: '1px solid #1a223a',
+          border: '1px solid #e2d5c5',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <div style={{
               width: 32,
               height: 32,
               borderRadius: 8,
-              background: 'rgba(16, 185, 129, 0.15)',
-              color: '#34d399',
+              background: 'rgba(92, 158, 175, 0.2)',
+              color: '#245366',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -147,15 +148,15 @@ export default function QuickInsightsCard() {
               </svg>
             </div>
             <div>
-              <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#f8fafc' }}>
+              <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#1e293b' }}>
                 {t('task_cron')}
               </div>
-              <div style={{ fontSize: '0.6875rem', color: '#94a3b8' }}>
+              <div style={{ fontSize: '0.6875rem', color: '#576574' }}>
                 {t('task_cron_sub')}
               </div>
             </div>
           </div>
-          <span style={{ fontSize: '0.6875rem', color: '#64748b', fontWeight: 600 }}>
+          <span style={{ fontSize: '0.6875rem', color: '#576574', fontWeight: 600 }}>
             9pm
           </span>
         </div>

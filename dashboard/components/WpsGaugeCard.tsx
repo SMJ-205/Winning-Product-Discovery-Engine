@@ -30,8 +30,8 @@ export default function WpsGaugeCard({
 
   return (
     <div style={{
-      background: '#151b2e',
-      border: '1px solid #202a48',
+      background: '#fcf8f3',
+      border: '1px solid #dfd3c3',
       borderRadius: 22,
       padding: '1.5rem',
       display: 'flex',
@@ -40,6 +40,7 @@ export default function WpsGaugeCard({
       textAlign: 'center',
       width: '100%',
       boxSizing: 'border-box',
+      boxShadow: '0 4px 16px -2px rgba(36, 83, 102, 0.06)',
     }}>
       {/* Title */}
       <div style={{
@@ -47,7 +48,7 @@ export default function WpsGaugeCard({
         textAlign: 'left',
         fontSize: '0.9375rem',
         fontWeight: 700,
-        color: '#f8fafc',
+        color: '#1e293b',
         marginBottom: '0.5rem',
       }}>
         {t('gauge_title')}
@@ -71,9 +72,9 @@ export default function WpsGaugeCard({
         >
           <defs>
             <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#0ea5e9" />
-              <stop offset="50%" stopColor="#38bdf8" />
-              <stop offset="100%" stopColor="#10b981" />
+              <stop offset="0%" stopColor="#245366" />
+              <stop offset="50%" stopColor="#5c9eaf" />
+              <stop offset="100%" stopColor="#7cb8c8" />
             </linearGradient>
           </defs>
 
@@ -81,7 +82,7 @@ export default function WpsGaugeCard({
           <path
             d="M 22 100 A 78 78 0 0 1 178 100"
             fill="none"
-            stroke="#1f2945"
+            stroke="#e5dacb"
             strokeWidth={strokeWidth}
             strokeLinecap="round"
           />
@@ -110,7 +111,7 @@ export default function WpsGaugeCard({
           <div style={{
             fontSize: '2.25rem',
             fontWeight: 800,
-            color: '#f8fafc',
+            color: '#1e293b',
             lineHeight: 1,
             letterSpacing: '-0.03em',
           }}>
@@ -118,7 +119,7 @@ export default function WpsGaugeCard({
           </div>
           <div style={{
             fontSize: '0.75rem',
-            color: '#64748b',
+            color: '#576574',
             fontWeight: 600,
             marginTop: 4,
           }}>
@@ -132,18 +133,18 @@ export default function WpsGaugeCard({
         <div style={{
           fontSize: '0.9375rem',
           fontWeight: 700,
-          color: isHighPriority ? '#34d399' : '#f8fafc',
+          color: isHighPriority ? '#245366' : '#c24b3a',
         }}>
           {isHighPriority ? t('top_niche_high') : t('top_niche_val')}
         </div>
         <div style={{
           fontSize: '0.78125rem',
-          color: '#94a3b8',
+          color: '#576574',
           marginTop: '0.25rem',
           lineHeight: 1.45,
           padding: '0 0.5rem',
         }}>
-          <b style={{ color: '#f8fafc' }}>{topNiche}</b> {t('gauge_desc_tail')}
+          <b style={{ color: '#1e293b' }}>{topNiche}</b> {t('gauge_desc_tail')}
         </div>
       </div>
 
@@ -155,9 +156,9 @@ export default function WpsGaugeCard({
           width: '100%',
           padding: '0.7rem 1.25rem',
           borderRadius: 9999,
-          background: 'rgba(56, 189, 248, 0.1)',
-          border: '1px solid rgba(56, 189, 248, 0.35)',
-          color: '#38bdf8',
+          background: '#245366',
+          border: '1px solid #1c4555',
+          color: '#ffffff',
           fontSize: '0.8125rem',
           fontWeight: 700,
           textDecoration: 'none',

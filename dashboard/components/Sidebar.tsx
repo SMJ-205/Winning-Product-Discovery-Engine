@@ -51,14 +51,15 @@ export default function Sidebar() {
       height: 'calc(100vh / 0.9)',
       minHeight: '100%',
       flexShrink: 0,
-      background: '#0f152b',
-      borderRight: '1px solid #1b2440',
+      background: '#245366',
+      borderRight: '1px solid #1c4555',
       padding: '2rem 1rem',
       zIndex: 50,
       display: 'flex',
       flexDirection: 'column',
       boxSizing: 'border-box',
       overflowY: 'auto',
+      boxShadow: '4px 0 20px rgba(36, 83, 102, 0.15)',
     }}>
       {/* Brand Header: Biz-In-Sight */}
       <div style={{
@@ -72,7 +73,8 @@ export default function Sidebar() {
           width: 38,
           height: 38,
           borderRadius: 12,
-          background: 'linear-gradient(135deg, #0284c7 0%, #38bdf8 100%)',
+          background: '#183c4b',
+          border: '1px solid rgba(255, 255, 255, 0.25)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -80,7 +82,7 @@ export default function Sidebar() {
           fontWeight: 800,
           fontSize: 15,
           letterSpacing: '-0.02em',
-          boxShadow: '0 4px 12px rgba(14, 165, 233, 0.35)',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
           flexShrink: 0,
         }}>
           BIS
@@ -89,7 +91,7 @@ export default function Sidebar() {
           <div style={{
             fontSize: '1.05rem',
             fontWeight: 800,
-            color: '#f8fafc',
+            color: '#ffffff',
             letterSpacing: '-0.03em',
             lineHeight: 1.15,
           }}>
@@ -97,7 +99,7 @@ export default function Sidebar() {
           </div>
           <div style={{
             fontSize: '0.6875rem',
-            color: '#38bdf8',
+            color: '#a8d4e2',
             fontWeight: 700,
             letterSpacing: '0.04em',
             textTransform: 'uppercase',
@@ -113,7 +115,7 @@ export default function Sidebar() {
         <div style={{
           fontSize: '0.6875rem',
           fontWeight: 700,
-          color: '#64748b',
+          color: '#85b4c4',
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
           padding: '0 0.75rem',
@@ -136,12 +138,13 @@ export default function Sidebar() {
                 borderRadius: 12,
                 fontSize: '0.875rem',
                 fontWeight: active ? 700 : 500,
-                color: active ? '#ffffff' : '#94a3b8',
+                color: active ? '#ffffff' : '#d5e7ee',
                 textDecoration: 'none',
                 background: active
-                  ? 'linear-gradient(135deg, #0284c7 0%, #38bdf8 100%)'
+                  ? '#163947'
                   : 'transparent',
-                boxShadow: active ? '0 4px 14px rgba(14, 165, 233, 0.35)' : 'none',
+                border: active ? '1px solid rgba(255, 255, 255, 0.25)' : '1px solid transparent',
+                boxShadow: active ? '0 4px 14px rgba(0, 0, 0, 0.2)' : 'none',
                 transition: 'all 0.2s ease',
               }}
             >
@@ -149,13 +152,13 @@ export default function Sidebar() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: active ? '#ffffff' : '#64748b',
+                color: active ? '#ffffff' : '#a2cad8',
               }}>
                 {link.icon}
               </span>
               <div>
                 <div>{link.label}</div>
-                <div style={{ fontSize: '0.6875rem', color: active ? 'rgba(255,255,255,0.7)' : '#64748b', fontWeight: 500 }}>
+                <div style={{ fontSize: '0.6875rem', color: active ? '#a5d3e0' : '#88b3c2', fontWeight: 500 }}>
                   {link.sublabel}
                 </div>
               </div>

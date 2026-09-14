@@ -41,46 +41,46 @@ export default function PriceHistogram({ prices }: { prices: PricePoint[] }) {
 
   return (
     <div style={{
-      background: '#151b2e',
-      border: '1px solid #202a48',
+      background: '#fcf8f3',
+      border: '1px solid #dfd3c3',
       borderRadius: 22,
       padding: '1.5rem',
-      boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.2)',
+      boxShadow: '0 4px 20px -2px rgba(36, 83, 102, 0.05)',
     }}>
-      <div style={{ fontSize: '1rem', fontWeight: 800, color: '#f8fafc', marginBottom: 2 }}>
+      <div style={{ fontSize: '1rem', fontWeight: 800, color: '#1e293b', marginBottom: 2 }}>
         {t('chart_price_dist')}
       </div>
-      <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginBottom: '1.25rem' }}>
+      <div style={{ fontSize: '0.75rem', color: '#576574', marginBottom: '1.25rem' }}>
         {t('chart_price_sub')}
       </div>
       <ResponsiveContainer width="100%" height={290}>
         <BarChart data={bins} margin={{ top: 10, right: 10, bottom: 35, left: 0 }}>
-          <CartesianGrid stroke="#1a223a" strokeDasharray="3 3" vertical={false} />
+          <CartesianGrid stroke="#e5dacb" strokeDasharray="3 3" vertical={false} />
           <XAxis
             dataKey="range"
-            tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 500 }}
+            tick={{ fill: '#576574', fontSize: 10, fontWeight: 500 }}
             angle={-25}
             textAnchor="end"
-            axisLine={{ stroke: '#202a48' }}
+            axisLine={{ stroke: '#dfd3c3' }}
           />
-          <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={{ stroke: '#202a48' }} />
+          <YAxis tick={{ fill: '#576574', fontSize: 11 }} axisLine={{ stroke: '#dfd3c3' }} />
           <Tooltip
             contentStyle={{
-              background: '#151b2e',
-              border: '1px solid #202a48',
+              background: '#ffffff',
+              border: '1px solid #245366',
               borderRadius: 12,
-              boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5)',
+              boxShadow: '0 10px 25px -5px rgba(36, 83, 102, 0.15)',
               fontSize: 12,
-              color: '#f8fafc',
+              color: '#1e293b',
             }}
-            labelStyle={{ color: '#38bdf8', fontWeight: 700 }}
+            labelStyle={{ color: '#245366', fontWeight: 700 }}
             formatter={(v: any) => [`${v} ${t('freq_label')}`, t('price_label')]}
           />
           <Bar dataKey="count" radius={[6, 6, 0, 0]}>
             {bins.map((_, i) => (
               <Cell
                 key={i}
-                fill={i === Math.floor(bins.length / 2) ? '#38bdf8' : '#232d4d'}
+                fill={i === Math.floor(bins.length / 2) ? '#245366' : '#87b7c4'}
               />
             ))}
           </Bar>
