@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import {
   ScatterChart, Scatter, XAxis, YAxis, ZAxis,
   CartesianGrid, Tooltip, ResponsiveContainer, Cell,
@@ -63,16 +62,8 @@ const CustomTooltip = ({ active, payload, lang = 'ID' }: any) => {
 
 export default function BubbleChart({ data }: { data: DataPoint[] }) {
   const { lang, t } = useLanguage()
-  const [filter, setFilter] = useState('all')
-  const categories = Array.from(
-    new Set(data.map(d => d.category_name).filter(Boolean))
-  ) as string[]
 
-  const filtered = filter === 'all'
-    ? data
-    : data.filter(d => d.category_name === filter)
-
-  const withAxes = filtered.map(d => ({
+  const withAxes = data.map(d => ({
     ...d,
     x: d.monthly_sold_units || 500,
     y: d.search_trend_index || 20,
@@ -87,7 +78,7 @@ export default function BubbleChart({ data }: { data: DataPoint[] }) {
       padding: '1.5rem',
       boxShadow: '0 4px 16px -2px rgba(36, 83, 102, 0.06)',
     }}>
-      {/* Header with Title, Legends, and Dropdown */}
+      {/* Header with Title and Legends (Filter removed as represented in header scope filter) */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
@@ -105,46 +96,21 @@ export default function BubbleChart({ data }: { data: DataPoint[] }) {
           </div>
         </div>
 
-        {/* Legend dots & Category filter */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.875rem', fontSize: '0.75rem', color: '#576574' }}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-              <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#245366' }} />
-              {t('high_demand')}
-            </span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-              <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#dfbfa8' }} />
-              {t('balanced')}
-            </span>
-          </div>
-
-          <select
-            value={filter}
-            onChange={e => setFilter(e.target.value)}
-            style={{
-              padding: '0.4rem 0.85rem',
-              fontSize: '0.75rem',
-              fontWeight: 600,
-              background: '#ffffff',
-              border: '1px solid #c5b4a0',
-              borderRadius: 9999,
-              color: '#1e293b',
-              outline: 'none',
-              cursor: 'pointer',
-            }}
-          >
-            <option value="all">{t('opt_all_categories')} ({data.length})</option>
-            {categories.map(cat => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
+        {/* Legend dots */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.875rem', fontSize: '0.75rem', color: '#576574' }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+            <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#245366' }} />
+            {t('high_demand')}
+          </span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+            <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#dfbfa8' }} />
+            {t('balanced')}
+          </span>
         </div>
       </div>
 
-      <ResponsiveContainer width="100%" height={320} style={{ outline: 'none' }}>
-        <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 0 }} style={{ outline: 'none' }}>
+      <ResponsiveContainer width="100%" height={340} style={{ outline: 'none' }}>
+        <ScatterChart margin={{ top: 35, right: 25, bottom: 20, left: 0 }} style={{ outline: 'none' }}>
           <CartesianGrid stroke="#e5dacb" strokeDasharray="3 3" vertical={false} />
           <XAxis
             dataKey="x"
@@ -159,6 +125,8 @@ export default function BubbleChart({ data }: { data: DataPoint[] }) {
             dataKey="y"
             name={t('trend_axis')}
             type="number"
+            domain={[0, 120]}
+            ticks={[0, 25, 50, 75, 100]}
             tick={{ fill: '#576574', fontSize: 11 }}
             axisLine={{ stroke: '#c5b4a0' }}
             tickLine={false}
