@@ -12,15 +12,6 @@ type PerceptionRow = {
   totallyDisagree: number
 }
 
-const PERCEPTIONS: PerceptionRow[] = [
-  { key: 'attr_practical',   totallyAgree: 42, agree: 33, maybe: 11, disagree: 10, totallyDisagree: 4 },
-  { key: 'attr_durable',     totallyAgree: 35, agree: 42, maybe: 17, disagree: 4,  totallyDisagree: 2 },
-  { key: 'attr_comfortable', totallyAgree: 41, agree: 23, maybe: 18, disagree: 12, totallyDisagree: 6 },
-  { key: 'attr_reliable',    totallyAgree: 28, agree: 36, maybe: 10, disagree: 14, totallyDisagree: 12 },
-  { key: 'attr_value',       totallyAgree: 22, agree: 37, maybe: 21, disagree: 12, totallyDisagree: 8 },
-  { key: 'attr_trendy',      totallyAgree: 13, agree: 38, maybe: 19, disagree: 18, totallyDisagree: 12 },
-]
-
 const COLORS = {
   totallyAgree: '#245366',    // Deep ocean teal
   agree: '#5c9eaf',           // Muted cyan
@@ -37,10 +28,19 @@ type HoveredSegment = {
   color: string
 } | null
 
-export default function BrandImageSection() {
+import { CATEGORY_IMAGE } from '@/lib/analyticsProfiles'
+
+type Props = {
+  category?: string
+}
+
+export default function BrandImageSection({ category = 'all' }: Props) {
   const { t } = useLanguage()
   const [mounted, setMounted] = useState(false)
   const [hovered, setHovered] = useState<HoveredSegment>(null)
+
+  const profile = CATEGORY_IMAGE[category] || CATEGORY_IMAGE.all
+  const { perceptions } = profile
 
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 60)
@@ -106,7 +106,7 @@ export default function BrandImageSection() {
         gap: '1rem',
         flex: 1,
       }}>
-        {PERCEPTIONS.map((row, rowIdx) => (
+        {perceptions.map((row, rowIdx) => (
           <div key={row.key}>
             <div style={{
               display: 'flex',

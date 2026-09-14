@@ -7,33 +7,18 @@ import {
   Tooltip, ResponsiveContainer, Cell, PieChart, Pie,
 } from 'recharts'
 
-const BRANDS_RECOGNIZED = [
-  { name: 'MotoGadget Official', share: 45, color: '#245366' },
-  { name: 'Bintang Aksesoris',    share: 36, color: '#2e6378' },
-  { name: 'Dapur Cantik ID',      share: 27, color: '#48879e' },
-  { name: 'Anker Style Store',    share: 19, color: '#62a0b3' },
-  { name: 'Dapur Minang',         share: 12, color: '#82bdcb' },
-  { name: 'Toko Kabel Murah',     share: 10, color: '#a8d8e3' },
-]
+import { CATEGORY_AWARENESS } from '@/lib/analyticsProfiles'
 
-const CUSTOMER_LOYALTY = [
-  { name: 'MotoGadget Official', loyalty: 52, color: '#1b4352' },
-  { name: 'Bintang Aksesoris',    loyalty: 41, color: '#245366' },
-  { name: 'Dapur Cantik ID',      loyalty: 29, color: '#357288' },
-  { name: 'Anker Style Store',    loyalty: 21, color: '#5091a7' },
-  { name: 'Dapur Minang',         loyalty: 14, color: '#75b1c5' },
-  { name: 'Toko Kabel Murah',     loyalty: 12, color: '#9fcde0' },
-]
+type Props = {
+  category?: string
+}
 
-const DISCOVERY_CHANNELS = [
-  { name: 'TikTok Live & Affiliate', value: 41, color: '#245366' },
-  { name: 'Shopee & Tokopedia Video', value: 34, color: '#5c9eaf' },
-  { name: 'Organic Search & Ads', value: 25, color: '#dfbfa8' },
-]
-
-export default function BrandAwarenessSection() {
+export default function BrandAwarenessSection({ category = 'all' }: Props) {
   const { t } = useLanguage()
   const [mounted, setMounted] = useState(false)
+
+  const profile = CATEGORY_AWARENESS[category] || CATEGORY_AWARENESS.all
+  const { brandsRecognized, customerLoyalty, discoveryChannels, emotionalScores } = profile
 
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 60)
@@ -41,11 +26,11 @@ export default function BrandAwarenessSection() {
   }, [])
 
   const emotionalThemes = [
-    { name: t('hook_practical'), score: 4.6, color: '#245366' },
-    { name: t('hook_durable'),   score: 4.1, color: '#2e6378' },
-    { name: t('hook_guarantee'), score: 3.7, color: '#48879e' },
-    { name: t('hook_budget'),    score: 3.4, color: '#62a0b3' },
-    { name: t('hook_design'),    score: 2.9, color: '#dfbfa8' },
+    { name: t('hook_practical'), score: emotionalScores.practical, color: '#245366' },
+    { name: t('hook_durable'),   score: emotionalScores.durable,   color: '#2e6378' },
+    { name: t('hook_guarantee'), score: emotionalScores.guarantee, color: '#48879e' },
+    { name: t('hook_budget'),    score: emotionalScores.budget,    color: '#62a0b3' },
+    { name: t('hook_design'),    score: emotionalScores.design,    color: '#dfbfa8' },
   ]
 
   return (
@@ -95,7 +80,7 @@ export default function BrandAwarenessSection() {
             {t('most_recognized_brands')}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.5rem' }}>
-            {BRANDS_RECOGNIZED.map((b, idx) => (
+            {brandsRecognized.map((b, idx) => (
               <div key={b.name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{
                   fontSize: '0.7rem',
@@ -136,7 +121,7 @@ export default function BrandAwarenessSection() {
             {t('customer_loyalty')}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.5rem' }}>
-            {CUSTOMER_LOYALTY.map((b, idx) => (
+            {customerLoyalty.map((b, idx) => (
               <div key={b.name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{
                   fontSize: '0.7rem',
@@ -252,7 +237,7 @@ export default function BrandAwarenessSection() {
                     formatter={(v: any) => [`${v}%`, 'Share']}
                   />
                   <Pie
-                    data={DISCOVERY_CHANNELS}
+                    data={discoveryChannels}
                     cx="50%"
                     cy="50%"
                     innerRadius={30}
@@ -260,7 +245,7 @@ export default function BrandAwarenessSection() {
                     paddingAngle={3}
                     dataKey="value"
                   >
-                    {DISCOVERY_CHANNELS.map((entry, index) => (
+                    {discoveryChannels.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
@@ -269,7 +254,7 @@ export default function BrandAwarenessSection() {
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6, flex: 1 }}>
-              {DISCOVERY_CHANNELS.map(ch => (
+              {discoveryChannels.map(ch => (
                 <div key={ch.name} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.6875rem' }}>
                   <span style={{ width: 7, height: 7, borderRadius: '50%', background: ch.color }} />
                   <span style={{ color: '#576574', flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>

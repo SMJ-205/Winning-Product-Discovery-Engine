@@ -3,25 +3,18 @@ import { useState, useEffect } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 
-const AGE_DATA = [
-  { name: '<25', value: 14, color: '#dfbfa8' },
-  { name: '25-34', value: 28, color: '#245366' },
-  { name: '35-44', value: 24, color: '#387388' },
-  { name: '45-54', value: 18, color: '#528fa3' },
-  { name: '55-64', value: 11, color: '#7bb0c0' },
-  { name: '>64', value: 5, color: '#a6cfda' },
-]
+import { CATEGORY_DEMOGRAPHICS } from '@/lib/analyticsProfiles'
 
-const REGIONS = [
-  { name: 'Jabodetabek', pct: 44, hub: 'Jakarta, Tangerang, Bekasi' },
-  { name: 'Jawa Barat', pct: 22, hub: 'Bandung, Bogor, Depok' },
-  { name: 'Jawa Timur & Tengah', pct: 18, hub: 'Surabaya, Semarang, Malang' },
-  { name: 'Luar Jawa', pct: 16, hub: 'Medan, Makassar, Padang' },
-]
+type Props = {
+  category?: string
+}
 
-export default function CustomerInfoSection() {
+export default function CustomerInfoSection({ category = 'all' }: Props) {
   const { t } = useLanguage()
   const [mounted, setMounted] = useState(false)
+
+  const profile = CATEGORY_DEMOGRAPHICS[category] || CATEGORY_DEMOGRAPHICS.all
+  const { ageData, dominantAge, femalePct, malePct, regions } = profile
 
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 60)
@@ -82,7 +75,7 @@ export default function CustomerInfoSection() {
             padding: '2px 8px',
             borderRadius: 9999,
           }}>
-            Dominant: 25–34 (28%)
+            Dominant: {dominantAge}
           </span>
         </div>
 
@@ -101,7 +94,7 @@ export default function CustomerInfoSection() {
                   formatter={(v: any) => [`${v}%`, t('age_group')]}
                 />
                 <Pie
-                  data={AGE_DATA}
+                  data={ageData}
                   cx="50%"
                   cy="50%"
                   innerRadius={36}
@@ -109,7 +102,7 @@ export default function CustomerInfoSection() {
                   paddingAngle={3}
                   dataKey="value"
                 >
-                  {AGE_DATA.map((entry, index) => (
+                  {ageData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
@@ -124,7 +117,7 @@ export default function CustomerInfoSection() {
             gap: '0.35rem 0.6rem',
             flex: 1,
           }}>
-            {AGE_DATA.map(d => (
+            {ageData.map(d => (
               <div key={d.name} style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: '0.7rem' }}>
                 <span style={{ width: 7, height: 7, borderRadius: '50%', background: d.color }} />
                 <span style={{ color: '#576574', fontWeight: 500 }}>{d.name}:</span>
@@ -157,7 +150,7 @@ export default function CustomerInfoSection() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-          {REGIONS.map((r, idx) => (
+          {regions.map((r, idx) => (
             <div key={r.name}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: 4 }}>
                 <span style={{ fontWeight: 600, color: '#1e293b' }}>{r.name}</span>
@@ -218,12 +211,12 @@ export default function CustomerInfoSection() {
           background: '#e5dacb',
         }}>
           <div style={{
-            width: mounted ? '54%' : '0%',
+            width: mounted ? `${femalePct}%` : '0%',
             background: '#dfbfa8',
             transition: 'width 1.2s cubic-bezier(0.16, 1, 0.3, 1)',
           }} />
           <div style={{
-            width: mounted ? '46%' : '0%',
+            width: mounted ? `${malePct}%` : '0%',
             background: '#245366',
             transition: 'width 1.2s cubic-bezier(0.16, 1, 0.3, 1)',
             transitionDelay: '80ms',
@@ -234,12 +227,12 @@ export default function CustomerInfoSection() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#dfbfa8' }} />
             <span style={{ fontSize: '0.75rem', color: '#576574', fontWeight: 600 }}>{t('female')}</span>
-            <b style={{ fontSize: '0.875rem', color: '#9c6f50' }}>54%</b>
+            <b style={{ fontSize: '0.875rem', color: '#9c6f50' }}>{femalePct}%</b>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#245366' }} />
             <span style={{ fontSize: '0.75rem', color: '#576574', fontWeight: 600 }}>{t('male')}</span>
-            <b style={{ fontSize: '0.875rem', color: '#245366' }}>46%</b>
+            <b style={{ fontSize: '0.875rem', color: '#245366' }}>{malePct}%</b>
           </div>
         </div>
       </div>

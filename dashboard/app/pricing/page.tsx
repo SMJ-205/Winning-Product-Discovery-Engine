@@ -4,7 +4,14 @@ import { getComplaintsData } from '@/lib/data'
 import PricingClientView from '@/components/PricingClientView'
 
 export default async function PricingPage() {
-  const { complaints, prices } = await getComplaintsData()
+  const data = await getComplaintsData()
 
-  return <PricingClientView complaints={complaints} prices={prices} />
+  return (
+    <PricingClientView
+      complaints={data.complaints}
+      prices={data.prices}
+      reviews={data.reviews}
+      categories={data.categories}
+    />
+  )
 }

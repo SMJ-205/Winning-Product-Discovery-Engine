@@ -77,23 +77,48 @@ export async function getComplaintsData() {
 
   const supabase = getSupabase()
 
+  // Ambil mapping product_id -> category_name
+  const { data: prods } = await supabase
+    .from('dim_competitor_product')
+    .select('product_id, keyword_id, shop_name, location, dim_category_keyword(category_name, sub_category)')
+
+  const prodCategoryMap: Record<string, { category_name: string; sub_category: string; shop_name: string; location: string }> = {}
+  const categoriesSet = new Set<string>()
+
+  prods?.forEach((p: any) => {
+    const catName = p.dim_category_keyword?.category_name || 'Other'
+    const subCat = p.dim_category_keyword?.sub_category || ''
+    prodCategoryMap[p.product_id] = {
+      category_name: catName,
+      sub_category: subCat,
+      shop_name: p.shop_name || '',
+      location: p.location || '',
+    }
+    if (catName && catName !== 'Other') categoriesSet.add(catName)
+  })
+
   // Ambil aspek keluhan dari ulasan rating 1-2
-  const { data, error } = await supabase
+  const { data: reviews, error } = await supabase
     .from('fact_customer_reviews')
-    .select('complaint_aspects, rating, product_id')
+    .select('complaint_aspects, rating, product_id, sentiment_score')
     .lte('rating', 2)
     .not('complaint_aspects', 'is', null)
 
   if (error) {
     console.error('Error fetching complaints:', error)
-    return { complaints: [], prices: [] }
   }
 
-  // Hitung frekuensi per aspek keluhan
+  const categorizedReviews = (reviews || []).map((row: any) => ({
+    ...row,
+    category_name: prodCategoryMap[row.product_id]?.category_name || 'Other',
+    sub_category: prodCategoryMap[row.product_id]?.sub_category || '',
+  }))
+
+  // Hitung frekuensi per aspek keluhan (overall)
   const freq: Record<string, number> = {}
-  data?.forEach(row => {
+  categorizedReviews.forEach((row: any) => {
     const aspects: string[] = row.complaint_aspects ?? []
-    aspects.forEach(aspect => {
+    aspects.forEach((aspect: string) => {
       freq[aspect] = (freq[aspect] ?? 0) + 1
     })
   })
@@ -109,7 +134,17 @@ export async function getComplaintsData() {
     .order('snapshot_date', { ascending: false })
     .limit(2000)
 
-  const result = { complaints: sorted, prices: prices ?? [] }
+  const categorizedPrices = (prices || []).map((p: any) => ({
+    ...p,
+    category_name: prodCategoryMap[p.product_id]?.category_name || 'Other',
+  }))
+
+  const result = {
+    complaints: sorted,
+    prices: categorizedPrices,
+    reviews: categorizedReviews,
+    categories: Array.from(categoriesSet),
+  }
   setCache('complaints_data', result)
   return result
 }
