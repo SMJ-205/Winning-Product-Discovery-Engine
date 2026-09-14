@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid,
@@ -32,6 +33,12 @@ const DISCOVERY_CHANNELS = [
 
 export default function BrandAwarenessSection() {
   const { t } = useLanguage()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setMounted(true), 60)
+    return () => clearTimeout(timer)
+  }, [])
 
   const emotionalThemes = [
     { name: t('hook_practical'), score: 4.6, color: '#245366' },
@@ -88,7 +95,7 @@ export default function BrandAwarenessSection() {
             {t('most_recognized_brands')}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.5rem' }}>
-            {BRANDS_RECOGNIZED.map(b => (
+            {BRANDS_RECOGNIZED.map((b, idx) => (
               <div key={b.name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{
                   fontSize: '0.7rem',
@@ -102,10 +109,12 @@ export default function BrandAwarenessSection() {
                 </span>
                 <div style={{ flex: 1, height: 16, background: '#e5dacb', borderRadius: 4, overflow: 'hidden' }}>
                   <div style={{
-                    width: `${b.share}%`,
+                    width: mounted ? `${b.share}%` : '0%',
                     height: '100%',
                     background: 'linear-gradient(90deg, #1b4352 0%, #245366 50%, #5c9eaf 100%)',
                     borderRadius: 4,
+                    transition: 'width 1.1s cubic-bezier(0.16, 1, 0.3, 1)',
+                    transitionDelay: `${idx * 75}ms`,
                   }} />
                 </div>
                 <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#1e293b', width: 32, textAlign: 'right' }}>
@@ -127,7 +136,7 @@ export default function BrandAwarenessSection() {
             {t('customer_loyalty')}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.5rem' }}>
-            {CUSTOMER_LOYALTY.map(b => (
+            {CUSTOMER_LOYALTY.map((b, idx) => (
               <div key={b.name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{
                   fontSize: '0.7rem',
@@ -141,10 +150,12 @@ export default function BrandAwarenessSection() {
                 </span>
                 <div style={{ flex: 1, height: 16, background: '#e5dacb', borderRadius: 4, overflow: 'hidden' }}>
                   <div style={{
-                    width: `${b.loyalty}%`,
+                    width: mounted ? `${b.loyalty}%` : '0%',
                     height: '100%',
                     background: 'linear-gradient(90deg, #245366 0%, #76b3c4 100%)',
                     borderRadius: 4,
+                    transition: 'width 1.1s cubic-bezier(0.16, 1, 0.3, 1)',
+                    transitionDelay: `${idx * 75}ms`,
                   }} />
                 </div>
                 <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#245366', width: 32, textAlign: 'right' }}>
@@ -177,7 +188,7 @@ export default function BrandAwarenessSection() {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
-            {emotionalThemes.map(item => (
+            {emotionalThemes.map((item, idx) => (
               <div key={item.name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{
                   fontSize: '0.7rem',
@@ -191,10 +202,12 @@ export default function BrandAwarenessSection() {
                 </span>
                 <div style={{ flex: 1, height: 16, background: '#e5dacb', borderRadius: 4, overflow: 'hidden' }}>
                   <div style={{
-                    width: `${(item.score / 5) * 100}%`,
+                    width: mounted ? `${(item.score / 5) * 100}%` : '0%',
                     height: '100%',
                     background: '#245366',
                     borderRadius: 4,
+                    transition: 'width 1.1s cubic-bezier(0.16, 1, 0.3, 1)',
+                    transitionDelay: `${idx * 75}ms`,
                   }} />
                 </div>
                 <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#245366', width: 28, textAlign: 'right' }}>

@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
 
 type PerceptionRow = {
@@ -30,6 +31,12 @@ const COLORS = {
 
 export default function BrandImageSection() {
   const { t } = useLanguage()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setMounted(true), 60)
+    return () => clearTimeout(timer)
+  }, [])
 
   const legendItems = [
     { label: t('scale_totally_agree'),    color: COLORS.totallyAgree },
@@ -80,7 +87,7 @@ export default function BrandImageSection() {
         gap: '1rem',
         flex: 1,
       }}>
-        {PERCEPTIONS.map(row => (
+        {PERCEPTIONS.map((row, rowIdx) => (
           <div key={row.key}>
             <div style={{
               display: 'flex',
@@ -108,19 +115,59 @@ export default function BrandImageSection() {
               lineHeight: '22px',
               textAlign: 'center',
             }}>
-              <div style={{ width: `${row.totallyAgree}%`, background: COLORS.totallyAgree, color: '#ffffff' }}>
+              <div style={{
+                width: mounted ? `${row.totallyAgree}%` : '0%',
+                background: COLORS.totallyAgree,
+                color: '#ffffff',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                transition: 'width 1.1s cubic-bezier(0.16, 1, 0.3, 1)',
+                transitionDelay: `${rowIdx * 65}ms`,
+              }}>
                 {row.totallyAgree}%
               </div>
-              <div style={{ width: `${row.agree}%`, background: COLORS.agree, color: '#ffffff' }}>
+              <div style={{
+                width: mounted ? `${row.agree}%` : '0%',
+                background: COLORS.agree,
+                color: '#ffffff',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                transition: 'width 1.1s cubic-bezier(0.16, 1, 0.3, 1)',
+                transitionDelay: `${rowIdx * 65 + 35}ms`,
+              }}>
                 {row.agree}%
               </div>
-              <div style={{ width: `${row.maybe}%`, background: COLORS.maybe, color: '#1e293b' }}>
+              <div style={{
+                width: mounted ? `${row.maybe}%` : '0%',
+                background: COLORS.maybe,
+                color: '#1e293b',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                transition: 'width 1.1s cubic-bezier(0.16, 1, 0.3, 1)',
+                transitionDelay: `${rowIdx * 65 + 70}ms`,
+              }}>
                 {row.maybe}%
               </div>
-              <div style={{ width: `${row.disagree}%`, background: COLORS.disagree, color: '#1e293b' }}>
+              <div style={{
+                width: mounted ? `${row.disagree}%` : '0%',
+                background: COLORS.disagree,
+                color: '#1e293b',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                transition: 'width 1.1s cubic-bezier(0.16, 1, 0.3, 1)',
+                transitionDelay: `${rowIdx * 65 + 105}ms`,
+              }}>
                 {row.disagree}%
               </div>
-              <div style={{ width: `${row.totallyDisagree}%`, background: COLORS.totallyDisagree, color: '#1e293b' }}>
+              <div style={{
+                width: mounted ? `${row.totallyDisagree}%` : '0%',
+                background: COLORS.totallyDisagree,
+                color: '#1e293b',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                transition: 'width 1.1s cubic-bezier(0.16, 1, 0.3, 1)',
+                transitionDelay: `${rowIdx * 65 + 140}ms`,
+              }}>
                 {row.totallyDisagree}%
               </div>
             </div>

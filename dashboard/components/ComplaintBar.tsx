@@ -68,7 +68,13 @@ export default function ComplaintBar({ data }: { data: Complaint[] }) {
             }}
             formatter={(v: any) => [`${v} ${t('reviews_unit')} (${((v / (total || 1)) * 100).toFixed(1)}%)`, t('freq_label')]}
           />
-          <Bar dataKey="count" radius={[0, 6, 6, 0]}>
+          <Bar
+            dataKey="count"
+            radius={[0, 6, 6, 0]}
+            isAnimationActive={true}
+            animationDuration={1300}
+            animationEasing="ease-out"
+          >
             {top.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
             <LabelList
               dataKey="count"

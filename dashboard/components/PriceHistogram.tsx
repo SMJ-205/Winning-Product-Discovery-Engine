@@ -76,7 +76,13 @@ export default function PriceHistogram({ prices }: { prices: PricePoint[] }) {
             labelStyle={{ color: '#245366', fontWeight: 700 }}
             formatter={(v: any) => [`${v} ${t('freq_label')}`, t('price_label')]}
           />
-          <Bar dataKey="count" radius={[6, 6, 0, 0]}>
+          <Bar
+            dataKey="count"
+            radius={[6, 6, 0, 0]}
+            isAnimationActive={true}
+            animationDuration={1300}
+            animationEasing="ease-out"
+          >
             {bins.map((_, i) => (
               <Cell
                 key={i}

@@ -1,5 +1,5 @@
 'use client'
-
+import { useState, useEffect } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 
@@ -21,6 +21,12 @@ const REGIONS = [
 
 export default function CustomerInfoSection() {
   const { t } = useLanguage()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setMounted(true), 60)
+    return () => clearTimeout(timer)
+  }, [])
 
   return (
     <div style={{
@@ -162,7 +168,7 @@ export default function CustomerInfoSection() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-          {REGIONS.map(r => (
+          {REGIONS.map((r, idx) => (
             <div key={r.name}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: 4 }}>
                 <span style={{ fontWeight: 600, color: '#1e293b' }}>{r.name}</span>
@@ -176,10 +182,12 @@ export default function CustomerInfoSection() {
                 overflow: 'hidden',
               }}>
                 <div style={{
-                  width: `${r.pct}%`,
+                  width: mounted ? `${r.pct}%` : '0%',
                   height: '100%',
                   background: 'linear-gradient(90deg, #245366 0%, #5c9eaf 100%)',
                   borderRadius: 3,
+                  transition: 'width 1.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                  transitionDelay: `${idx * 90}ms`,
                 }} />
               </div>
               <div style={{ fontSize: '0.625rem', color: '#64748b', marginTop: 2 }}>
@@ -218,16 +226,18 @@ export default function CustomerInfoSection() {
           borderRadius: 6,
           overflow: 'hidden',
           marginBottom: '0.625rem',
+          background: '#e5dacb',
         }}>
           <div style={{
-            width: '54%',
+            width: mounted ? '54%' : '0%',
             background: '#dfbfa8',
-            transition: 'width 0.5s ease',
+            transition: 'width 1.2s cubic-bezier(0.16, 1, 0.3, 1)',
           }} />
           <div style={{
-            width: '46%',
+            width: mounted ? '46%' : '0%',
             background: '#245366',
-            transition: 'width 0.5s ease',
+            transition: 'width 1.2s cubic-bezier(0.16, 1, 0.3, 1)',
+            transitionDelay: '80ms',
           }} />
         </div>
 
