@@ -5,6 +5,7 @@ import {
   ScatterChart, Scatter, XAxis, YAxis, ZAxis,
   CartesianGrid, Tooltip, ResponsiveContainer, Cell,
 } from 'recharts'
+import { useLanguage } from '@/context/LanguageContext'
 
 type DataPoint = {
   keyword_id:         number
@@ -19,7 +20,7 @@ type DataPoint = {
 
 const PALETTE = ['#38bdf8', '#ff6b4a', '#8b5cf6', '#10b981', '#f59e0b', '#ec4899']
 
-const CustomTooltip = ({ active, payload }: any) => {
+const CustomTooltip = ({ active, payload, lang = 'ID' }: any) => {
   if (!active || !payload?.length) return null
   const d = payload[0].payload as DataPoint
   return (
@@ -41,8 +42,8 @@ const CustomTooltip = ({ active, payload }: any) => {
         <b>{d.search_trend_index?.toFixed(1)}</b>
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
-        <span style={{ color: '#94a3b8' }}>Units / Bulan:</span>
-        <b>{d.monthly_sold_units?.toLocaleString('id-ID')}</b>
+        <span style={{ color: '#94a3b8' }}>{lang === 'ID' ? 'Units / Bulan:' : 'Units / Month:'}</span>
+        <b>{d.monthly_sold_units?.toLocaleString(lang === 'ID' ? 'id-ID' : 'en-US')}</b>
       </div>
       {d.winning_product_score && (
         <div style={{
@@ -61,6 +62,7 @@ const CustomTooltip = ({ active, payload }: any) => {
 }
 
 export default function BubbleChart({ data }: { data: DataPoint[] }) {
+  const { lang, t } = useLanguage()
   const [filter, setFilter] = useState('all')
   const categories = Array.from(
     new Set(data.map(d => d.category_name).filter(Boolean))
@@ -96,10 +98,10 @@ export default function BubbleChart({ data }: { data: DataPoint[] }) {
       }}>
         <div>
           <div style={{ fontSize: '1rem', fontWeight: 800, color: '#f8fafc' }}>
-            Market Opportunity Analytics
+            {t('chart_title')}
           </div>
           <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>
-            Ukuran bubble merefleksikan estimasi GMV pasar
+            {t('chart_sub')}
           </div>
         </div>
 
@@ -108,11 +110,11 @@ export default function BubbleChart({ data }: { data: DataPoint[] }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.875rem', fontSize: '0.75rem', color: '#94a3b8' }}>
             <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
               <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#38bdf8' }} />
-              High Demand
+              {t('high_demand')}
             </span>
             <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
               <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#ff6b4a' }} />
-              Balanced
+              {t('balanced')}
             </span>
           </div>
 
@@ -131,7 +133,7 @@ export default function BubbleChart({ data }: { data: DataPoint[] }) {
               cursor: 'pointer',
             }}
           >
-            <option value="all">Semua Kategori ({data.length})</option>
+            <option value="all">{t('opt_all_categories')} ({data.length})</option>
             {categories.map(cat => (
               <option key={cat} value={cat}>
                 {cat}
@@ -146,7 +148,7 @@ export default function BubbleChart({ data }: { data: DataPoint[] }) {
           <CartesianGrid stroke="#1a223a" strokeDasharray="3 3" vertical={false} />
           <XAxis
             dataKey="x"
-            name="Units/bln"
+            name={t('units_axis')}
             type="number"
             tick={{ fill: '#94a3b8', fontSize: 11 }}
             tickFormatter={v => v >= 1000 ? `${(v/1000).toFixed(0)}k units` : String(v)}
@@ -155,14 +157,14 @@ export default function BubbleChart({ data }: { data: DataPoint[] }) {
           />
           <YAxis
             dataKey="y"
-            name="Trend Index"
+            name={t('trend_axis')}
             type="number"
             tick={{ fill: '#94a3b8', fontSize: 11 }}
             axisLine={{ stroke: '#202a48' }}
             tickLine={false}
           />
           <ZAxis dataKey="z" range={[250, 1800]} />
-          <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#38bdf8', strokeDasharray: '4 4' }} />
+          <Tooltip content={<CustomTooltip lang={lang} />} cursor={{ stroke: '#38bdf8', strokeDasharray: '4 4' }} />
           <Scatter data={withAxes} activeShape={false} stroke="none">
             {withAxes.map((_, i) => (
               <Cell

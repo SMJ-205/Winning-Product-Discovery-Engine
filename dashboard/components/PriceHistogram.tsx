@@ -1,5 +1,6 @@
 'use client'
 
+import { useLanguage } from '@/context/LanguageContext'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Cell,
@@ -35,6 +36,7 @@ function buildHistogram(prices: PricePoint[], bins = 8) {
 }
 
 export default function PriceHistogram({ prices }: { prices: PricePoint[] }) {
+  const { t } = useLanguage()
   const bins = buildHistogram(prices)
 
   return (
@@ -46,10 +48,10 @@ export default function PriceHistogram({ prices }: { prices: PricePoint[] }) {
       boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.2)',
     }}>
       <div style={{ fontSize: '1rem', fontWeight: 800, color: '#f8fafc', marginBottom: 2 }}>
-        Distribusi Harga Kompetitor
+        {t('chart_price_dist')}
       </div>
       <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginBottom: '1.25rem' }}>
-        Kerapatan listing produk berdasarkan rentang harga pasar (Sweet Spot Pricing)
+        {t('chart_price_sub')}
       </div>
       <ResponsiveContainer width="100%" height={290}>
         <BarChart data={bins} margin={{ top: 10, right: 10, bottom: 35, left: 0 }}>
@@ -72,6 +74,7 @@ export default function PriceHistogram({ prices }: { prices: PricePoint[] }) {
               color: '#f8fafc',
             }}
             labelStyle={{ color: '#38bdf8', fontWeight: 700 }}
+            formatter={(v: any) => [`${v} ${t('freq_label')}`, t('price_label')]}
           />
           <Bar dataKey="count" radius={[6, 6, 0, 0]}>
             {bins.map((_, i) => (

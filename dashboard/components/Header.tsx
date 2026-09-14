@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useMemo } from 'react'
 import { usePathname } from 'next/navigation'
+import { useLanguage } from '@/context/LanguageContext'
 
 type Props = {
   title?: string
@@ -13,23 +14,29 @@ export default function Header({
   subtitle,
 }: Props) {
   const pathname = usePathname()
-  const [lang, setLang] = useState<'ID' | 'EN'>('ID')
+  const { lang, toggleLang, t } = useLanguage()
 
   // Tentukan nama tab aktif saat ini
   const currentTab =
     pathname === '/pricing'
-      ? 'Analytics'
+      ? t('tab_analytics')
       : pathname === '/sourcing'
-      ? 'Pricing Simulator'
-      : 'Overall Summary'
+      ? t('tab_pricing_sim')
+      : t('tab_overall')
 
-  const activeTitle = title || currentTab
+  const activeTitle = title
+    ? (title === 'Overall Summary' ? t('tab_overall') : title === 'Pricing Intelligence & Pain Points' ? t('analytics_title') : title === 'Pricing & Sourcing Simulator' ? t('sim_title') : title)
+    : pathname === '/pricing'
+    ? t('analytics_title')
+    : pathname === '/sourcing'
+    ? t('sim_title')
+    : t('tab_overall')
   const activeSubtitle = subtitle || (
-    currentTab === 'Analytics'
-      ? (lang === 'ID' ? 'Analisis sweet spot harga jual dan titik kelemahan produk kompetitor' : 'Price sweet spot analysis and competitor complaint insights')
-      : currentTab === 'Pricing Simulator'
-      ? (lang === 'ID' ? 'Validasi batas maksimal HPP supplier sebelum melakukan pemesanan stok' : 'Supplier COGS ceiling and target margin feasibility simulator')
-      : (lang === 'ID' ? 'Analitik mendalam untuk product discovery dan validasi kelayakan sourcing' : 'In-depth analytics for e-commerce product discovery and sourcing')
+    pathname === '/pricing'
+      ? t('sub_analytics')
+      : pathname === '/sourcing'
+      ? t('sub_pricing_sim')
+      : t('sub_overall')
   )
 
   // Hitung rentang 1 minggu persis (7 hari terakhir dari hari ini)
@@ -94,7 +101,7 @@ export default function Header({
 
           {/* Icon / Button Fitur Bahasa ENG & IND */}
           <button
-            onClick={() => setLang(l => l === 'ID' ? 'EN' : 'ID')}
+            onClick={toggleLang}
             title={lang === 'ID' ? 'Ganti Bahasa ke English' : 'Switch Language to Indonesian'}
             style={{
               display: 'flex',

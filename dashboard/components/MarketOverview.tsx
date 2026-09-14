@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import { useLanguage } from '@/context/LanguageContext'
 import KpiCard from './KpiCard'
 import BubbleChart from './BubbleChart'
 import WpsTable from './WpsTable'
@@ -12,6 +13,8 @@ type Props = {
 }
 
 export default function MarketOverview({ initialData }: Props) {
+  const { t } = useLanguage()
+
   // Filter Scope: 'all' | 'winning' | category_name
   const [selectedScope, setSelectedScope] = useState<string>('all')
 
@@ -66,10 +69,10 @@ export default function MarketOverview({ initialData }: Props) {
 
   // Label scope text for clarification
   const scopeLabel = useMemo(() => {
-    if (selectedScope === 'all') return 'Overall (6 Kategori)'
-    if (selectedScope === 'winning') return 'Winning Niche Only (WPS ≥ 70)'
+    if (selectedScope === 'all') return t('scope_overall_badge')
+    if (selectedScope === 'winning') return t('scope_winning_badge')
     return selectedScope
-  }, [selectedScope])
+  }, [selectedScope, t])
 
   return (
     <div style={{
@@ -101,7 +104,7 @@ export default function MarketOverview({ initialData }: Props) {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ fontSize: '0.78125rem', fontWeight: 700, color: '#94a3b8' }}>
-              Filter Scope Metrik:
+              {t('filter_label')}
             </span>
             <span style={{
               fontSize: '0.72rem',
@@ -132,11 +135,11 @@ export default function MarketOverview({ initialData }: Props) {
                 cursor: 'pointer',
               }}
             >
-              <option value="all">Semua Kategori (Overall - 6 Niche)</option>
-              <option value="winning">Winning Niche Only (WPS ≥ 70)</option>
+              <option value="all">{t('opt_all')}</option>
+              <option value="winning">{t('opt_winning')}</option>
               {categories.map(cat => (
                 <option key={cat} value={cat}>
-                  Kategori: {cat}
+                  {cat}
                 </option>
               ))}
             </select>
@@ -151,25 +154,25 @@ export default function MarketOverview({ initialData }: Props) {
           width: '100%',
         }}>
           <KpiCard
-            title={`Est. GMV Bulanan (${selectedScope === 'all' ? 'Overall' : 'Kategori'})`}
+            title={`${t('kpi_gmv')} (${selectedScope === 'all' ? t('badge_overall') : t('badge_filtered')})`}
             value={`Rp ${(totalRevenue / 1_000_000).toFixed(1)}M`}
-            badge={selectedScope === 'all' ? 'Overall' : 'Filtered'}
+            badge={selectedScope === 'all' ? t('badge_overall') : t('badge_filtered')}
             badgeType="positive"
             sparklineColor="#6366f1"
             sparklinePoints={[25, 30, 42, 38, 55, 60, 52, 78]}
           />
           <KpiCard
-            title={`Rata-rata Harga (${selectedScope === 'all' ? 'Overall' : 'Kategori'})`}
+            title={`${t('kpi_price')} (${selectedScope === 'all' ? t('badge_overall') : t('badge_filtered')})`}
             value={`Rp ${Math.round(avgPrice).toLocaleString('id-ID')}`}
-            badge={selectedScope === 'all' ? '6 Kategori' : 'Kategori Terpilih'}
+            badge={selectedScope === 'all' ? t('badge_6cat') : t('badge_filtered')}
             badgeType="neutral"
             sparklineColor="#38bdf8"
             sparklinePoints={[50, 45, 48, 40, 42, 36, 38, 32]}
           />
           <KpiCard
-            title="Peluang Siap Sourcing"
-            value={`${highPriorityCount} Niche`}
-            badge="WPS ≥ 70"
+            title={t('kpi_ready')}
+            value={`${highPriorityCount} ${t('niche_unit')}`}
+            badge={t('kpi_ready_sub')}
             badgeType="positive"
             sparklineColor="#10b981"
             sparklinePoints={[10, 20, 15, 35, 30, 50, 65, 80]}

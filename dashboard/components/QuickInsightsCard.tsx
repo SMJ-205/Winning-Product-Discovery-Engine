@@ -1,14 +1,18 @@
 'use client'
 
+import { useLanguage } from '@/context/LanguageContext'
+
 export default function QuickInsightsCard() {
+  const { t } = useLanguage()
+
   const days = [
-    { day: 'Sun', date: '11' },
-    { day: 'Mon', date: '12' },
-    { day: 'Tue', date: '13' },
-    { day: 'Wed', date: '14', active: true },
-    { day: 'Thu', date: '15' },
-    { day: 'Fri', date: '16' },
-    { day: 'Sat', date: '17' },
+    { dayKey: 'day_sun', date: '11' },
+    { dayKey: 'day_mon', date: '12' },
+    { dayKey: 'day_tue', date: '13' },
+    { dayKey: 'day_wed', date: '14', active: true },
+    { dayKey: 'day_thu', date: '15' },
+    { dayKey: 'day_fri', date: '16' },
+    { dayKey: 'day_sat', date: '17' },
   ]
 
   return (
@@ -26,7 +30,7 @@ export default function QuickInsightsCard() {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <span style={{ fontSize: '0.9375rem', fontWeight: 800, color: '#f8fafc' }}>
-          September 2026
+          {t('calendar_month')}
         </span>
         <span style={{
           fontSize: '0.6875rem',
@@ -37,7 +41,7 @@ export default function QuickInsightsCard() {
           borderRadius: 9999,
           border: '1px solid rgba(56, 189, 248, 0.25)',
         }}>
-          Automated
+          {t('automated')}
         </span>
       </div>
 
@@ -58,7 +62,7 @@ export default function QuickInsightsCard() {
             }}
           >
             <span style={{ fontSize: '0.6875rem', color: '#64748b', fontWeight: 600 }}>
-              {d.day}
+              {t(d.dayKey)}
             </span>
             <span style={{
               fontSize: '0.8125rem',
@@ -106,10 +110,10 @@ export default function QuickInsightsCard() {
             </div>
             <div>
               <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#f8fafc' }}>
-                Supplier Sample Review
+                {t('task_sample')}
               </div>
               <div style={{ fontSize: '0.6875rem', color: '#94a3b8' }}>
-                Bumbu Instan (Target HPP Rp 6.800)
+                {t('task_sample_sub')}
               </div>
             </div>
           </div>
@@ -144,15 +148,15 @@ export default function QuickInsightsCard() {
             </div>
             <div>
               <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#f8fafc' }}>
-                Weekly Pipeline Cron
+                {t('task_cron')}
               </div>
               <div style={{ fontSize: '0.6875rem', color: '#94a3b8' }}>
-                GitHub Actions Automated
+                {t('task_cron_sub')}
               </div>
             </div>
           </div>
           <span style={{ fontSize: '0.6875rem', color: '#64748b', fontWeight: 600 }}>
-            Sun 03am
+            9pm
           </span>
         </div>
       </div>

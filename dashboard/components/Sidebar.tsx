@@ -2,42 +2,44 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-
-const NAV_LINKS = [
-  {
-    href: '/',
-    label: 'Overall Summary',
-    sublabel: 'Market Landscape',
-    icon: (
-      <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-      </svg>
-    ),
-  },
-  {
-    href: '/pricing',
-    label: 'Analytics',
-    sublabel: 'Pricing & Pain Points',
-    icon: (
-      <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-      </svg>
-    ),
-  },
-  {
-    href: '/sourcing',
-    label: 'Pricing Simulator',
-    sublabel: 'Sourcing Feasibility',
-    icon: (
-      <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-      </svg>
-    ),
-  },
-]
+import { useLanguage } from '@/context/LanguageContext'
 
 export default function Sidebar() {
   const pathname = usePathname()
+  const { t } = useLanguage()
+
+  const navLinks = [
+    {
+      href: '/',
+      label: t('tab_overall'),
+      sublabel: t('tab_overall_sub'),
+      icon: (
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+      ),
+    },
+    {
+      href: '/pricing',
+      label: t('tab_analytics'),
+      sublabel: t('tab_analytics_sub'),
+      icon: (
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+        </svg>
+      ),
+    },
+    {
+      href: '/sourcing',
+      label: t('tab_pricing_sim'),
+      sublabel: t('tab_pricing_sim_sub'),
+      icon: (
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+        </svg>
+      ),
+    },
+  ]
 
   return (
     <nav style={{
@@ -101,7 +103,7 @@ export default function Sidebar() {
             textTransform: 'uppercase',
             marginTop: 2,
           }}>
-            Product Discovery
+            {t('brand_sub')}
           </div>
         </div>
       </div>
@@ -117,10 +119,10 @@ export default function Sidebar() {
           padding: '0 0.75rem',
           marginBottom: '0.5rem',
         }}>
-          Menu
+          {t('menu')}
         </div>
 
-        {NAV_LINKS.map(link => {
+        {navLinks.map(link => {
           const active = pathname === link.href
           return (
             <Link
@@ -151,7 +153,12 @@ export default function Sidebar() {
               }}>
                 {link.icon}
               </span>
-              <span>{link.label}</span>
+              <div>
+                <div>{link.label}</div>
+                <div style={{ fontSize: '0.6875rem', color: active ? 'rgba(255,255,255,0.7)' : '#64748b', fontWeight: 500 }}>
+                  {link.sublabel}
+                </div>
+              </div>
             </Link>
           )
         })}

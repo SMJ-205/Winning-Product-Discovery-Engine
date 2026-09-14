@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useLanguage } from '@/context/LanguageContext'
 
 type Props = {
   topScore?: number
@@ -13,6 +14,8 @@ export default function WpsGaugeCard({
   topNiche = 'Holder HP Motor',
   recommendation = 'High Priority - Immediate Sourcing',
 }: Props) {
+  const { t } = useLanguage()
+
   // Semi-circular gauge parameters
   const scoreOutOf1000 = Math.round(topScore * 10)
   const percentage = Math.min(Math.max(topScore / 100, 0), 1)
@@ -47,7 +50,7 @@ export default function WpsGaugeCard({
         color: '#f8fafc',
         marginBottom: '0.5rem',
       }}>
-        Opportunity Score
+        {t('gauge_title')}
       </div>
 
       {/* Semi-circular Gauge */}
@@ -119,7 +122,7 @@ export default function WpsGaugeCard({
             fontWeight: 600,
             marginTop: 4,
           }}>
-            out of 1000
+            {t('gauge_outof')}
           </div>
         </div>
       </div>
@@ -131,7 +134,7 @@ export default function WpsGaugeCard({
           fontWeight: 700,
           color: isHighPriority ? '#34d399' : '#f8fafc',
         }}>
-          {isHighPriority ? "Top Niche is High Priority" : "Niche Needs Validation"}
+          {isHighPriority ? t('top_niche_high') : t('top_niche_val')}
         </div>
         <div style={{
           fontSize: '0.78125rem',
@@ -140,7 +143,7 @@ export default function WpsGaugeCard({
           lineHeight: 1.45,
           padding: '0 0.5rem',
         }}>
-          <b style={{ color: '#f8fafc' }}>{topNiche}</b> mengungguli kandidat lain dengan margin sehat dan rasio komplain kompetitor tinggi.
+          <b style={{ color: '#f8fafc' }}>{topNiche}</b> {t('gauge_desc_tail')}
         </div>
       </div>
 
@@ -164,7 +167,7 @@ export default function WpsGaugeCard({
           boxSizing: 'border-box',
         }}
       >
-        Simulasi Pricing
+        {t('btn_simulasi')}
       </Link>
     </div>
   )

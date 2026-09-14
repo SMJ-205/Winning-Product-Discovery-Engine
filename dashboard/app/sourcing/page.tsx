@@ -19,10 +19,7 @@ export default async function SourcingPage() {
   return (
     <div style={{ maxWidth: 1440, margin: '0 auto' }}>
       {/* Header */}
-      <Header
-        title="Sourcing Feasibility Simulator"
-        subtitle="Validasi batas maksimal HPP supplier sebelum melakukan pemesanan stok"
-      />
+      <Header />
 
       {/* Main Sourcing Content */}
       <div style={{ maxWidth: 960 }}>

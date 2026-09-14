@@ -1,5 +1,6 @@
 'use client'
 
+import { useLanguage } from '@/context/LanguageContext'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Cell, ReferenceLine,
@@ -13,17 +14,17 @@ type Props = {
   marketplaceFee: number
 }
 
-function buildWaterfall({ sellingPrice, hpp, ekspedisi, ads, marketplaceFee }: Props) {
+function buildWaterfall({ sellingPrice, hpp, ekspedisi, ads, marketplaceFee }: Props, t: (k: string) => string) {
   const fee = sellingPrice * marketplaceFee
   const netProfit = sellingPrice - hpp - ekspedisi - ads - fee
 
   return [
-    { name: 'Harga Jual',      value: sellingPrice, base: 0,                                    fill: '#38bdf8' },
-    { name: 'HPP Supplier',    value: -hpp,         base: sellingPrice,                         fill: '#ff6b4a' },
-    { name: 'Komisi Platform', value: -fee,         base: sellingPrice - hpp,                   fill: '#f59e0b' },
-    { name: 'Ekspedisi',       value: -ekspedisi,   base: sellingPrice - hpp - fee,             fill: '#8b5cf6' },
-    { name: 'Ads',             value: -ads,         base: sellingPrice - hpp - fee - ekspedisi, fill: '#ec4899' },
-    { name: 'Net Profit',      value: netProfit,    base: 0,                                    fill: netProfit >= 0 ? '#10b981' : '#ff6b4a' },
+    { name: t('wf_selling_price'), value: sellingPrice, base: 0,                                    fill: '#38bdf8' },
+    { name: t('wf_hpp'),           value: -hpp,         base: sellingPrice,                         fill: '#ff6b4a' },
+    { name: t('wf_commission'),    value: -fee,         base: sellingPrice - hpp,                   fill: '#f59e0b' },
+    { name: t('wf_shipping'),      value: -ekspedisi,   base: sellingPrice - hpp - fee,             fill: '#8b5cf6' },
+    { name: t('wf_ads'),           value: -ads,         base: sellingPrice - hpp - fee - ekspedisi, fill: '#ec4899' },
+    { name: t('wf_profit'),        value: netProfit,    base: 0,                                    fill: netProfit >= 0 ? '#10b981' : '#ff6b4a' },
   ]
 }
 
@@ -48,7 +49,8 @@ const CustomTooltip = ({ active, payload }: any) => {
 }
 
 export default function MarginWaterfall(props: Props) {
-  const data = buildWaterfall(props)
+  const { t } = useLanguage()
+  const data = buildWaterfall(props, t)
   const netProfit = props.sellingPrice - props.hpp - props.ekspedisi - props.ads - props.sellingPrice * props.marketplaceFee
   const margin = (netProfit / (props.sellingPrice || 1) * 100).toFixed(1)
 
@@ -62,14 +64,14 @@ export default function MarginWaterfall(props: Props) {
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem' }}>
         <div>
-          <div style={{ fontSize: '1rem', fontWeight: 800, color: '#f8fafc' }}>Dekomposisi Margin</div>
-          <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>Revenue - Alokasi Biaya - Net Profit</div>
+          <div style={{ fontSize: '1rem', fontWeight: 800, color: '#f8fafc' }}>{t('sim_waterfall_title')}</div>
+          <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>{t('sim_waterfall_sub')}</div>
         </div>
         <div style={{ textAlign: 'right' }}>
           <div style={{ fontSize: '1.5rem', fontWeight: 800, color: netProfit >= 0 ? '#34d399' : '#f87171' }}>
             {margin}%
           </div>
-          <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 600 }}>Net Margin</div>
+          <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 600 }}>{t('sim_net_margin')}</div>
         </div>
       </div>
 

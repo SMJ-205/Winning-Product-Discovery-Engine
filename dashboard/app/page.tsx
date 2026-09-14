@@ -10,10 +10,7 @@ export default async function MarketPage() {
   return (
     <div style={{ maxWidth: 1440, margin: '0 auto' }}>
       {/* Top Header */}
-      <Header
-        title="Overall Summary"
-        subtitle="Analitik mendalam untuk product discovery dan validasi kelayakan sourcing"
-      />
+      <Header />
 
       {/* Interactive Main View with dynamic scope filter for GMV, Avg Price & Charts */}
       <MarketOverview initialData={data} />

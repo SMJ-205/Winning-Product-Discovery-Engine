@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useLanguage } from '@/context/LanguageContext'
 import MarginWaterfall from './MarginWaterfall'
 
 type Props = {
@@ -36,6 +37,7 @@ export default function MarginSimulator({
   defaultSellingPrice = 89000,
   defaultMarketplaceFee = 0.085,
 }: Props) {
+  const { t } = useLanguage()
   const [sellingPrice, setSellingPrice] = useState(defaultSellingPrice)
   const [hpp, setHpp] = useState(Math.round(defaultSellingPrice * 0.35))
   const [ekspedisi, setEkspedisi] = useState(8000)
@@ -60,15 +62,15 @@ export default function MarginSimulator({
         boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.2)',
       }}>
         <div style={{ fontSize: '1rem', fontWeight: 800, color: '#f8fafc', marginBottom: '1.25rem' }}>
-          Parameter Simulasi Sourcing
+          {t('sim_param_title')}
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
           {[
-            { label: 'Harga Jual (Rp)', value: sellingPrice, set: setSellingPrice },
-            { label: 'HPP Supplier (Rp)', value: hpp, set: setHpp },
-            { label: 'Biaya Ekspedisi (Rp)', value: ekspedisi, set: setEkspedisi },
-            { label: 'Budget Ads (Rp)', value: ads, set: setAds },
+            { label: t('sim_selling_price_input'), value: sellingPrice, set: setSellingPrice },
+            { label: t('sim_hpp_supplier'), value: hpp, set: setHpp },
+            { label: t('sim_shipping_fee'), value: ekspedisi, set: setEkspedisi },
+            { label: t('sim_ads_budget_input'), value: ads, set: setAds },
           ].map(({ label, value, set }) => (
             <div key={label}>
               <label style={LABEL_STYLE}>{label}</label>
@@ -97,16 +99,16 @@ export default function MarginSimulator({
         }}>
           <div>
             <div style={{ fontWeight: 800, fontSize: '0.9375rem', color: isHealthy ? '#34d399' : '#f87171' }}>
-              {isHealthy ? 'Margin Sehat (Target >= 25% Terpenuhi)' : 'Margin di Bawah Target (< 25%)'}
+              {isHealthy ? t('sim_healthy_margin') : t('sim_low_margin')}
             </div>
             <div style={{ fontSize: '0.8125rem', color: isHealthy ? '#a7f3d0' : '#fca5a5', marginTop: 2 }}>
-              Target batas maksimal HPP supplier: <b>Rp {Math.max(0, Math.round(maxHpp)).toLocaleString('id-ID')}</b>
+              {t('sim_max_hpp_target')} <b>Rp {Math.max(0, Math.round(maxHpp)).toLocaleString('id-ID')}</b>
             </div>
           </div>
           <div style={{ textAlign: 'right' }}>
-            <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Estimasi Profit:</span>
+            <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{t('sim_est_profit_label')}</span>
             <div style={{ fontSize: '1.15rem', fontWeight: 800, color: isHealthy ? '#34d399' : '#f87171' }}>
-              Rp {Math.round(netProfit).toLocaleString('id-ID')} / unit
+              Rp {Math.round(netProfit).toLocaleString('id-ID')} {t('sim_unit_suffix')}
             </div>
           </div>
         </div>

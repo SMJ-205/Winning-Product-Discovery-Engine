@@ -1,25 +1,26 @@
 'use client'
 
 import Link from 'next/link'
+import { useLanguage } from '@/context/LanguageContext'
 
-const LABEL_STYLE: Record<string, { bg: string; color: string; border: string; text: string }> = {
+const LABEL_STYLE: Record<string, { bg: string; color: string; border: string; key: string }> = {
   'High Priority - Immediate Sourcing': {
     bg: 'rgba(16, 185, 129, 0.15)',
     color: '#34d399',
     border: 'rgba(52, 211, 153, 0.3)',
-    text: 'High Priority',
+    key: 'badge_high',
   },
   'Monitor & Sample Testing': {
     bg: 'rgba(245, 158, 11, 0.15)',
     color: '#fbbf24',
     border: 'rgba(251, 191, 36, 0.3)',
-    text: 'Monitor',
+    key: 'badge_monitor',
   },
   'Reject - Saturated / Unfeasible': {
     bg: 'rgba(239, 68, 68, 0.15)',
     color: '#f87171',
     border: 'rgba(248, 113, 113, 0.3)',
-    text: 'Reject',
+    key: 'badge_reject',
   },
 }
 
@@ -35,6 +36,8 @@ type Row = {
 }
 
 export default function WpsTable({ data }: { data: Row[] }) {
+  const { t } = useLanguage()
+
   const sorted = [...data]
     .filter(d => d.winning_product_score != null)
     .sort((a, b) => (b.winning_product_score ?? 0) - (a.winning_product_score ?? 0))
@@ -59,10 +62,10 @@ export default function WpsTable({ data }: { data: Row[] }) {
       }}>
         <div>
           <div style={{ fontSize: '1rem', fontWeight: 800, color: '#f8fafc' }}>
-            Top Product Opportunities
+            {t('table_title')}
           </div>
           <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>
-            Peringkat niche berdasarkan validasi algoritma Winning Product Score (WPS)
+            {t('table_sub')}
           </div>
         </div>
 
@@ -75,7 +78,7 @@ export default function WpsTable({ data }: { data: Row[] }) {
           borderRadius: 9999,
           border: '1px solid rgba(56, 189, 248, 0.25)',
         }}>
-          {sorted.length} Niche Dianalisis
+          {sorted.length} {t('niche_analyzed')}
         </div>
       </div>
 
@@ -84,13 +87,13 @@ export default function WpsTable({ data }: { data: Row[] }) {
         <table>
           <thead>
             <tr style={{ background: '#11172a' }}>
-              <th>Niche / Produk</th>
-              <th>Kategori</th>
-              <th>Units/Bln</th>
-              <th>Median Harga</th>
-              <th>WPS Score</th>
-              <th>Status Kelayakan</th>
-              <th>Aksi</th>
+              <th>{t('col_product')}</th>
+              <th>{t('col_category')}</th>
+              <th>{t('col_units')}</th>
+              <th>{t('col_price')}</th>
+              <th>{t('col_wps')}</th>
+              <th>{t('col_status')}</th>
+              <th>{t('col_action')}</th>
             </tr>
           </thead>
           <tbody>
@@ -107,7 +110,7 @@ export default function WpsTable({ data }: { data: Row[] }) {
                       {row.sub_category}
                     </div>
                     <div style={{ fontSize: '0.6875rem', color: '#64748b', marginTop: 2 }}>
-                      {row.n_products ? `${row.n_products} listings dianalisis` : 'Kaggle Dataset'}
+                      {row.n_products ? `${row.n_products} ${t('listings_analyzed')}` : 'Dataset'}
                     </div>
                   </td>
 
@@ -162,7 +165,7 @@ export default function WpsTable({ data }: { data: Row[] }) {
                       fontWeight: 700,
                       whiteSpace: 'nowrap',
                     }}>
-                      {badge.text}
+                      {t(badge.key)}
                     </span>
                   </td>
 
@@ -181,7 +184,7 @@ export default function WpsTable({ data }: { data: Row[] }) {
                         border: '1px solid rgba(56, 189, 248, 0.25)',
                       }}
                     >
-                      Simulasi
+                      {t('action_sim_short')}
                     </Link>
                   </td>
                 </tr>
@@ -191,7 +194,7 @@ export default function WpsTable({ data }: { data: Row[] }) {
             {sorted.length === 0 && (
               <tr>
                 <td colSpan={7} style={{ textAlign: 'center', color: '#64748b', padding: '3rem 1rem' }}>
-                  Belum ada data scoring. Pastikan pipeline Python telah dijalankan.
+                  {t('no_data')}
                 </td>
               </tr>
             )}
