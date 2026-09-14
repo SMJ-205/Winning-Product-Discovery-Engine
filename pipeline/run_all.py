@@ -61,6 +61,15 @@ def main() -> None:
     except Exception as exc:
         log.warning("Trends ingestion gagal (non-fatal, menggunakan cache): %s", exc)
 
+    # ── Step 2b: TikTok Creative Center Weekly Trends ───────────────────
+    log.info("[2b/6] TikTok Creative Center Weekly Ingestion")
+    try:
+        from pipeline.ingestion.tiktok_trends import run_tiktok_trends_ingestion
+        tiktok_results = run_tiktok_trends_ingestion()
+        log.info("TikTok trends selesai: %d keyword diproses", len(tiktok_results))
+    except Exception as exc:
+        log.warning("TikTok trends gagal (non-fatal): %s", exc)
+
     # ── Step 3: NLP Pipeline ──────────────────────────────────────────────
     log.info("[3/6] NLP Pipeline")
     try:

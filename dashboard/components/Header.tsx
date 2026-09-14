@@ -56,7 +56,7 @@ export default function Header({
           <span style={{ color: '#f8fafc', fontWeight: 800 }}>{currentTab}</span>
         </div>
 
-        {/* Rentang waktu pengambilan tren */}
+        {/* Siklus Update & Rentang waktu pengambilan tren */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -70,7 +70,7 @@ export default function Header({
           fontWeight: 600,
         }}>
           <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#38bdf8' }} />
-          <span>Rentang Tren: <b style={{ color: '#f8fafc' }}>12 Bulan Terakhir (ID)</b></span>
+          <span>Siklus Update: <b style={{ color: '#f8fafc' }}>Mingguan (7D Momentum &amp; Tren 12 Bulan)</b></span>
         </div>
       </div>
 
