@@ -35,7 +35,6 @@ type HoveredSegment = {
   label: string
   value: number
   color: string
-  leftPct: number
 } | null
 
 export default function BrandImageSection() {
@@ -107,137 +106,96 @@ export default function BrandImageSection() {
         gap: '1rem',
         flex: 1,
       }}>
-        {PERCEPTIONS.map((row, rowIdx) => {
-          let cumulativePct = 0
-
-          return (
-            <div key={row.key} style={{ position: 'relative' }}>
+        {PERCEPTIONS.map((row, rowIdx) => (
+          <div key={row.key}>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: 5,
+              minHeight: 22,
+            }}>
+              <span style={{ fontSize: '0.78125rem', fontWeight: 700, color: '#1e293b' }}>
+                {t(row.key)}
+              </span>
               <div style={{
+                minHeight: 22,
                 display: 'flex',
-                justifyContent: 'space-between',
                 alignItems: 'center',
-                marginBottom: 5,
+                justifyContent: 'flex-end',
               }}>
-                <span style={{ fontSize: '0.78125rem', fontWeight: 700, color: '#1e293b' }}>
-                  {t(row.key)}
-                </span>
-                <span style={{
-                  fontSize: '0.7rem',
-                  fontWeight: 700,
-                  color: '#245366',
-                  transition: 'all 0.15s ease',
-                }}>
-                  {hovered?.rowKey === row.key ? (
-                    <span style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 4,
-                      background: 'rgba(36, 83, 102, 0.08)',
-                      padding: '1px 6px',
-                      borderRadius: 4,
-                    }}>
-                      <span style={{ width: 6, height: 6, borderRadius: '50%', background: hovered.color }} />
-                      <b>{hovered.label}: {hovered.value}%</b>
-                    </span>
-                  ) : (
-                    `${row.totallyAgree + row.agree}% Positive`
-                  )}
-                </span>
-              </div>
-
-              {/* Floating Tooltip positioned over hovered segment */}
-              {hovered && hovered.rowKey === row.key && (
-                <div style={{
-                  position: 'absolute',
-                  top: -24,
-                  left: `${Math.max(14, Math.min(86, hovered.leftPct))}%`,
-                  transform: 'translateX(-50%)',
-                  background: '#1e293b',
-                  color: '#ffffff',
-                  padding: '2px 8px',
-                  borderRadius: 6,
-                  fontSize: '0.625rem',
-                  fontWeight: 700,
-                  whiteSpace: 'nowrap',
-                  pointerEvents: 'none',
-                  zIndex: 30,
-                  boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 5,
-                }}>
-                  <span style={{ width: 5, height: 5, borderRadius: '50%', background: hovered.color }} />
-                  <span>{hovered.label}: {hovered.value}%</span>
-                  <div style={{
-                    position: 'absolute',
-                    bottom: -3,
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    width: 0,
-                    height: 0,
-                    borderLeft: '3px solid transparent',
-                    borderRight: '3px solid transparent',
-                    borderTop: '3px solid #1e293b',
-                  }} />
-                </div>
-              )}
-
-              {/* Stacked Bar */}
-              <div style={{
-                display: 'flex',
-                height: 22,
-                borderRadius: 6,
-                overflow: 'hidden',
-                background: '#dfd3c3',
-                fontSize: '0.625rem',
-                fontWeight: 800,
-                lineHeight: '22px',
-                textAlign: 'center',
-              }}>
-                {segmentsConfig.map((seg, segIdx) => {
-                  const val = row[seg.key] as number
-                  const segLabel = t(seg.labelKey)
-                  const segMidpoint = cumulativePct + val / 2
-                  cumulativePct += val
-                  const canFit = val >= 10
-                  const isHovered = hovered?.rowKey === row.key && hovered?.segKey === seg.key
-
-                  return (
-                    <div
-                      key={seg.key}
-                      title={`${segLabel}: ${val}%`}
-                      onMouseEnter={() => {
-                        setHovered({
-                          rowKey: row.key,
-                          segKey: seg.key,
-                          label: segLabel,
-                          value: val,
-                          color: seg.color,
-                          leftPct: segMidpoint,
-                        })
-                      }}
-                      onMouseLeave={() => setHovered(null)}
-                      style={{
-                        width: mounted ? `${val}%` : '0%',
-                        background: seg.color,
-                        color: seg.textColor,
-                        whiteSpace: 'nowrap',
-                        overflow: 'hidden',
-                        cursor: 'pointer',
-                        filter: isHovered ? 'brightness(1.1) saturate(1.15)' : 'none',
-                        transition: 'width 1.1s cubic-bezier(0.16, 1, 0.3, 1), filter 0.15s ease',
-                        transitionDelay: `${rowIdx * 65 + segIdx * 35}ms`,
-                        userSelect: 'none',
-                      }}
-                    >
-                      {canFit ? `${val}%` : ''}
-                    </div>
-                  )
-                })}
+                {hovered?.rowKey === row.key ? (
+                  <span style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 5,
+                    background: 'rgba(36, 83, 102, 0.08)',
+                    padding: '2px 8px',
+                    borderRadius: 6,
+                    fontSize: '0.7rem',
+                    fontWeight: 700,
+                    color: '#245366',
+                  }}>
+                    <span style={{ width: 6, height: 6, borderRadius: '50%', background: hovered.color, flexShrink: 0 }} />
+                    <span>{hovered.label}: {hovered.value}%</span>
+                  </span>
+                ) : (
+                  <span style={{ fontSize: '0.7rem', color: '#245366', fontWeight: 700 }}>
+                    {row.totallyAgree + row.agree}% Positive
+                  </span>
+                )}
               </div>
             </div>
-          )
-        })}
+
+            {/* Stacked Bar */}
+            <div style={{
+              display: 'flex',
+              height: 22,
+              borderRadius: 6,
+              overflow: 'hidden',
+              background: '#dfd3c3',
+              fontSize: '0.625rem',
+              fontWeight: 800,
+              lineHeight: '22px',
+              textAlign: 'center',
+            }}>
+              {segmentsConfig.map((seg, segIdx) => {
+                const val = row[seg.key] as number
+                const segLabel = t(seg.labelKey)
+                const canFit = val >= 10
+
+                return (
+                  <div
+                    key={seg.key}
+                    onMouseEnter={() => {
+                      setHovered({
+                        rowKey: row.key,
+                        segKey: seg.key,
+                        label: segLabel,
+                        value: val,
+                        color: seg.color,
+                      })
+                    }}
+                    onMouseLeave={() => setHovered(null)}
+                    style={{
+                      width: mounted ? `${val}%` : '0%',
+                      background: seg.color,
+                      color: seg.textColor,
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      cursor: 'pointer',
+                      transition: 'width 1.1s cubic-bezier(0.16, 1, 0.3, 1)',
+                      transitionDelay: `${rowIdx * 65 + segIdx * 35}ms`,
+                      userSelect: 'none',
+                    }}
+                  >
+                    {canFit ? `${val}%` : ''}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Legend Footer */}
