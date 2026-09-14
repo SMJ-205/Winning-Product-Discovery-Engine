@@ -11,6 +11,9 @@ type Props = {
     median_price?: number
     category_name?: string
     search_trend_index?: number
+    cost_category?: string
+    negative_review_rate?: number
+    sourcing_recommendation?: string
   }
 }
 
@@ -165,8 +168,16 @@ const CATEGORY_PLAYBOOKS: Record<string, PlaybookIntelligence> = {
   },
 }
 
-// Fallback jika kategori tidak spesifik
-const DEFAULT_PLAYBOOK = CATEGORY_PLAYBOOKS['Ibu & Kebutuhan Bayi']
+// Mapping parameter biaya & target margin selaras dengan config/cost_params.yaml
+const COST_PARAMS_MAP: Record<string, { cogsRatio: number; netMarginPct: number }> = {
+  ibu_dan_bayi: { cogsRatio: 0.32, netMarginPct: 34 },
+  dapur_dan_makan: { cogsRatio: 0.35, netMarginPct: 35 },
+  elektronik_aksesoris: { cogsRatio: 0.40, netMarginPct: 38 },
+  otomotif_aksesoris: { cogsRatio: 0.38, netMarginPct: 36 },
+  peralatan_rumah: { cogsRatio: 0.36, netMarginPct: 35 },
+  kecantikan_skincare: { cogsRatio: 0.28, netMarginPct: 45 },
+  default: { cogsRatio: 0.35, netMarginPct: 35 },
+}
 
 export default function QuickInsightsCard({ topNiche }: Props) {
   const { t, lang } = useLanguage()
@@ -175,17 +186,59 @@ export default function QuickInsightsCard({ topNiche }: Props) {
   const wpsScore = topNiche?.winning_product_score ? topNiche.winning_product_score.toFixed(1) : '93.4'
   const categoryName = topNiche?.category_name || (lang === 'ID' ? 'Ibu & Kebutuhan Bayi' : 'Mom & Baby')
   const medianPrice = topNiche?.median_price || 68000
-  const targetHpp = Math.round(medianPrice * 0.35)
+  
+  // Dynamic Cost & HPP calculation aligning with weekly database snapshots & cost_params.yaml
+  const costCategory = topNiche?.cost_category || 'default'
+  const costParams = COST_PARAMS_MAP[costCategory] || COST_PARAMS_MAP.default
+  const targetHpp = Math.round(medianPrice * costParams.cogsRatio)
+  
+  // Format weekly sales volume directly from database aggregation
   const monthlyUnits = topNiche?.monthly_sold_units
     ? `${topNiche.monthly_sold_units.toLocaleString(lang === 'ID' ? 'id-ID' : 'en-US')} units/mo`
     : '95.600 units/mo'
 
-  // Dynamic Intelligence according to category
+  // Dynamic Bundle Sweet Spot Price derived from live weekly median price
+  const bundleSweetSpot = Math.round((medianPrice * 1.8) / 1000) * 1000
+
+  // Live Weekly Trend Index & Negative Review Rate from Supabase / Python Pipeline
+  const liveTrendIndex = topNiche?.search_trend_index ? Math.round(topNiche.search_trend_index) : null
+  const liveDefectPct = topNiche?.negative_review_rate ? Math.round(topNiche.negative_review_rate * 100) : null
+
+  // Dynamic Universal Fallback for any newly added weekly categories
+  const universalFallback: PlaybookIntelligence = {
+    velocityLabelID: liveTrendIndex ? `+${liveTrendIndex}% Lonjakan Tren` : '+48% Momentum Pasar',
+    velocityLabelEN: liveTrendIndex ? `+${liveTrendIndex}% Trend Surge` : '+48% Market Momentum',
+    netMarginPct: costParams.netMarginPct,
+    defectTitleID: `Tingkat Komplain (${liveDefectPct || 32}%)`,
+    defectTitleEN: `Complaint Rate (${liveDefectPct || 32}%)`,
+    defectSubID: 'Celah: Perlu upgrade durabilitas material & kemasan',
+    defectSubEN: 'Gap: Material durability & packaging upgrade needed',
+    supplierTitleID: 'Sentra OEM & Manufaktur Terverifikasi',
+    supplierTitleEN: 'Verified OEM & Domestic Hub',
+    supplierSubID: 'Kapasitas Batch Produksi Cepat',
+    supplierSubEN: 'Fast Turnaround Production Ready',
+    step1TitleID: 'Peningkatan Spesifikasi Material:',
+    step1TitleEN: 'Material Specification Upgrade:',
+    step1DescID: `Gunakan komponen grade premium tersertifikasi untuk menciptakan diferensiasi kuat dari kompetitor pasar ${productName}.`,
+    step1DescEN: `Adopt certified premium grade components to establish high durability and sharp market advantage for ${productName}.`,
+    step2TitleID: 'Taktik Bundling Sweet Spot:',
+    step2TitleEN: 'Sweet Spot Bundle Strategy:',
+    step2DescID: `Tawarkan paket bundling komplementer di kisaran sweet spot Rp ${bundleSweetSpot.toLocaleString('id-ID')} untuk memaksimalkan margin keranjang belanja.`,
+    step2DescEN: `Offer high-perceived-value complementary bundles at sweet spot Rp ${bundleSweetSpot.toLocaleString('en-US')} to maximize Average Order Value.`,
+  }
+
+  // Dynamic Playbook Selection: Use category-specific playbook or universal dynamic fallback
   const playbook = (topNiche?.category_name && CATEGORY_PLAYBOOKS[topNiche.category_name])
     ? CATEGORY_PLAYBOOKS[topNiche.category_name]
-    : DEFAULT_PLAYBOOK
+    : universalFallback
 
-  const velocityLabel = lang === 'ID' ? playbook.velocityLabelID : playbook.velocityLabelEN
+  // Prioritize live weekly search trend index if available
+  const velocityLabel = liveTrendIndex && liveTrendIndex > 0
+    ? (lang === 'ID' ? `+${liveTrendIndex}% Lonjakan Tren` : `+${liveTrendIndex}% Trend Surge`)
+    : (lang === 'ID' ? playbook.velocityLabelID : playbook.velocityLabelEN)
+
+  // Live Defect Title & Net Margin
+  const netMarginPct = playbook.netMarginPct || costParams.netMarginPct
   const defectTitle = lang === 'ID' ? playbook.defectTitleID : playbook.defectTitleEN
   const defectSub = lang === 'ID' ? playbook.defectSubID : playbook.defectSubEN
   const supplierTitle = lang === 'ID' ? playbook.supplierTitleID : playbook.supplierTitleEN
@@ -295,7 +348,7 @@ export default function QuickInsightsCard({ topNiche }: Props) {
             Rp {targetHpp.toLocaleString(lang === 'ID' ? 'id-ID' : 'en-US')}
           </div>
           <div style={{ fontSize: '0.625rem', color: '#226338', fontWeight: 700, marginTop: 1 }}>
-            Net Margin ~{playbook.netMarginPct}%
+            Net Margin ~{netMarginPct}%
           </div>
         </div>
 
