@@ -38,6 +38,10 @@ const DICTIONARY: Record<Language, Translations> = {
     badge_filtered: 'Kategori Terpilih',
     badge_6cat: '6 Kategori',
     niche_unit: 'Niche',
+    trend_trajectory_gmv: 'Tren 8-Mgg: ▲ Akselerasi',
+    trend_trajectory_price: 'Rentang Stabil & Kompetitif',
+    trend_trajectory_sourcing: 'Pipeline Prioritas Tinggi',
+    trend_velocity_label: 'Velocity',
 
     // Market Opportunity Analytics (Bubble Chart)
     chart_title: 'Market Opportunity Analytics',
@@ -214,6 +218,10 @@ const DICTIONARY: Record<Language, Translations> = {
     badge_filtered: 'Filtered Category',
     badge_6cat: '6 Categories',
     niche_unit: 'Niches',
+    trend_trajectory_gmv: '8-Wk Trend: ▲ Accelerating',
+    trend_trajectory_price: 'Stable & Competitive Band',
+    trend_trajectory_sourcing: 'High Priority Pipeline',
+    trend_velocity_label: 'Velocity',
 
     // Market Opportunity Analytics (Bubble Chart)
     chart_title: 'Market Opportunity Analytics',

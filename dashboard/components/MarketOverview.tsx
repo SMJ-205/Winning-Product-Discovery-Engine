@@ -161,22 +161,28 @@ export default function MarketOverview({ initialData }: Props) {
             badgeType="positive"
             sparklineColor="#245366"
             sparklinePoints={[25, 30, 42, 38, 55, 60, 52, 78]}
+            insightLabel={t('trend_trajectory_gmv')}
+            trendMetric="▲ +212% Momentum"
           />
           <KpiCard
             title={`${t('kpi_price')} (${selectedScope === 'all' ? t('badge_overall') : t('badge_filtered')})`}
             value={`Rp ${Math.round(avgPrice).toLocaleString('id-ID')}`}
             badge={selectedScope === 'all' ? t('badge_6cat') : t('badge_filtered')}
             badgeType="neutral"
-            sparklineColor="#5c9eaf"
-            sparklinePoints={[50, 45, 48, 40, 42, 36, 38, 32]}
+            sparklineColor="#3b748a"
+            sparklinePoints={[48, 45, 46, 42, 44, 38, 40, 36]}
+            insightLabel={t('trend_trajectory_price')}
+            trendMetric="Rp 32k–50k Band"
           />
           <KpiCard
             title={t('kpi_ready')}
             value={`${highPriorityCount} ${t('niche_unit')}`}
             badge={t('kpi_ready_sub')}
             badgeType="positive"
-            sparklineColor="#245366"
+            sparklineColor="#c2533a"
             sparklinePoints={[10, 20, 15, 35, 30, 50, 65, 80]}
+            insightLabel={t('trend_trajectory_sourcing')}
+            trendMetric="2 WPS ≥ 70"
           />
         </div>
 
