@@ -24,10 +24,10 @@ export default function ScopeFilterBar({
   // Format human-readable active badge label
   const activeDisplayLabel = () => {
     if (selectedScope === 'all') {
-      return lang === 'ID' ? 'Semua Kategori (Lintas Pasar)' : 'All Categories (Cross-Market)'
+      return lang === 'ID' ? 'Semua Kategori' : 'All Categories'
     }
     if (selectedScope === 'winning') {
-      return lang === 'ID' ? 'Winning Niches Saja (WPS ≥ 70)' : 'Winning Niches Only (WPS ≥ 70)'
+      return lang === 'ID' ? 'Winning Niches Saja' : 'Winning Niches Only'
     }
     return selectedScope
   }
@@ -182,12 +182,12 @@ export default function ScopeFilterBar({
             }}
           >
             <option value="all">
-              {lang === 'ID' ? 'Semua Kategori (Lintas Pasar)' : 'All Categories (Cross-Market)'}
+              {lang === 'ID' ? 'Semua Kategori' : 'All Categories'}
             </option>
 
             {showWinningNichesOption && (
               <option value="winning">
-                {lang === 'ID' ? 'Winning Niches Saja (WPS ≥ 70)' : 'Winning Niches Only (WPS ≥ 70)'}
+                {lang === 'ID' ? 'Winning Niches Saja' : 'Winning Niches Only'}
               </option>
             )}
 
