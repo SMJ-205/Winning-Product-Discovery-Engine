@@ -18,6 +18,7 @@ type Props = {
   prices: PriceItem[]
   reviews?: ReviewItem[]
   categories?: string[]
+  snapshotDate?: string
 }
 
 const ASPECT_KEYS: Record<string, string> = {
@@ -37,7 +38,7 @@ const ASPECT_KEYS: Record<string, string> = {
   'Other Complaints': 'card_pain_point',
 }
 
-export default function PricingClientView({ complaints = [], prices = [], reviews = [], categories = [] }: Props) {
+export default function PricingClientView({ complaints = [], prices = [], reviews = [], categories = [], snapshotDate }: Props) {
   const { t, lang } = useLanguage()
   const [activeTab, setActiveTab] = useState<'research' | 'pricing'>('research')
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
@@ -104,7 +105,7 @@ export default function PricingClientView({ complaints = [], prices = [], review
   return (
     <div style={{ maxWidth: 1440, margin: '0 auto' }}>
       {/* Header */}
-      <Header />
+      <Header snapshotDate={snapshotDate || (prices as any)?.[0]?.snapshot_date} />
 
       {/* Category Scope Filter Bar */}
       <div style={{ marginBottom: '1.25rem' }}>

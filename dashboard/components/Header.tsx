@@ -7,11 +7,13 @@ import { useLanguage } from '@/context/LanguageContext'
 type Props = {
   title?: string
   subtitle?: string
+  snapshotDate?: string
 }
 
 export default function Header({
   title,
   subtitle,
+  snapshotDate,
 }: Props) {
   const pathname = usePathname()
   const { lang, toggleLang, t } = useLanguage()
@@ -39,19 +41,32 @@ export default function Header({
       : t('sub_overall')
   )
 
-  // Hitung rentang 1 minggu persis (7 hari terakhir dari hari ini)
+  // Fixed Weekly Window: Terkunci pada tanggal batch snapshot pipeline aktual
+  // (misal 8 Sep – 15 Sep 2026), tidak bergeser harian.
   const weekRangeText = useMemo(() => {
-    const now = new Date()
-    const past7d = new Date()
-    past7d.setDate(now.getDate() - 7)
-    
+    // Gunakan snapshotDate dari data pipeline riil, atau fallback ke tanggal batch aktif
+    let anchor: Date
+    if (snapshotDate) {
+      anchor = new Date(snapshotDate)
+    } else {
+      anchor = new Date('2026-09-15')
+    }
+
+    if (isNaN(anchor.getTime())) {
+      anchor = new Date('2026-09-15')
+    }
+
+    // 7 hari siklus mingguan: anchor - 7 hari hingga anchor
+    const start = new Date(anchor)
+    start.setDate(anchor.getDate() - 7)
+
     const formatDate = (d: Date) =>
       d.toLocaleDateString(lang === 'ID' ? 'id-ID' : 'en-US', { day: '2-digit', month: 'short' })
     const formatFullDate = (d: Date) =>
       d.toLocaleDateString(lang === 'ID' ? 'id-ID' : 'en-US', { day: '2-digit', month: 'short', year: 'numeric' })
-    
-    return `${formatDate(past7d)} – ${formatFullDate(now)}`
-  }, [lang])
+
+    return `${formatDate(start)} – ${formatFullDate(anchor)}`
+  }, [lang, snapshotDate])
 
   return (
     <div style={{ marginBottom: '2rem' }}>
