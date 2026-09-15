@@ -1,9 +1,30 @@
+export interface RfmMetric {
+  score: number // 1 to 5
+  value: string
+  labelId: string
+  labelEn: string
+}
+
+export interface RfmProfile {
+  archetype: {
+    id: string
+    en: string
+  }
+  retentionRate: number
+  recency: RfmMetric
+  frequency: RfmMetric
+  monetary: RfmMetric
+  summaryId: string
+  summaryEn: string
+}
+
 export interface DemographicData {
   ageData: { name: string; value: number; color: string }[]
   dominantAge: string
   femalePct: number
   malePct: number
   regions: { name: string; pct: number; hub: string }[]
+  rfm: RfmProfile
 }
 
 export interface BrandAwarenessData {
@@ -51,6 +72,15 @@ export const CATEGORY_DEMOGRAPHICS: Record<string, DemographicData> = {
       { name: 'Jawa Timur & Tengah', pct: 18, hub: 'Surabaya, Semarang, Malang' },
       { name: 'Luar Jawa', pct: 16, hub: 'Medan, Makassar, Padang' },
     ],
+    rfm: {
+      archetype: { id: 'Konsumen Berulang Urban', en: 'Urban Repeat Shoppers' },
+      retentionRate: 58,
+      recency: { score: 4.2, value: '7-14 Hari', labelId: 'Siklus Reguler', labelEn: 'Regular Cycle' },
+      frequency: { score: 3.5, value: '2.4x / Kuartal', labelId: 'Frekuensi Sedang', labelEn: 'Moderate Frequency' },
+      monetary: { score: 3.8, value: 'Rp 88k AOV', labelId: 'Keranjang Menengah', labelEn: 'Mid-Tier Basket' },
+      summaryId: 'Kombinasi pembelian rutin FMCG dan produk durabel terencana di sentra urban.',
+      summaryEn: 'Balanced mix of consumable replenishment and planned durable purchases across urban hubs.',
+    },
   },
   'Elektronik & Gadget': {
     ageData: [
@@ -70,6 +100,15 @@ export const CATEGORY_DEMOGRAPHICS: Record<string, DemographicData> = {
       { name: 'Jawa Timur & Tengah', pct: 16, hub: 'Surabaya & Semarang Hub' },
       { name: 'Luar Jawa', pct: 12, hub: 'Batam, Medan, Makassar' },
     ],
+    rfm: {
+      archetype: { id: 'Pembeli Selektif Berorientasi Fitur', en: 'Feature-Driven Tech Buyers' },
+      retentionRate: 44,
+      recency: { score: 3.2, value: '35-45 Hari', labelId: 'Siklus Selektif', labelEn: 'Selective Cycle' },
+      frequency: { score: 2.3, value: '1.4x / Kuartal', labelId: 'Pembelian Terencana', labelEn: 'Planned Upgrades' },
+      monetary: { score: 4.5, value: 'Rp 115k AOV', labelId: 'Tiket Transaksi Tinggi', labelEn: 'Higher Ticket Value' },
+      summaryId: 'Fokus kuat pada spesifikasi teknis, komparasi ulasan, dan jaminan garansi.',
+      summaryEn: 'Customers prioritize technical specs, in-depth review comparisons, and warranty coverage.',
+    },
   },
   'Dapur & Makanan': {
     ageData: [
@@ -89,6 +128,15 @@ export const CATEGORY_DEMOGRAPHICS: Record<string, DemographicData> = {
       { name: 'Jawa Timur & Tengah', pct: 26, hub: 'Sentra Bumbu Sidoarjo & Solo' },
       { name: 'Luar Jawa', pct: 12, hub: 'Padang, Palembang, Bali' },
     ],
+    rfm: {
+      archetype: { id: 'Juara Belanja Rutin (Champions)', en: 'High-Frequency Champions' },
+      retentionRate: 76,
+      recency: { score: 4.9, value: '3-5 Hari', labelId: 'Siklus Sangat Cepat', labelEn: 'Ultra-Fast Recency' },
+      frequency: { score: 4.8, value: '3.6x / Kuartal', labelId: 'Repeat Order Tinggi', labelEn: 'High Repeat Frequency' },
+      monetary: { score: 3.4, value: 'Rp 65k AOV', labelId: 'Keranjang Konsisten', labelEn: 'Consistent Basket' },
+      summaryId: 'Perputaran konsumsi cepat dengan loyalitas rasa dan kepuasan kemasan higienis.',
+      summaryEn: 'Rapid restocking cadence driven by daily consumption, brand familiarity, and packaging.',
+    },
   },
   'Ibu & Kebutuhan Bayi': {
     ageData: [
@@ -108,6 +156,15 @@ export const CATEGORY_DEMOGRAPHICS: Record<string, DemographicData> = {
       { name: 'Jawa Timur & Tengah', pct: 17, hub: 'Surabaya Baby Hub' },
       { name: 'Luar Jawa', pct: 12, hub: 'Medan, Pekanbaru, Denpasar' },
     ],
+    rfm: {
+      archetype: { id: 'Pelanggan Loyal & Komunitas VIP', en: 'Loyal Nurturers (High CLV)' },
+      retentionRate: 72,
+      recency: { score: 4.6, value: '7-10 Hari', labelId: 'Siklus Tumbuh Kembang', labelEn: 'Growth Stage Restock' },
+      frequency: { score: 4.2, value: '3.1x / Kuartal', labelId: 'Sering Belanja Ulang', labelEn: 'Frequent Restock' },
+      monetary: { score: 4.4, value: 'Rp 140k AOV', labelId: 'Keranjang Premium', labelEn: 'Premium Basket' },
+      summaryId: 'Sensitivitas keamanan tinggi, loyal pada brand terpercaya dan rekomendasi komunitas.',
+      summaryEn: 'High safety sensitivity, high brand loyalty, and premium willingness-to-pay for infants.',
+    },
   },
   'Otomotif & Pengendara': {
     ageData: [
@@ -127,6 +184,15 @@ export const CATEGORY_DEMOGRAPHICS: Record<string, DemographicData> = {
       { name: 'Jawa Timur & Tengah', pct: 20, hub: 'Surabaya & Semarang Rider' },
       { name: 'Luar Jawa', pct: 13, hub: 'Lampung, Palembang, Pontianak' },
     ],
+    rfm: {
+      archetype: { id: 'Pembeli Solutif & Utilitas Harian', en: 'Utility Commuter Buyers' },
+      retentionRate: 48,
+      recency: { score: 3.5, value: '25-30 Hari', labelId: 'Siklus Penggantian', labelEn: 'Need-Based Replacement' },
+      frequency: { score: 2.7, value: '1.6x / Kuartal', labelId: 'Frekuensi Berkala', labelEn: 'Periodic Frequency' },
+      monetary: { score: 3.6, value: 'Rp 78k AOV', labelId: 'Keranjang Praktis', labelEn: 'Practical Basket' },
+      summaryId: 'Didorong kebutuhan ketahanan cuaca, kemudahan instalasi, dan durabilitas harian.',
+      summaryEn: 'Driven by weather durability, easy plug-and-play installation, and commute reliability.',
+    },
   },
   'Perlengkapan Rumah & Dapur': {
     ageData: [
@@ -146,6 +212,15 @@ export const CATEGORY_DEMOGRAPHICS: Record<string, DemographicData> = {
       { name: 'Jawa Timur & Tengah', pct: 20, hub: 'Jepara & Surabaya Cluster' },
       { name: 'Luar Jawa', pct: 14, hub: 'Makassar, Manado, Balikpapan' },
     ],
+    rfm: {
+      archetype: { id: 'Penata Ruang & Pembeli Proyek', en: 'Home Organizers & Upgraders' },
+      retentionRate: 55,
+      recency: { score: 3.8, value: '18-24 Hari', labelId: 'Siklus Penataan Ruang', labelEn: 'Seasonal Refresh' },
+      frequency: { score: 3.1, value: '2.1x / Kuartal', labelId: 'Pembelian Bertahap', labelEn: 'Batch Upgrades' },
+      monetary: { score: 4.1, value: 'Rp 98k AOV', labelId: 'Keranjang Menengah Atas', labelEn: 'Mid-to-High Basket' },
+      summaryId: 'Belanja paket penataan hunian, fungsionalitas ruang baru, atau upgrade estetika.',
+      summaryEn: 'Customers bundle purchases for apartment move-ins, aesthetic upgrades, and decluttering.',
+    },
   },
   'Kecantikan & Skincare': {
     ageData: [
@@ -165,6 +240,15 @@ export const CATEGORY_DEMOGRAPHICS: Record<string, DemographicData> = {
       { name: 'Jawa Timur & Tengah', pct: 18, hub: 'Surabaya & Yogyakarta' },
       { name: 'Luar Jawa', pct: 11, hub: 'Medan, Samarinda, Denpasar' },
     ],
+    rfm: {
+      archetype: { id: 'Pelanggan Resep Bulanan (VIP)', en: 'Routine Beauty VIPs' },
+      retentionRate: 74,
+      recency: { score: 4.7, value: '12-18 Hari', labelId: 'Siklus Perawatan Rutin', labelEn: 'Routine Replenishment' },
+      frequency: { score: 4.3, value: '3.2x / Kuartal', labelId: 'Frekuensi Rutin Tinggi', labelEn: 'High Regimen Restock' },
+      monetary: { score: 4.3, value: 'Rp 125k AOV', labelId: 'Keranjang Bernilai Tinggi', labelEn: 'High Value Basket' },
+      summaryId: 'Adopsi rutin skincare bulanan dengan retensi tinggi jika formula cocok di kulit.',
+      summaryEn: 'Monthly regimen adoption with strong retention once formula compatibility is established.',
+    },
   },
 }
 
