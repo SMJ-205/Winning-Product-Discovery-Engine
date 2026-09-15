@@ -26,70 +26,11 @@ In Southeast Asian e-commerce marketplaces (Shopee, Tokopedia, TikTok Shop), **o
 
 ## 🧬 End-to-End System Lineage & Architecture
 
-The following landscape diagram illustrates the complete end-to-end data lifecycle—from multi-channel ingestion and AI enrichment to automated scoring and executive visualization:
+The following diagram illustrates the complete end-to-end data lifecycle—from multi-channel ingestion and AI enrichment to automated scoring and executive visualization:
 
-```mermaid
-flowchart LR
-    %% ── 1. Ingestion Layer ──
-    subgraph S1["1. MULTI-SOURCE INGESTION"]
-        direction TB
-        IN1["🛒 E-Commerce Market Data<br/><b>Shopee & Tokopedia Listings</b><br/><i>Price, Volume, Seller Type</i>"]
-        IN2["💬 Customer Review Stream<br/><b>Verified Buyer Feedback</b><br/><i>1-5 Star Ratings & Text Corpora</i>"]
-        IN3["📈 Google Trends API<br/><b>Search Demand Velocity</b><br/><i>Weekly Interest & Momentum</i>"]
-        IN4["🎵 TikTok Creative Center<br/><b>Automated Social Ingestion</b><br/><i>7D Growth & Video Velocity</i>"]
-    end
-
-    %% ── 2. AI Processing Layer ──
-    subgraph S2["2. AI & DATA PIPELINE"]
-        direction TB
-        P1["🧹 Deduplication & Validation<br/><b>Schema Hygiene & Outlier Filter</b>"]
-        P2["🧠 Indonesian NLP Engine<br/><b>Sentiment & Defect Extraction</b><br/><i>Quality, Packaging, Durability</i>"]
-        P3["🏷️ Sourcing Taxonomy Mapping<br/><b>13 Active Sub-Categories</b><br/><i>Target Bands & COGS Baselines</i>"]
-    end
-
-    %% ── 3. Data Warehouse Layer ──
-    subgraph S3["3. CLOUD DATA WAREHOUSE"]
-        direction TB
-        DW_DIMS[("Dimension Tables<br/><b>dim_category_keyword</b><br/><b>dim_competitor_product</b>")]
-        DW_FACTS[("Fact Tables (Idempotent)<br/><b>fact_product_snapshot</b><br/><b>fact_customer_reviews</b>")]
-        DW_VIEWS{"Dynamic SQL Aggregations<br/><b>vw_subcategory_features</b><br/><b>vw_category_analytics</b>"}
-    end
-
-    %% ── 4. Scoring Engine Layer ──
-    subgraph S4["4. WPS SCORING ENGINE"]
-        direction TB
-        WPS1["📊 Omnichannel Trend Blend<br/><i>70% Search Intent + 30% Social Velocity</i>"]
-        WPS2["⚖️ Winning Product Score (WPS)<br/><b>Demand + Margin + Anti-Sat + Gap</b>"]
-        WPS3["🛡️ Pre-Publish Quality Gate<br/><i>Statistical Bounds & Outlier Checks</i>"]
-        DW_OPP[("Opportunity Repository<br/><b>fact_sourcing_opportunity</b>")]
-    end
-
-    %% ── 5. Executive UI Layer ──
-    subgraph S5["5. EXECUTIVE INTELLIGENCE"]
-        direction TB
-        UI1["📌 Macro KPI Scorecards<br/><i>GMV, Price Bands, 8W Trends</i>"]
-        UI2["🌐 Opportunity Matrix<br/><i>Interactive 4-Quadrant Bubble Map</i>"]
-        UI3["🎯 4-Pillar Winning Playbook<br/><i>Demand, HPP, Defect Gap, OEM Hub</i>"]
-        UI4["👥 Customer Persona & RFM<br/><i>Demographics, Sentiment & Supply Cities</i>"]
-        UI5["💰 Unit Economics Simulator<br/><i>Waterfall Net Margin Decomposition</i>"]
-    end
-
-    %% ── Widescreen Horizontal Pipeline Connectors ──
-    IN1 & IN2 & IN3 & IN4 --> P1
-    P1 --> P2 & P3
-    P2 & P3 --> DW_DIMS & DW_FACTS
-    DW_DIMS & DW_FACTS --> DW_VIEWS
-    DW_VIEWS --> WPS1
-    WPS1 --> WPS2 --> WPS3 --> DW_OPP
-    DW_OPP & DW_VIEWS --> UI1 & UI2 & UI3 & UI4 & UI5
-
-    %% ── Styling for High-Contrast Executive Presentation ──
-    style S1 fill:#fcf8f3,stroke:#3b748a,stroke-width:2px,color:#0f172a
-    style S2 fill:#f8fafc,stroke:#64748b,stroke-width:2px,color:#0f172a
-    style S3 fill:#f0fdf4,stroke:#16a34a,stroke-width:2px,color:#0f172a
-    style S4 fill:#fff7ed,stroke:#ea580c,stroke-width:2px,color:#0f172a
-    style S5 fill:#fdf2f8,stroke:#245366,stroke-width:2px,color:#0f172a
-```
+<p align="center">
+  <img src="docs/assets/architecture_flow.png" alt="Biz-In-Sight End-to-End Architecture & Data Pipeline Flow" width="100%" />
+</p>
 
 ---
 
