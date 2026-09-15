@@ -36,7 +36,7 @@ function getSmoothPath(coords: { x: number; y: number }[]): string {
 export default function KpiCard({
   title,
   value,
-  badge = '+2.4%',
+  badge,
   badgeType = 'positive',
   sparklineColor = '#245366',
   sparklinePoints = [25, 32, 40, 38, 55, 62, 54, 78],

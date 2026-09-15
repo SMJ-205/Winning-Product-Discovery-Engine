@@ -282,7 +282,6 @@ export default function MarketOverview({ initialData }: Props) {
           <KpiCard
             title={`${t('kpi_gmv')} (${selectedScope === 'all' ? t('badge_overall') : t('badge_filtered')})`}
             value={formatCompactCurrency(totalRevenue, lang)}
-            badge={selectedScope === 'all' ? t('badge_overall') : t('badge_filtered')}
             badgeType="positive"
             sparklineColor="#245366"
             sparklinePoints={currentTrend.gmvPoints}
@@ -292,7 +291,6 @@ export default function MarketOverview({ initialData }: Props) {
           <KpiCard
             title={`${t('kpi_price')} (${selectedScope === 'all' ? t('badge_overall') : t('badge_filtered')})`}
             value={`Rp ${Math.round(avgPrice).toLocaleString('id-ID')}`}
-            badge={selectedScope === 'all' ? t('badge_6cat') : t('badge_filtered')}
             badgeType="neutral"
             sparklineColor="#3b748a"
             sparklinePoints={currentTrend.pricePoints}
@@ -302,7 +300,6 @@ export default function MarketOverview({ initialData }: Props) {
           <KpiCard
             title={t('kpi_ready')}
             value={`${highPriorityCount} ${t('niche_unit')}`}
-            badge={t('kpi_ready_sub')}
             badgeType="positive"
             sparklineColor="#c2533a"
             sparklinePoints={currentTrend.sourcingPoints}
