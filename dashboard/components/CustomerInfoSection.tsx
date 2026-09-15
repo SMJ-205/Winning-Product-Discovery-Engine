@@ -301,144 +301,155 @@ export default function CustomerInfoSection({ category = 'all' }: Props) {
           </div>
         </div>
 
-        {/* 3-Column RFM Metric Scorecards with Mini Score Bars */}
+        {/* RFM Metric Scorecards - Stacked Full-Width Row Cards (Guaranteed No Overlap) */}
         <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
+          display: 'flex',
+          flexDirection: 'column',
           gap: '0.5rem',
           marginBottom: '0.75rem',
+          width: '100%',
+          boxSizing: 'border-box',
         }}>
-          {/* Recency */}
+          {/* Recency (R) */}
           <div style={{
             background: '#ffffff',
             border: '1px solid #e5dacb',
             borderRadius: 10,
-            padding: '0.5rem',
+            padding: '0.55rem 0.75rem',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between',
+            gap: 4,
+            boxSizing: 'border-box',
           }}>
-            <div>
-              <div style={{ fontSize: '0.625rem', fontWeight: 700, color: '#576574', textTransform: 'uppercase' }}>
-                Recency (R)
-              </div>
-              <div style={{ fontSize: '0.78125rem', fontWeight: 800, color: '#1e293b', marginTop: 2, whiteSpace: 'nowrap' }}>
-                {rfm.recency.value}
-              </div>
-            </div>
-            <div style={{ marginTop: '0.35rem' }}>
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                fontSize: '0.59rem',
-                color: '#64748b',
-                marginBottom: 3,
-              }}>
-                <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                  {lang === 'ID' ? rfm.recency.labelId : rfm.recency.labelEn}
-                </span>
-                <span style={{ fontWeight: 700, color: '#245366', marginLeft: 2 }}>{rfm.recency.score}/5</span>
-              </div>
-              <div style={{ width: '100%', height: 4, background: '#f0e8dc', borderRadius: 2, overflow: 'hidden' }}>
-                <div style={{
-                  width: mounted ? `${(rfm.recency.score / 5) * 100}%` : '0%',
-                  height: '100%',
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span style={{
+                  fontSize: '0.625rem',
+                  fontWeight: 800,
+                  color: '#ffffff',
                   background: '#245366',
-                  borderRadius: 2,
-                  transition: 'width 1s cubic-bezier(0.16, 1, 0.3, 1)',
-                }} />
+                  borderRadius: 4,
+                  padding: '1px 5px',
+                  lineHeight: '1.2',
+                }}>R</span>
+                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#1e293b' }}>
+                  {lang === 'ID' ? 'Recency (Jeda Beli)' : 'Recency (Interval)'}
+                </span>
               </div>
+              <b style={{ fontSize: '0.8125rem', color: '#1e293b', fontWeight: 800 }}>
+                {rfm.recency.value}
+              </b>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.65rem', color: '#64748b' }}>
+              <span>{lang === 'ID' ? rfm.recency.labelId : rfm.recency.labelEn}</span>
+              <span style={{ fontWeight: 700, color: '#245366' }}>{rfm.recency.score}/5</span>
+            </div>
+
+            <div style={{ width: '100%', height: 4, background: '#f0e8dc', borderRadius: 2, overflow: 'hidden', marginTop: 1 }}>
+              <div style={{
+                width: mounted ? `${(rfm.recency.score / 5) * 100}%` : '0%',
+                height: '100%',
+                background: '#245366',
+                borderRadius: 2,
+                transition: 'width 1s cubic-bezier(0.16, 1, 0.3, 1)',
+              }} />
             </div>
           </div>
 
-          {/* Frequency */}
+          {/* Frequency (F) */}
           <div style={{
             background: '#ffffff',
             border: '1px solid #e5dacb',
             borderRadius: 10,
-            padding: '0.5rem',
+            padding: '0.55rem 0.75rem',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between',
+            gap: 4,
+            boxSizing: 'border-box',
           }}>
-            <div>
-              <div style={{ fontSize: '0.625rem', fontWeight: 700, color: '#576574', textTransform: 'uppercase' }}>
-                Frequency (F)
-              </div>
-              <div style={{ fontSize: '0.78125rem', fontWeight: 800, color: '#1e293b', marginTop: 2, whiteSpace: 'nowrap' }}>
-                {rfm.frequency.value}
-              </div>
-            </div>
-            <div style={{ marginTop: '0.35rem' }}>
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                fontSize: '0.59rem',
-                color: '#64748b',
-                marginBottom: 3,
-              }}>
-                <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                  {lang === 'ID' ? rfm.frequency.labelId : rfm.frequency.labelEn}
-                </span>
-                <span style={{ fontWeight: 700, color: '#387388', marginLeft: 2 }}>{rfm.frequency.score}/5</span>
-              </div>
-              <div style={{ width: '100%', height: 4, background: '#f0e8dc', borderRadius: 2, overflow: 'hidden' }}>
-                <div style={{
-                  width: mounted ? `${(rfm.frequency.score / 5) * 100}%` : '0%',
-                  height: '100%',
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span style={{
+                  fontSize: '0.625rem',
+                  fontWeight: 800,
+                  color: '#ffffff',
                   background: '#387388',
-                  borderRadius: 2,
-                  transition: 'width 1s cubic-bezier(0.16, 1, 0.3, 1)',
-                  transitionDelay: '60ms',
-                }} />
+                  borderRadius: 4,
+                  padding: '1px 5px',
+                  lineHeight: '1.2',
+                }}>F</span>
+                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#1e293b' }}>
+                  {lang === 'ID' ? 'Frekuensi (Repeat)' : 'Repeat Frequency'}
+                </span>
               </div>
+              <b style={{ fontSize: '0.8125rem', color: '#1e293b', fontWeight: 800 }}>
+                {rfm.frequency.value}
+              </b>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.65rem', color: '#64748b' }}>
+              <span>{lang === 'ID' ? rfm.frequency.labelId : rfm.frequency.labelEn}</span>
+              <span style={{ fontWeight: 700, color: '#387388' }}>{rfm.frequency.score}/5</span>
+            </div>
+
+            <div style={{ width: '100%', height: 4, background: '#f0e8dc', borderRadius: 2, overflow: 'hidden', marginTop: 1 }}>
+              <div style={{
+                width: mounted ? `${(rfm.frequency.score / 5) * 100}%` : '0%',
+                height: '100%',
+                background: '#387388',
+                borderRadius: 2,
+                transition: 'width 1s cubic-bezier(0.16, 1, 0.3, 1)',
+                transitionDelay: '60ms',
+              }} />
             </div>
           </div>
 
-          {/* Monetary */}
+          {/* Monetary (M) */}
           <div style={{
             background: '#ffffff',
             border: '1px solid #e5dacb',
             borderRadius: 10,
-            padding: '0.5rem',
+            padding: '0.55rem 0.75rem',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between',
+            gap: 4,
+            boxSizing: 'border-box',
           }}>
-            <div>
-              <div style={{ fontSize: '0.625rem', fontWeight: 700, color: '#576574', textTransform: 'uppercase' }}>
-                Monetary (M)
-              </div>
-              <div style={{ fontSize: '0.78125rem', fontWeight: 800, color: '#1e293b', marginTop: 2, whiteSpace: 'nowrap' }}>
-                {rfm.monetary.value}
-              </div>
-            </div>
-            <div style={{ marginTop: '0.35rem' }}>
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                fontSize: '0.59rem',
-                color: '#64748b',
-                marginBottom: 3,
-              }}>
-                <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                  {lang === 'ID' ? rfm.monetary.labelId : rfm.monetary.labelEn}
-                </span>
-                <span style={{ fontWeight: 700, color: '#528fa3', marginLeft: 2 }}>{rfm.monetary.score}/5</span>
-              </div>
-              <div style={{ width: '100%', height: 4, background: '#f0e8dc', borderRadius: 2, overflow: 'hidden' }}>
-                <div style={{
-                  width: mounted ? `${(rfm.monetary.score / 5) * 100}%` : '0%',
-                  height: '100%',
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span style={{
+                  fontSize: '0.625rem',
+                  fontWeight: 800,
+                  color: '#ffffff',
                   background: '#528fa3',
-                  borderRadius: 2,
-                  transition: 'width 1s cubic-bezier(0.16, 1, 0.3, 1)',
-                  transitionDelay: '120ms',
-                }} />
+                  borderRadius: 4,
+                  padding: '1px 5px',
+                  lineHeight: '1.2',
+                }}>M</span>
+                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#1e293b' }}>
+                  {lang === 'ID' ? 'Moneter (AOV)' : 'Monetary Value'}
+                </span>
               </div>
+              <b style={{ fontSize: '0.8125rem', color: '#1e293b', fontWeight: 800 }}>
+                {rfm.monetary.value}
+              </b>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.65rem', color: '#64748b' }}>
+              <span>{lang === 'ID' ? rfm.monetary.labelId : rfm.monetary.labelEn}</span>
+              <span style={{ fontWeight: 700, color: '#528fa3' }}>{rfm.monetary.score}/5</span>
+            </div>
+
+            <div style={{ width: '100%', height: 4, background: '#f0e8dc', borderRadius: 2, overflow: 'hidden', marginTop: 1 }}>
+              <div style={{
+                width: mounted ? `${(rfm.monetary.score / 5) * 100}%` : '0%',
+                height: '100%',
+                background: '#528fa3',
+                borderRadius: 2,
+                transition: 'width 1s cubic-bezier(0.16, 1, 0.3, 1)',
+                transitionDelay: '120ms',
+              }} />
             </div>
           </div>
         </div>
