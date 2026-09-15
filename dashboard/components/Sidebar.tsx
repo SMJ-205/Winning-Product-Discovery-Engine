@@ -78,14 +78,30 @@ export default function Sidebar() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          color: '#ffffff',
-          fontWeight: 800,
-          fontSize: 15,
-          letterSpacing: '-0.02em',
           boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
           flexShrink: 0,
         }}>
-          BIS
+          <span style={{
+            color: '#ffffff',
+            fontWeight: 800,
+            fontSize: 14,
+            letterSpacing: '-0.02em',
+            display: 'inline-flex',
+            alignItems: 'baseline',
+          }}>
+            BIS
+            <span style={{
+              fontSize: '10px',
+              fontStyle: 'italic',
+              fontWeight: 800,
+              color: '#f3ece3',
+              transform: 'translateY(-5px)',
+              marginLeft: '1px',
+              display: 'inline-block',
+            }}>
+              t
+            </span>
+          </span>
         </div>
         <div>
           <div style={{
