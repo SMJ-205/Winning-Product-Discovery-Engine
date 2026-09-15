@@ -159,7 +159,7 @@ export default function CustomerInfoSection({ category = 'all' }: Props) {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginBottom: '0.5rem',
+          marginBottom: '0.75rem',
         }}>
           <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#1e293b' }}>
             {t('age_group')}
@@ -171,13 +171,14 @@ export default function CustomerInfoSection({ category = 'all' }: Props) {
             background: '#245366',
             padding: '2px 8px',
             borderRadius: 9999,
+            whiteSpace: 'nowrap',
           }}>
-            Dominant: {dominantAge}
+            {lang === 'ID' ? `Dominan: ${dominantAge}` : `Dominant: ${dominantAge}`}
           </span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <div style={{ width: 130, height: 130, position: 'relative' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div style={{ width: 110, height: 110, position: 'relative', flexShrink: 0 }}>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Tooltip
@@ -187,6 +188,7 @@ export default function CustomerInfoSection({ category = 'all' }: Props) {
                     borderRadius: 10,
                     fontSize: 12,
                     color: '#1e293b',
+                    padding: '6px 10px',
                   }}
                   formatter={(v: any) => [`${v}%`, t('age_group')]}
                 />
@@ -194,8 +196,8 @@ export default function CustomerInfoSection({ category = 'all' }: Props) {
                   data={ageData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={36}
-                  outerRadius={56}
+                  innerRadius={32}
+                  outerRadius={52}
                   paddingAngle={3}
                   dataKey="value"
                 >
@@ -207,24 +209,47 @@ export default function CustomerInfoSection({ category = 'all' }: Props) {
             </ResponsiveContainer>
           </div>
 
-          {/* Age Legend pills */}
+          {/* Age Legend Clean Single-Column List */}
           <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
-            gap: '0.35rem 0.6rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.3rem',
             flex: 1,
+            minWidth: 0,
           }}>
             {ageData.map(d => (
-              <div key={d.name} style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: '0.7rem' }}>
-                <span style={{ width: 7, height: 7, borderRadius: '50%', background: d.color }} />
-                <span style={{ color: '#576574', fontWeight: 500 }}>{d.name}:</span>
-                <b style={{ color: '#1e293b' }}>{d.value}%</b>
+              <div
+                key={d.name}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  fontSize: '0.72rem',
+                  lineHeight: 1.2,
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, minWidth: 0 }}>
+                  <span style={{
+                    width: 7,
+                    height: 7,
+                    borderRadius: '50%',
+                    background: d.color,
+                    flexShrink: 0,
+                  }} />
+                  <span style={{ color: '#576574', fontWeight: 600 }}>
+                    {d.name.replace('-', '–')}
+                  </span>
+                </div>
+                <b style={{ color: '#1e293b', fontWeight: 800, fontSize: '0.75rem', marginLeft: '0.5rem' }}>
+                  {d.value}%
+                </b>
               </div>
             ))}
           </div>
         </div>
         {/* Estimated label */}
-        <div style={{ fontSize: '0.6rem', color: '#94a3b8', marginTop: '0.4rem', fontStyle: 'italic' }}>
+        <div style={{ fontSize: '0.6rem', color: '#94a3b8', marginTop: '0.5rem', fontStyle: 'italic' }}>
           {lang === 'ID' ? 'Estimasi segmen berdasarkan profil kategori e-commerce Indonesia' : 'Estimated segment based on Indonesian e-commerce category profile'}
         </div>
       </div>
