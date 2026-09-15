@@ -96,7 +96,7 @@ export default function Sidebar() {
               fontWeight: 800,
               color: '#f3ece3',
               transform: 'translateY(-5px)',
-              marginLeft: '1px',
+              marginLeft: '-1.5px',
               display: 'inline-block',
             }}>
               t
