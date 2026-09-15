@@ -35,7 +35,7 @@ BASE_DIR   = Path(__file__).resolve().parents[2]
 RAW_DIR    = BASE_DIR / "data" / "raw"
 
 # Kolom wajib yang harus ada di dataset Kaggle
-REQUIRED_PRODUCT_COLS = {"product_id", "product_name", "price", "item_sold", "shop_name", "shop_type", "location"}
+REQUIRED_PRODUCT_COLS = {"product_id", "product_name", "price", "item_sold", "shop_name", "shop_type", "location", "search_keyword"}
 REQUIRED_REVIEW_COLS  = {"review_id", "product_id", "rating_star", "review_text"}
 
 
@@ -88,20 +88,67 @@ def load_reviews_csv(filepath: str = "data/raw/reviews.csv") -> Optional[pd.Data
 
 
 # ---------------------------------------------------------------------------
-# 2. Transformasi — mapping kolom Kaggle → skema internal
+# 2. Fetch keyword_id map dari DB (fix ForeignKeyViolation)
 # ---------------------------------------------------------------------------
 
-def transform_products(df: pd.DataFrame, keyword_id: Optional[int] = None) -> pd.DataFrame:
+def fetch_keyword_id_map(engine) -> dict[str, int]:
+    """
+    Ambil mapping search_keyword → keyword_id yang AKTUAL dari dim_category_keyword.
+
+    Digunakan untuk override keyword_id di CSV agar selalu sesuai dengan
+    ID yang benar-benar ada di DB — mencegah ForeignKeyViolation saat
+    keyword_id di CSV tidak match dengan DB (mis. setelah seed manual).
+    """
+    with engine.connect() as conn:
+        rows = conn.execute(
+            text("SELECT keyword_id, search_keyword FROM dim_category_keyword WHERE is_active = TRUE")
+        ).mappings().all()
+    mapping = {row["search_keyword"]: row["keyword_id"] for row in rows}
+    log.info("Keyword ID map dari DB: %d entri aktif", len(mapping))
+    return mapping
+
+
+# ---------------------------------------------------------------------------
+# 3. Transformasi — mapping kolom Kaggle → skema internal
+# ---------------------------------------------------------------------------
+
+def transform_products(
+    df: pd.DataFrame,
+    keyword_id: Optional[int] = None,
+    keyword_map: Optional[dict[str, int]] = None,
+) -> pd.DataFrame:
     """
     Map kolom Kaggle ke skema dim_competitor_product + fact_product_snapshot.
     shop_type 'official' / 'star' → is_mall_seller = True
+
+    keyword_map: dict search_keyword → keyword_id dari DB.
+      Jika disediakan dan CSV punya kolom 'search_keyword', ID akan di-lookup
+      dari map ini (mengabaikan kolom keyword_id di CSV yang mungkin stale).
+      Ini adalah fix untuk ForeignKeyViolation saat ID di CSV ≠ ID di DB.
     """
     df = df.copy()
     df["product_id"]  = df["product_id"].astype(str).str.strip()
     df["price"]       = pd.to_numeric(df["price"], errors="coerce")
     df["item_sold"]   = pd.to_numeric(df["item_sold"].astype(str).str.replace(r"[^\d]", "", regex=True), errors="coerce")
     df["is_mall_seller"] = df["shop_type"].str.lower().str.contains("official|star|mall", na=False)
-    if "keyword_id" not in df.columns:
+
+    # Prioritas keyword_id:
+    # 1. Lookup dari DB via search_keyword (paling akurat)
+    # 2. Kolom keyword_id di CSV (fallback)
+    # 3. Parameter keyword_id (legacy)
+    if keyword_map and "search_keyword" in df.columns:
+        df["keyword_id"] = df["search_keyword"].map(keyword_map)
+        unmapped = df["keyword_id"].isna().sum()
+        if unmapped:
+            log.warning(
+                "%d produk tidak bisa dipetakan ke keyword_id (search_keyword tidak ada di DB). "
+                "Produk ini akan dilewati.",
+                unmapped,
+            )
+        df = df.dropna(subset=["keyword_id"])
+        df["keyword_id"] = df["keyword_id"].astype(int)
+        log.info("keyword_id di-resolve dari DB map: %d produk valid", len(df))
+    elif "keyword_id" not in df.columns:
         df["keyword_id"] = keyword_id
 
     # Hapus duplikat product_id
@@ -236,9 +283,16 @@ def run_kaggle_loader(
 
     stats = {"products_inserted": 0, "snapshots_inserted": 0, "reviews_inserted": 0}
 
+    # Fetch keyword_id map dari DB untuk resolusi yang akurat
+    keyword_map: dict[str, int] = {}
+    try:
+        keyword_map = fetch_keyword_id_map(engine)
+    except Exception as exc:
+        log.warning("Gagal fetch keyword map dari DB: %s. Fallback ke keyword_id di CSV.", exc)
+
     # Transform & upsert products
     if df_products is not None:
-        df_products = transform_products(df_products)
+        df_products = transform_products(df_products, keyword_map=keyword_map)
         ins_dim, ins_snap = upsert_products(df_products, engine)
         stats["products_inserted"]  = ins_dim
         stats["snapshots_inserted"] = ins_snap

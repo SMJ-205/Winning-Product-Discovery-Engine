@@ -185,3 +185,70 @@ export async function getScoringData(keywordId?: string | null) {
   setCache(cacheKey, result)
   return result
 }
+
+// ── C2/C3 Fix: Tipe data analitik kategori dari vw_category_analytics ────────
+export interface CategoryAnalytics {
+  category_name: string
+  n_products: number
+  n_keywords: number
+  total_units_monthly: number
+  median_price: number
+  mall_seller_ratio: number
+  avg_review_count: number
+  avg_rating: number
+  negative_review_rate: number
+  positive_review_rate: number
+  avg_sentiment_score: number
+  rfm_recency_score: number
+  rfm_frequency_score: number
+  rfm_monetary_score: number
+  rfm_monetary_display: string
+  est_retention_rate: number
+  top_cities: { city: string; count: number }[] | null
+}
+
+/**
+ * Ambil analitik dinamis per kategori dari vw_category_analytics.
+ *
+ * Data yang NYATA dari DB:
+ *   - top_cities: distribusi kota seller (proxy supply geography)
+ *   - avg_rating, positive/negative_review_rate: distribusi sentimen
+ *   - rfm_*_score: RFM proxy dari monthly_sold_units, median_price, review_count
+ *   - est_retention_rate: estimasi dari positive_review_rate
+ *
+ * Data yang MASIH ESTIMASI (tidak tersedia di dataset):
+ *   - Age distribution → gunakan CATEGORY_DEMOGRAPHICS dari analyticsProfiles.ts
+ *   - Gender split → gunakan CATEGORY_DEMOGRAPHICS dari analyticsProfiles.ts
+ *
+ * C2/C3 Fix: menggantikan data RFM & region yang sebelumnya fully hardcoded.
+ */
+export async function getCategoryAnalytics(
+  categoryName?: string | null
+): Promise<CategoryAnalytics[]> {
+  const cacheKey = `category_analytics_${categoryName || 'all'}`
+  const cached = getCached<CategoryAnalytics[]>(cacheKey)
+  if (cached) return cached
+
+  const supabase = getSupabase()
+
+  let query = supabase
+    .from('vw_category_analytics')
+    .select('*')
+    .order('total_units_monthly', { ascending: false })
+
+  if (categoryName && categoryName !== 'all') {
+    query = query.eq('category_name', categoryName)
+  }
+
+  const { data, error } = await query
+
+  if (error) {
+    console.error('Error fetching vw_category_analytics:', error)
+    return []
+  }
+
+  const result = (data ?? []) as CategoryAnalytics[]
+  setCache(cacheKey, result)
+  return result
+}
+

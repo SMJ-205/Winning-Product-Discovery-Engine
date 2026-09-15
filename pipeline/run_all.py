@@ -64,6 +64,14 @@ def main() -> None:
     # ── Step 2b: TikTok Creative Center Weekly Trends ───────────────────
     log.info("[2b/6] TikTok Creative Center Weekly Ingestion")
     try:
+        # Otomasi ekstraksi & update data/raw/tiktok_weekly_trends.csv via Playwright
+        try:
+            from scripts.fetch_tiktok_trends import run_tiktok_trend_extraction
+            extract_stat = run_tiktok_trend_extraction(headless=True)
+            log.info("Otomasi TikTok CSV: %d baris diperbarui otomatis", extract_stat.get("rows_count", 0))
+        except Exception as exc:
+            log.warning("Otomasi ekstraksi TikTok Playwright dilewati (%s) — beralih ke file CSV lokal/baseline", exc)
+
         from pipeline.ingestion.tiktok_trends import run_tiktok_trends_ingestion
         tiktok_results = run_tiktok_trends_ingestion()
         log.info("TikTok trends selesai: %d keyword diproses", len(tiktok_results))

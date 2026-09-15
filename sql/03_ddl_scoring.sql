@@ -33,6 +33,13 @@ CREATE TABLE IF NOT EXISTS fact_sourcing_opportunity (
 CREATE INDEX IF NOT EXISTS idx_scoring_keyword  ON fact_sourcing_opportunity(keyword_id);
 CREATE INDEX IF NOT EXISTS idx_scoring_date     ON fact_sourcing_opportunity(scored_at DESC);
 CREATE INDEX IF NOT EXISTS idx_scoring_wps      ON fact_sourcing_opportunity(winning_product_score DESC);
+CREATE INDEX IF NOT EXISTS idx_scoring_run_id   ON fact_sourcing_opportunity(pipeline_run_id);
+
+-- Constraint: satu pipeline run hanya boleh menghasilkan 1 baris skor per sub-kategori.
+-- Pipeline menggunakan INSERT ... ON CONFLICT DO UPDATE (upsert) bukan INSERT biasa.
+ALTER TABLE fact_sourcing_opportunity
+  ADD CONSTRAINT uq_scoring_keyword_run
+  UNIQUE (keyword_id, pipeline_run_id);
 
 COMMENT ON TABLE  fact_sourcing_opportunity IS 'Hasil scoring WPS per sub-kategori, dihasilkan oleh pipeline scoring mingguan.';
 COMMENT ON COLUMN fact_sourcing_opportunity.winning_product_score IS

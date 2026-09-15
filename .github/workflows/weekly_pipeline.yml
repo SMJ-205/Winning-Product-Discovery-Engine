@@ -1,43 +1,105 @@
 name: Weekly Product Discovery Pipeline
 
+# =============================================================================
+# Jadwal: Setiap Senin pukul 01:00 UTC (08:00 WIB)
+# - Satu siklus kalender mingguan = satu pipeline_run_id unik.
+# - Constraint UNIQUE(keyword_id, pipeline_run_id) di fact_sourcing_opportunity
+#   memastikan retry otomatis (jika job gagal dan di-rerun) tidak menghasilkan
+#   duplikat — pipeline bersifat idempotent via INSERT ... ON CONFLICT DO UPDATE.
+# =============================================================================
+
 on:
   schedule:
-    - cron: "0 20 * * 0"  # Setiap Minggu 20:00 UTC (~Senin 03:00 WIB)
-  workflow_dispatch: {}    # Tombol "Run workflow" manual di GitHub UI
+    - cron: "0 1 * * 1"   # Setiap Senin 01:00 UTC = 08:00 WIB (awal minggu kerja)
+  workflow_dispatch:        # Tombol "Run workflow" manual di GitHub UI
+    inputs:
+      force_run_id:
+        description: "Override pipeline_run_id (opsional — kosongkan untuk pakai github.run_id)"
+        required: false
+        default: ""
 
 jobs:
   run-pipeline:
     name: Run Scoring Pipeline
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45        # Margin ekstra dari 30 menit sebelumnya
+
+    # Izin minimal yang diperlukan
+    permissions:
+      contents: read
 
     steps:
-      - name: Checkout repo
+      # ── 1. Checkout ────────────────────────────────────────────────────────
+      - name: Checkout repository
         uses: actions/checkout@v4
 
+      # ── 2. Setup Python dengan dependency cache ──────────────────────────
       - name: Setup Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: "pip"
+          cache-dependency-path: "requirements.txt"
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+      - name: Install Python dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install --with-deps chromium
 
-      - name: Run smoke test (unit tests)
+      # ── 3. Smoke test (unit tests lokal, tanpa DB) ───────────────────────
+      - name: Run unit tests
         run: pytest pipeline/tests/ -v --tb=short
         env:
-          # Unit tests tidak butuh DB — hanya test logika lokal
-          DATABASE_URL: ""
+          DATABASE_URL: ""   # Unit tests tidak butuh koneksi DB
+
+      # ── 4. Pipeline utama ────────────────────────────────────────────────
+      - name: Resolve pipeline_run_id
+        id: run_meta
+        run: |
+          # Gunakan force_run_id jika diberikan saat manual dispatch,
+          # fallback ke github.run_id untuk otomatisasi normal.
+          RUN_ID="${{ github.event.inputs.force_run_id }}"
+          if [ -z "$RUN_ID" ]; then
+            RUN_ID="gh-${{ github.run_id }}"
+          fi
+          echo "pipeline_run_id=$RUN_ID" >> "$GITHUB_OUTPUT"
+          echo "Pipeline run ID: $RUN_ID"
 
       - name: Run full pipeline
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_RUN_ID: ${{ steps.run_meta.outputs.pipeline_run_id }}
         run: python pipeline/run_all.py
 
+      # ── 5. Verifikasi: pastikan baris baru masuk ke DB ───────────────────
+      - name: Verify scoring results in DB
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          python - <<'EOF'
+          import os
+          from sqlalchemy import create_engine, text
+
+          engine = create_engine(os.environ["DATABASE_URL"])
+          run_id = "${{ steps.run_meta.outputs.pipeline_run_id }}"
+
+          with engine.connect() as conn:
+              result = conn.execute(
+                  text("SELECT COUNT(*) FROM fact_sourcing_opportunity WHERE pipeline_run_id = :rid"),
+                  {"rid": run_id}
+              ).scalar()
+
+          if result == 0:
+              print(f"::error::Tidak ada baris scoring untuk run_id={run_id}. Pipeline mungkin tidak menyimpan hasil.")
+              exit(1)
+
+          print(f"✓ Verifikasi OK: {result} baris disimpan untuk run_id={run_id}")
+          EOF
+
+      # ── 6. Notifikasi pada failure ────────────────────────────────────────
       - name: Notify on failure
         if: failure()
         run: |
           echo "::error::Pipeline gagal. Periksa log di atas untuk detail."
-          echo "Run ID: ${{ github.run_id }}"
+          echo "::error::Run ID: ${{ steps.run_meta.outputs.pipeline_run_id }}"
+          echo "::error::Langkah berikutnya: cek DATABASE_URL secret, quota Supabase, dan log pipeline."

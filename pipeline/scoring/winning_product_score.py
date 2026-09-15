@@ -147,7 +147,16 @@ def calculate_winning_product_score(df_features: pd.DataFrame) -> pd.DataFrame:
 # ---------------------------------------------------------------------------
 
 def save_scoring_results(df_scored: pd.DataFrame, engine, pipeline_run_id: str = "") -> int:
-    """INSERT hasil scoring ke fact_sourcing_opportunity."""
+    """
+    UPSERT hasil scoring ke fact_sourcing_opportunity.
+
+    Menggunakan INSERT ... ON CONFLICT DO UPDATE (upsert) agar pipeline
+    bersifat idempotent terhadap constraint uq_scoring_keyword_run
+    UNIQUE(keyword_id, pipeline_run_id).
+
+    Jika pipeline_run_id yang sama dijalankan ulang (mis. retry GitHub Actions),
+    baris yang ada akan diperbarui dengan skor terbaru — bukan duplikat baru.
+    """
     saved = 0
     with engine.begin() as conn:
         for _, row in df_scored.iterrows():
@@ -160,6 +169,17 @@ def save_scoring_results(df_scored: pd.DataFrame, engine, pipeline_run_id: str =
                     VALUES
                         (:kid, :demand, :comp, :margin, :gap, :wps, :rec,
                          :n_prod, :n_rev, :run_id)
+                    ON CONFLICT (keyword_id, pipeline_run_id)
+                    DO UPDATE SET
+                        demand_score            = EXCLUDED.demand_score,
+                        competition_score       = EXCLUDED.competition_score,
+                        margin_score            = EXCLUDED.margin_score,
+                        gap_score               = EXCLUDED.gap_score,
+                        winning_product_score   = EXCLUDED.winning_product_score,
+                        sourcing_recommendation = EXCLUDED.sourcing_recommendation,
+                        n_products_analyzed     = EXCLUDED.n_products_analyzed,
+                        n_reviews_analyzed      = EXCLUDED.n_reviews_analyzed,
+                        scored_at               = NOW()
                 """),
                 {
                     "kid":    int(row["keyword_id"]),
@@ -175,8 +195,13 @@ def save_scoring_results(df_scored: pd.DataFrame, engine, pipeline_run_id: str =
                 },
             )
             saved += 1
-    log.info("Hasil scoring disimpan: %d baris ke fact_sourcing_opportunity", saved)
+    log.info(
+        "Upsert scoring selesai: %d baris ke fact_sourcing_opportunity (run_id=%s)",
+        saved,
+        pipeline_run_id or "local",
+    )
     return saved
+
 
 
 # ---------------------------------------------------------------------------
