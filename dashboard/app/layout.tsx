@@ -11,7 +11,7 @@ const font = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: 'Biz-In-Sight | Winning Product Discovery Engine',
-  description: 'Analitik e-commerce untuk menemukan produk potensial & menilai kelayakan sourcing berbasis data.',
+  description: 'Analitik e-commerce untuk menemukan produk potensial & menilai kelayakan sourcing berbasis data (Khusus Pasar E-commerce Indonesia).',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

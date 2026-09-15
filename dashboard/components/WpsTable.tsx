@@ -35,7 +35,13 @@ type Row = {
   n_products?:             number
 }
 
-export default function WpsTable({ data }: { data: Row[] }) {
+type Props = {
+  data: Row[]
+  categoryScope?: string
+  categoryMedianPrice?: number
+}
+
+export default function WpsTable({ data, categoryScope, categoryMedianPrice }: Props) {
   const { t } = useLanguage()
 
   const sorted = [...data]
@@ -46,13 +52,13 @@ export default function WpsTable({ data }: { data: Row[] }) {
     <div style={{
       background: '#fcf8f3',
       border: '1px solid #dfd3c3',
-      borderRadius: 22,
+      borderRadius: 20,
       overflow: 'hidden',
       boxShadow: '0 4px 16px -2px rgba(36, 83, 102, 0.06)',
     }}>
       {/* Header */}
       <div style={{
-        padding: '1.25rem 1.5rem',
+        padding: '1rem 1.25rem',
         borderBottom: '1px solid #e5dacb',
         display: 'flex',
         alignItems: 'center',
@@ -61,19 +67,19 @@ export default function WpsTable({ data }: { data: Row[] }) {
         gap: '0.5rem',
       }}>
         <div>
-          <div style={{ fontSize: '1rem', fontWeight: 800, color: '#1e293b' }}>
+          <div style={{ fontSize: '0.9375rem', fontWeight: 800, color: '#1e293b' }}>
             {t('table_title')}
           </div>
-          <div style={{ fontSize: '0.75rem', color: '#576574', marginTop: 2 }}>
+          <div style={{ fontSize: '0.72rem', color: '#576574', marginTop: 2 }}>
             {t('table_sub')}
           </div>
         </div>
 
         <div style={{
-          fontSize: '0.75rem',
+          fontSize: '0.72rem',
           fontWeight: 700,
           color: '#245366',
-          padding: '0.35rem 0.85rem',
+          padding: '0.25rem 0.75rem',
           background: 'rgba(36, 83, 102, 0.1)',
           borderRadius: 9999,
           border: '1px solid rgba(36, 83, 102, 0.25)',
@@ -82,18 +88,18 @@ export default function WpsTable({ data }: { data: Row[] }) {
         </div>
       </div>
 
-      {/* Table content */}
+      {/* Compact Table content */}
       <div style={{ overflowX: 'auto' }}>
-        <table>
+        <table className="wps-table-compact">
           <thead>
             <tr style={{ background: '#ede3d5' }}>
-              <th>{t('col_product')}</th>
-              <th>{t('col_category')}</th>
-              <th>{t('col_units')}</th>
-              <th>{t('col_price')}</th>
-              <th>{t('col_wps')}</th>
-              <th>{t('col_status')}</th>
-              <th>{t('col_action')}</th>
+              <th style={{ textAlign: 'left' }}>{t('col_product')}</th>
+              <th style={{ textAlign: 'left' }}>{t('col_category')}</th>
+              <th style={{ textAlign: 'right' }}>{t('col_units')}</th>
+              <th style={{ textAlign: 'right' }}>{t('col_price')}</th>
+              <th style={{ textAlign: 'left' }}>{t('col_wps')}</th>
+              <th style={{ textAlign: 'center' }}>{t('col_status')}</th>
+              <th style={{ textAlign: 'center' }}>{t('col_action')}</th>
             </tr>
           </thead>
           <tbody>
@@ -102,42 +108,49 @@ export default function WpsTable({ data }: { data: Row[] }) {
               const badge = LABEL_STYLE[rec] ?? LABEL_STYLE['Reject - Saturated / Unfeasible']
               const wps = row.winning_product_score ?? 0
 
+              // Jika filter bukan 'all', gunakan baseline harga median kategori yang terfilter
+              // Kecuali filter diset ke overall ('all') -> tampilkan seperti as is saja (/sourcing)
+              const actionHref = (categoryScope && categoryScope !== 'all')
+                ? `/sourcing?price=${categoryMedianPrice || row.median_price}&category=${encodeURIComponent(categoryScope)}`
+                : '/sourcing'
+
               return (
                 <tr key={row.keyword_id}>
                   {/* Product / Niche Name */}
                   <td>
-                    <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.875rem' }}>
+                    <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.8125rem', lineHeight: 1.25 }}>
                       {row.sub_category}
                     </div>
-                    <div style={{ fontSize: '0.6875rem', color: '#64748b', marginTop: 2 }}>
+                    <div style={{ fontSize: '0.65rem', color: '#64748b', marginTop: 2 }}>
                       {row.n_products ? `${row.n_products} ${t('listings_analyzed')}` : 'Dataset'}
                     </div>
                   </td>
 
                   {/* Category */}
-                  <td style={{ color: '#475569', fontSize: '0.8125rem' }}>
+                  <td style={{ color: '#475569', fontSize: '0.75rem', lineHeight: 1.25 }}>
                     {row.category_name?.replace('_', ' ') ?? 'General'}
                   </td>
 
                   {/* Monthly Units */}
-                  <td style={{ fontWeight: 600, color: '#334155', fontSize: '0.8125rem' }}>
+                  <td style={{ fontWeight: 600, color: '#334155', fontSize: '0.78125rem', textAlign: 'right', whiteSpace: 'nowrap' }}>
                     {row.monthly_sold_units?.toLocaleString('id-ID')}
                   </td>
 
                   {/* Median Price */}
-                  <td style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.875rem' }}>
+                  <td style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.8125rem', textAlign: 'right', whiteSpace: 'nowrap' }}>
                     Rp {row.median_price?.toLocaleString('id-ID')}
                   </td>
 
                   {/* WPS Score with mini bar */}
                   <td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap' }}>
                       <div style={{
-                        width: 55,
-                        height: 6,
+                        width: 36,
+                        height: 5,
                         background: '#e5dacb',
                         borderRadius: 3,
                         overflow: 'hidden',
+                        flexShrink: 0,
                       }}>
                         <div style={{
                           width: `${wps}%`,
@@ -146,22 +159,22 @@ export default function WpsTable({ data }: { data: Row[] }) {
                           borderRadius: 3,
                         }} />
                       </div>
-                      <span style={{ fontWeight: 800, color: badge.color, fontSize: '0.875rem' }}>
+                      <span style={{ fontWeight: 800, color: badge.color, fontSize: '0.8125rem' }}>
                         {wps.toFixed(1)}
                       </span>
                     </div>
                   </td>
 
                   {/* Status Badge without emojis */}
-                  <td>
+                  <td style={{ textAlign: 'center' }}>
                     <span style={{
                       display: 'inline-block',
                       background: badge.bg,
                       color: badge.color,
                       border: `1px solid ${badge.border}`,
                       borderRadius: 9999,
-                      padding: '3px 10px',
-                      fontSize: '0.6875rem',
+                      padding: '2px 8px',
+                      fontSize: '0.65rem',
                       fontWeight: 700,
                       whiteSpace: 'nowrap',
                     }}>
@@ -170,18 +183,21 @@ export default function WpsTable({ data }: { data: Row[] }) {
                   </td>
 
                   {/* Action Link */}
-                  <td>
+                  <td style={{ textAlign: 'center' }}>
                     <Link
-                      href="/sourcing"
+                      href={actionHref}
                       style={{
-                        fontSize: '0.75rem',
+                        fontSize: '0.6875rem',
                         fontWeight: 700,
                         color: '#ffffff',
                         textDecoration: 'none',
-                        padding: '5px 12px',
-                        borderRadius: 8,
+                        padding: '4px 9px',
+                        borderRadius: 6,
                         background: '#245366',
                         border: '1px solid #1c4555',
+                        whiteSpace: 'nowrap',
+                        display: 'inline-block',
+                        transition: 'all 0.15s ease',
                       }}
                     >
                       {t('action_sim_short')}

@@ -8,9 +8,11 @@ import WpsTable from './WpsTable'
 import WpsGaugeCard from './WpsGaugeCard'
 import QuickInsightsCard from './QuickInsightsCard'
 import ScopeFilterBar from './ScopeFilterBar'
+import { CategoryAnalytics } from '@/lib/data'
 
 type Props = {
   initialData: any[]
+  categoryAnalytics?: CategoryAnalytics[]
 }
 
 function formatCompactCurrency(val: number, lang: 'ID' | 'EN'): string {
@@ -186,7 +188,7 @@ const SCOPE_TREND_DATA: Record<string, ScopeTrend> = {
   },
 }
 
-export default function MarketOverview({ initialData }: Props) {
+export default function MarketOverview({ initialData, categoryAnalytics }: Props) {
   const { lang, t } = useLanguage()
 
   // Filter Scope: 'all' | 'winning' | category_name
@@ -241,6 +243,36 @@ export default function MarketOverview({ initialData }: Props) {
     )[0]
   }, [filteredData])
 
+  // Baseline angka median produk per filter kategori
+  // Jika filter diset ke 'all' (overall) -> undefined (tampilkan seperti as is saja)
+  // Jika filter diset ke kategori tertentu -> gunakan baseline median produk kategori tersebut
+  const categoryBaselinePrice = useMemo(() => {
+    if (selectedScope === 'all') {
+      return undefined
+    }
+    // Cari dari database vw_category_analytics jika ada
+    const matched = categoryAnalytics?.find(c => c.category_name === selectedScope)
+    if (matched && matched.median_price) {
+      return matched.median_price
+    }
+    // Fallback: hitung median dari filteredData
+    const prices = filteredData
+      .map((d: any) => d.median_price)
+      .filter((p: any) => typeof p === 'number' && p > 0)
+      .sort((a: number, b: number) => a - b)
+    if (!prices.length) return undefined
+    const mid = Math.floor(prices.length / 2)
+    return prices.length % 2 !== 0 ? prices[mid] : Math.round((prices[mid - 1] + prices[mid]) / 2)
+  }, [selectedScope, categoryAnalytics, filteredData])
+
+  // Dynamic Sourcing URL yang mengarah ke pricing simulator / calculator
+  const sourcingHref = useMemo(() => {
+    if (selectedScope === 'all' || !categoryBaselinePrice) {
+      return '/sourcing'
+    }
+    return `/sourcing?price=${categoryBaselinePrice}&category=${encodeURIComponent(selectedScope)}`
+  }, [selectedScope, categoryBaselinePrice])
+
   // Label scope text for clarification
   const scopeLabel = useMemo(() => {
     if (selectedScope === 'all') return t('scope_overall_badge')
@@ -256,12 +288,12 @@ export default function MarketOverview({ initialData }: Props) {
   return (
     <div style={{
       display: 'grid',
-      gridTemplateColumns: 'minmax(0, 1fr) 380px',
-      gap: '2rem',
+      gridTemplateColumns: 'minmax(0, 1fr) 350px',
+      gap: '1.5rem',
       padding: '0 2rem 3rem 2rem',
     }}>
       {/* Left Column: Scope Filter, KPIs, Chart, and Table */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         {/* Scope Filter Bar */}
         <ScopeFilterBar
           selectedScope={selectedScope}
@@ -305,15 +337,19 @@ export default function MarketOverview({ initialData }: Props) {
         {/* Market Opportunity Analytics (Bubble Chart) */}
         <BubbleChart data={filteredData} />
 
-        {/* Top Product Opportunities Table */}
-        <WpsTable data={filteredData} />
+        {/* Top Product Opportunities Table — Compact & Non-scroll */}
+        <WpsTable
+          data={filteredData}
+          categoryScope={selectedScope}
+          categoryMedianPrice={categoryBaselinePrice}
+        />
       </div>
 
       {/* Right Column: Semi-circle Gauge & Quick Insights */}
       <div style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '1.75rem',
+        gap: '1.5rem',
         position: 'sticky',
         top: '2rem',
       }}>
@@ -322,10 +358,14 @@ export default function MarketOverview({ initialData }: Props) {
           topScore={topWps || 87.6}
           topNiche={topProduct?.sub_category || 'Botol Susu Anti Kolik'}
           recommendation={topProduct?.sourcing_recommendation || 'High Priority - Immediate Sourcing'}
+          sourcingHref={sourcingHref}
         />
 
         {/* Winning Playbook & Opportunity Radar */}
-        <QuickInsightsCard topNiche={topProduct} />
+        <QuickInsightsCard
+          topNiche={topProduct}
+          sourcingHref={sourcingHref}
+        />
       </div>
     </div>
   )

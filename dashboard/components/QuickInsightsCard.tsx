@@ -15,6 +15,7 @@ type Props = {
     negative_review_rate?: number
     sourcing_recommendation?: string
   }
+  sourcingHref?: string
 }
 
 interface PlaybookIntelligence {
@@ -179,7 +180,7 @@ const COST_PARAMS_MAP: Record<string, { cogsRatio: number; netMarginPct: number 
   default: { cogsRatio: 0.35, netMarginPct: 35 },
 }
 
-export default function QuickInsightsCard({ topNiche }: Props) {
+export default function QuickInsightsCard({ topNiche, sourcingHref = '/sourcing' }: Props) {
   const { t, lang } = useLanguage()
 
   const productName = topNiche?.sub_category || 'Botol Susu Anti Kolik BPA Free'
@@ -456,7 +457,7 @@ export default function QuickInsightsCard({ topNiche }: Props) {
 
       {/* Action CTA Button */}
       <Link
-        href="/sourcing"
+        href={sourcingHref}
         style={{
           display: 'flex',
           alignItems: 'center',

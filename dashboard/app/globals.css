@@ -76,6 +76,53 @@ tr:hover td {
   background: #f5ece1;
 }
 
+/* WPS Opportunities Compact Table */
+.wps-table-compact {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: auto;
+}
+
+.wps-table-compact th {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.65rem 0.55rem;
+  background: #ede3d5;
+  white-space: nowrap;
+}
+
+.wps-table-compact th:first-child {
+  padding-left: 1.25rem;
+}
+
+.wps-table-compact th:last-child {
+  padding-right: 1.25rem;
+}
+
+.wps-table-compact td {
+  padding: 0.65rem 0.55rem;
+  font-size: 12px;
+  border-top: 1px solid #e5dacb;
+  color: #2d3748;
+  vertical-align: middle;
+}
+
+.wps-table-compact td:first-child {
+  padding-left: 1.25rem;
+}
+
+.wps-table-compact td:last-child {
+  padding-right: 1.25rem;
+}
+
+.wps-table-compact tr:hover td {
+  background: #f5ece1;
+}
+
 /* Animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }

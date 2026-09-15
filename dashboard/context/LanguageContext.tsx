@@ -14,15 +14,15 @@ const DICTIONARY: Record<Language, Translations> = {
     tab_overall: 'Overall Summary',
     tab_overall_sub: 'Lanskap Pasar',
     tab_analytics: 'Analytics',
-    tab_analytics_sub: 'Harga & Pain Points',
+    tab_analytics_sub: 'Insight & Pain Points',
     tab_pricing_sim: 'Pricing Simulator',
     tab_pricing_sim_sub: 'Kelayakan Sourcing',
 
     // Header
     weekly_cycle: 'Siklus Mingguan:',
-    sub_overall: 'Analitik mendalam untuk product discovery dan validasi kelayakan sourcing',
-    sub_analytics: 'Analisis sweet spot harga jual dan titik kelemahan produk kompetitor',
-    sub_pricing_sim: 'Validasi batas maksimal HPP supplier sebelum melakukan pemesanan stok',
+    sub_overall: 'Analitik mendalam untuk product discovery dan validasi kelayakan sourcing (Khusus Pasar Indonesia)',
+    sub_analytics: 'Analisis sweet spot harga jual dan titik kelemahan produk kompetitor (Pasar Indonesia)',
+    sub_pricing_sim: 'Validasi batas maksimal HPP supplier sebelum melakukan pemesanan stok (Pasar Indonesia)',
 
     // Scope Filter & KPI Cards
     scope_filter_label: 'Filter Cakupan Kategori:',
@@ -215,6 +215,7 @@ const DICTIONARY: Record<Language, Translations> = {
     sim_feasible: 'Sangat Layak Sourcing',
     sim_warning: 'Margin Kritis — Negosiasi HPP',
     sim_reset: 'Reset Default',
+    sim_baseline_badge: 'Baseline Kategori:',
   },
   EN: {
     // Brand & Navigation
@@ -223,15 +224,15 @@ const DICTIONARY: Record<Language, Translations> = {
     tab_overall: 'Overall Summary',
     tab_overall_sub: 'Market Landscape',
     tab_analytics: 'Analytics',
-    tab_analytics_sub: 'Pricing & Pain Points',
+    tab_analytics_sub: 'Insights & Pain Points',
     tab_pricing_sim: 'Pricing Simulator',
     tab_pricing_sim_sub: 'Sourcing Feasibility',
 
     // Header
     weekly_cycle: 'Weekly Cycle:',
-    sub_overall: 'In-depth analytics for e-commerce product discovery and sourcing feasibility',
-    sub_analytics: 'Sweet spot pricing analysis and competitor pain points intelligence',
-    sub_pricing_sim: 'Validate supplier COGS ceiling before placing pilot stock orders',
+    sub_overall: 'In-depth analytics for e-commerce product discovery and sourcing feasibility (Indonesian Market Only)',
+    sub_analytics: 'Sweet spot pricing analysis and competitor pain points intelligence (Indonesian Market)',
+    sub_pricing_sim: 'Validate supplier COGS ceiling before placing pilot stock orders (Indonesian Market)',
 
     // Scope Filter & KPI Cards
     scope_filter_label: 'Category Scope Filter:',
@@ -424,6 +425,7 @@ const DICTIONARY: Record<Language, Translations> = {
     sim_feasible: 'Highly Feasible for Sourcing',
     sim_warning: 'Critical Margin — Negotiate COGS',
     sim_reset: 'Reset to Default',
+    sim_baseline_badge: 'Category Baseline:',
   },
 }
 

@@ -7,12 +7,14 @@ type Props = {
   topScore?: number
   topNiche?: string
   recommendation?: string
+  sourcingHref?: string
 }
 
 export default function WpsGaugeCard({
   topScore = 79.8,
   topNiche = 'Holder HP Motor',
   recommendation = 'High Priority - Immediate Sourcing',
+  sourcingHref = '/sourcing',
 }: Props) {
   const { t } = useLanguage()
 
@@ -150,7 +152,7 @@ export default function WpsGaugeCard({
 
       {/* Action Button */}
       <Link
-        href="/sourcing"
+        href={sourcingHref}
         style={{
           marginTop: '1.25rem',
           width: '100%',

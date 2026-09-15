@@ -1,12 +1,14 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
 import MarginWaterfall from './MarginWaterfall'
 
 type Props = {
   defaultSellingPrice?:   number
   defaultMarketplaceFee?: number
+  categoryScope?:         string
+  nicheScope?:            string
 }
 
 const INPUT_STYLE: React.CSSProperties = {
@@ -36,6 +38,8 @@ const LABEL_STYLE: React.CSSProperties = {
 export default function MarginSimulator({
   defaultSellingPrice = 89000,
   defaultMarketplaceFee = 0.085,
+  categoryScope,
+  nicheScope,
 }: Props) {
   const { t } = useLanguage()
   const [sellingPrice, setSellingPrice] = useState(defaultSellingPrice)
@@ -43,6 +47,19 @@ export default function MarginSimulator({
   const [ekspedisi, setEkspedisi] = useState(8000)
   const [ads, setAds] = useState(Math.round(defaultSellingPrice * 0.10))
   const [marketplaceFee] = useState(defaultMarketplaceFee)
+
+  useEffect(() => {
+    setSellingPrice(defaultSellingPrice)
+    setHpp(Math.round(defaultSellingPrice * 0.35))
+    setAds(Math.round(defaultSellingPrice * 0.10))
+  }, [defaultSellingPrice])
+
+  const handleReset = () => {
+    setSellingPrice(defaultSellingPrice)
+    setHpp(Math.round(defaultSellingPrice * 0.35))
+    setEkspedisi(8000)
+    setAds(Math.round(defaultSellingPrice * 0.10))
+  }
 
   const fee = sellingPrice * marketplaceFee
   const netProfit = sellingPrice - hpp - ekspedisi - ads - fee
@@ -61,8 +78,57 @@ export default function MarginSimulator({
         padding: '1.5rem',
         boxShadow: '0 4px 20px -2px rgba(36, 83, 102, 0.05)',
       }}>
-        <div style={{ fontSize: '1rem', fontWeight: 800, color: '#1e293b', marginBottom: '1.25rem' }}>
-          {t('sim_param_title')}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '0.75rem',
+          marginBottom: '1.25rem',
+        }}>
+          <div>
+            <div style={{ fontSize: '1rem', fontWeight: 800, color: '#1e293b' }}>
+              {t('sim_param_title')}
+            </div>
+            {categoryScope && (
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                background: 'rgba(36, 83, 102, 0.08)',
+                border: '1px solid rgba(36, 83, 102, 0.22)',
+                borderRadius: 9999,
+                padding: '3px 10px',
+                fontSize: '0.72rem',
+                fontWeight: 700,
+                color: '#245366',
+                marginTop: 6,
+              }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#245366' }} />
+                <span>
+                  {t('sim_baseline_badge')} <b>{categoryScope}</b> (Median Rp {defaultSellingPrice.toLocaleString('id-ID')})
+                </span>
+              </div>
+            )}
+          </div>
+
+          <button
+            onClick={handleReset}
+            type="button"
+            style={{
+              fontSize: '0.72rem',
+              fontWeight: 700,
+              color: '#576574',
+              background: '#ede3d5',
+              border: '1px solid #dfd0bf',
+              borderRadius: 8,
+              padding: '5px 12px',
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+            }}
+          >
+            {t('sim_reset')}
+          </button>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>

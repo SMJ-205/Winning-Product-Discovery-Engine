@@ -13,10 +13,20 @@ async function getDefaultPrice() {
   }
 }
 
-export default async function SourcingPage() {
+type Props = {
+  searchParams?: Promise<{ price?: string; category?: string; niche?: string }>
+}
+
+export default async function SourcingPage({ searchParams }: Props) {
+  const params = searchParams ? await searchParams : {}
   const defaultPrice = await getDefaultPrice()
   const marketData: any[] = await getMarketData()
   const latestSnapshotDate = marketData?.[0]?.latest_snapshot_date || '2026-09-15'
+
+  const parsedPrice = params.price ? parseInt(params.price, 10) : undefined
+  const initialSellingPrice = (parsedPrice && !isNaN(parsedPrice) && parsedPrice > 0)
+    ? parsedPrice
+    : defaultPrice
 
   return (
     <div style={{ maxWidth: 1440, margin: '0 auto' }}>
@@ -25,7 +35,11 @@ export default async function SourcingPage() {
 
       {/* Main Sourcing Content */}
       <div style={{ maxWidth: 960 }}>
-        <MarginSimulator defaultSellingPrice={defaultPrice} />
+        <MarginSimulator
+          defaultSellingPrice={initialSellingPrice}
+          categoryScope={params.category}
+          nicheScope={params.niche}
+        />
       </div>
     </div>
   )
