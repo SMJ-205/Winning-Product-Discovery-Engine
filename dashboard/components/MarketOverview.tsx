@@ -282,8 +282,6 @@ export default function MarketOverview({ initialData }: Props) {
           <KpiCard
             title={`${t('kpi_gmv')} (${selectedScope === 'all' ? t('badge_overall') : t('badge_filtered')})`}
             value={formatCompactCurrency(totalRevenue, lang)}
-            badgeType="positive"
-            sparklineColor="#245366"
             sparklinePoints={currentTrend.gmvPoints}
             insightLabel={lang === 'ID' ? currentTrend.gmvTrajectoryID : currentTrend.gmvTrajectoryEN}
             trendMetric={currentTrend.gmvMetric}
@@ -291,8 +289,6 @@ export default function MarketOverview({ initialData }: Props) {
           <KpiCard
             title={`${t('kpi_price')} (${selectedScope === 'all' ? t('badge_overall') : t('badge_filtered')})`}
             value={`Rp ${Math.round(avgPrice).toLocaleString('id-ID')}`}
-            badgeType="neutral"
-            sparklineColor="#3b748a"
             sparklinePoints={currentTrend.pricePoints}
             insightLabel={lang === 'ID' ? currentTrend.priceTrajectoryID : currentTrend.priceTrajectoryEN}
             trendMetric={currentTrend.priceMetric}
@@ -300,8 +296,6 @@ export default function MarketOverview({ initialData }: Props) {
           <KpiCard
             title={t('kpi_ready')}
             value={`${highPriorityCount} ${t('niche_unit')}`}
-            badgeType="positive"
-            sparklineColor="#c2533a"
             sparklinePoints={currentTrend.sourcingPoints}
             insightLabel={lang === 'ID' ? currentTrend.sourcingTrajectoryID : currentTrend.sourcingTrajectoryEN}
             trendMetric={currentTrend.sourcingMetric}

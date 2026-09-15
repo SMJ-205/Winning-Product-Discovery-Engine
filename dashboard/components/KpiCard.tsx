@@ -37,14 +37,31 @@ export default function KpiCard({
   title,
   value,
   badge,
-  badgeType = 'positive',
-  sparklineColor = '#245366',
+  badgeType,
+  sparklineColor,
   sparklinePoints = [25, 32, 40, 38, 55, 62, 54, 78],
   insightLabel,
   trendMetric,
 }: Props) {
   const rawId = useId()
   const gradId = 'spark_' + rawId.replace(/[^a-zA-Z0-9]/g, '')
+
+  // Default trend velocity calculation
+  const firstVal = sparklinePoints[0] ?? 1
+  const lastVal = sparklinePoints[sparklinePoints.length - 1] ?? 1
+  const diff = lastVal - firstVal
+  const isUp = diff > 0
+  const isDown = diff < 0
+  const pctChange = firstVal !== 0 ? Math.round((diff / Math.abs(firstVal)) * 100) : 0
+  const defaultTrendMetric = pctChange >= 0 ? `▲ +${pctChange}% 8-Wk` : `▼ ${pctChange}% 8-Wk`
+  const displayedTrendMetric = trendMetric || defaultTrendMetric
+
+  // Penyesuaian warna intuitif:
+  // Naik cenderung hijau (#16a34a), Turun cenderung merah (#c24b3a), Datar (#3b748a)
+  const autoColor = isUp ? '#16a34a' : isDown ? '#c24b3a' : '#3b748a'
+  const activeColor = sparklineColor || autoColor
+
+  const effectiveBadgeType = badgeType || (isUp ? 'positive' : isDown ? 'negative' : 'neutral')
 
   // Dimensions for SVG canvas
   const width = 240
@@ -71,33 +88,26 @@ export default function KpiCard({
     ? `${curvePath} L ${coords[coords.length - 1].x.toFixed(1)} ${height} L ${coords[0].x.toFixed(1)} ${height} Z`
     : ''
 
-  // Default trend velocity calculation if none provided
-  const firstVal = sparklinePoints[0] || 1
-  const lastVal = sparklinePoints[sparklinePoints.length - 1] || 1
-  const pctChange = Math.round(((lastVal - firstVal) / firstVal) * 100)
-  const defaultTrendMetric = pctChange >= 0 ? `▲ +${pctChange}% 8-Wk` : `▼ ${pctChange}% 8-Wk`
-  const displayedTrendMetric = trendMetric || defaultTrendMetric
-
   const badgeBg =
-    badgeType === 'positive'
-      ? 'rgba(36, 83, 102, 0.08)'
-      : badgeType === 'negative'
+    effectiveBadgeType === 'positive'
+      ? 'rgba(22, 163, 74, 0.08)'
+      : effectiveBadgeType === 'negative'
       ? 'rgba(194, 75, 58, 0.08)'
-      : 'rgba(92, 158, 175, 0.1)'
+      : 'rgba(59, 116, 138, 0.08)'
 
   const badgeColor =
-    badgeType === 'positive'
-      ? '#245366'
-      : badgeType === 'negative'
+    effectiveBadgeType === 'positive'
+      ? '#16a34a'
+      : effectiveBadgeType === 'negative'
       ? '#c24b3a'
       : '#3b748a'
 
   const badgeBorder =
-    badgeType === 'positive'
-      ? 'rgba(36, 83, 102, 0.22)'
-      : badgeType === 'negative'
+    effectiveBadgeType === 'positive'
+      ? 'rgba(22, 163, 74, 0.25)'
+      : effectiveBadgeType === 'negative'
       ? 'rgba(194, 75, 58, 0.22)'
-      : 'rgba(92, 158, 175, 0.22)'
+      : 'rgba(59, 116, 138, 0.22)'
 
   return (
     <div style={{
@@ -173,7 +183,7 @@ export default function KpiCard({
           {insightLabel || '8-Wk Trajectory'}
         </span>
         <span style={{
-          color: sparklineColor,
+          color: activeColor,
           fontWeight: 800,
           fontSize: '0.6875rem',
           letterSpacing: '0.02em',
@@ -194,9 +204,9 @@ export default function KpiCard({
           <defs>
             {/* Luminous Watercolor Gradient: soft opacity, zero dark black fallbacks */}
             <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={sparklineColor} stopOpacity={0.22} />
-              <stop offset="65%" stopColor={sparklineColor} stopOpacity={0.05} />
-              <stop offset="100%" stopColor={sparklineColor} stopOpacity={0.0} />
+              <stop offset="0%" stopColor={activeColor} stopOpacity={0.22} />
+              <stop offset="65%" stopColor={activeColor} stopOpacity={0.05} />
+              <stop offset="100%" stopColor={activeColor} stopOpacity={0.0} />
             </linearGradient>
           </defs>
 
@@ -231,7 +241,7 @@ export default function KpiCard({
           <path
             d={curvePath}
             fill="none"
-            stroke={sparklineColor}
+            stroke={activeColor}
             strokeWidth="2.2"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -243,7 +253,7 @@ export default function KpiCard({
               cx={peakCoord.x.toFixed(1)}
               cy={peakCoord.y.toFixed(1)}
               r="2"
-              fill={sparklineColor}
+              fill={activeColor}
               fillOpacity="0.75"
             />
           )}
@@ -255,14 +265,14 @@ export default function KpiCard({
                 cx={lastCoord.x.toFixed(1)}
                 cy={lastCoord.y.toFixed(1)}
                 r="5.5"
-                fill={sparklineColor}
+                fill={activeColor}
                 fillOpacity="0.18"
               />
               <circle
                 cx={lastCoord.x.toFixed(1)}
                 cy={lastCoord.y.toFixed(1)}
                 r="3"
-                fill={sparklineColor}
+                fill={activeColor}
                 stroke="#fcf8f3"
                 strokeWidth="1.6"
               />
