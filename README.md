@@ -189,36 +189,36 @@ Every sub-category is evaluated by a normalized multi-objective scoring formula 
 
 ---
 
-## 🚀 Key Modules & Engineering Advancements
+## 🚀 Key Modules & Technical Capabilities
 
-### 1. Automated TikTok Creative Center Ingestion (C4)
-* **Headless Automation**: Implemented [`scripts/fetch_tiktok_trends.py`](scripts/fetch_tiktok_trends.py) powered by **Playwright (Chromium)** to intercept internal trend metrics and automatically refresh [`data/raw/tiktok_weekly_trends.csv`](data/raw/tiktok_weekly_trends.csv).
+### 1. Social Commerce Trend Automation (TikTok Creative Center)
+* **Headless Browser Extraction**: Implemented [`scripts/fetch_tiktok_trends.py`](scripts/fetch_tiktok_trends.py) powered by **Playwright (Chromium)** to intercept internal trend metrics and automatically refresh [`data/raw/tiktok_weekly_trends.csv`](data/raw/tiktok_weekly_trends.csv).
 * **Multi-Tier Fallback Architecture**:
   1. *Tier 1*: Official TikTok Research API via client credentials.
   2. *Tier 2*: Session-authenticated requests with `TIKTOK_SESSION_COOKIE`.
   3. *Tier 3*: Automated weekly CSV export ingestion.
   4. *Tier 4*: Calibrated 13-subcategory baseline for Southeast Asian social commerce.
-* **Omnichannel DB Blend**: Automatically merges TikTok `weekly_velocity_score` into Supabase `fact_product_snapshot.search_trend_index`.
+* **Omnichannel Trend Fusion**: Automatically merges TikTok `weekly_velocity_score` with Google Trends into Supabase `fact_product_snapshot.search_trend_index`.
 
-### 2. Expanded E-Commerce Dataset (C1)
-* Covers **13 active sub-categories** across 6 core retail sectors:
+### 2. Multi-Sector Indonesian Marketplace Coverage
+* Comprehensive tracking across **13 active sub-categories** spanning 6 core e-commerce sectors:
   * **Elektronik & Gadget**: *Kabel Fast Charging Braided*, *Earphone Gaming Murah*
   * **Dapur & Makanan**: *Bumbu Instan Nusantara*, *Rak Bumbu Dapur Minimalis*, *Saringan Minyak Goreng*
   * **Otomotif & Pengendara**: *Holder HP Motor Anti Getar*
   * **Ibu & Kebutuhan Bayi**: *Botol Susu Anti Kolik BPA Free*
   * **Peralatan Rumah**: *Talenan Kayu*, *Rak Sepatu Minimalis*, *Organizer Laci Kamar*
   * **Kecantikan & Skincare**: *Serum Pencerah Wajah*, *Organizer Makeup Meja Rias*, *Cermin Kaca Rias*
-* Ingestion of **65 competitor products** and **232 verified customer reviews**.
+* Automated ingestion of **65 competitor products** and **232 verified buyer reviews**.
 
-### 3. Dynamic Customer Analytics & RFM Engine (C2/C3)
-* Powered by SQL View `vw_category_analytics` in Supabase PostgreSQL:
+### 3. Real-Time Customer Persona & RFM Analytics
+* Powered by dynamic SQL View `vw_category_analytics` in Supabase PostgreSQL:
   * Computes dynamic customer demographics (age distribution, repeat buyer tier).
   * Calculates real-time sentiment distribution and Likert brand perception.
   * Aggregates primary supply chain origins (*Jakarta Barat, Surabaya, Bandung, Tangerang*).
 
-### 4. Idempotent Data Architecture & Scheduling (C8 & C9)
-* **Strict Unique Constraints**: Enforces `UNIQUE (keyword_id, pipeline_run_id)` and `UNIQUE (product_id, snapshot_date)`, guaranteeing zero duplicate rows on pipeline reruns.
-* **GitHub Actions CI/CD Scheduler**: Automatically runs every Monday at 01:00 UTC via [`.github/workflows/weekly_pipeline.yml`](.github/workflows/weekly_pipeline.yml), executing Playwright browser extraction, trends ingestion, NLP enrichment, WPS scoring, and automated DB verification.
+### 4. Idempotent Lakehouse Architecture & Automated Scheduling
+* **Strict Unique Constraints**: Enforces `UNIQUE (keyword_id, pipeline_run_id)` and `UNIQUE (product_id, snapshot_date)`, guaranteeing zero duplicate records upon pipeline reruns.
+* **GitHub Actions CI/CD Scheduler**: Automatically executes every Monday at 01:00 UTC via [`.github/workflows/weekly_pipeline.yml`](.github/workflows/weekly_pipeline.yml), triggering Playwright browser extraction, trends ingestion, NLP enrichment, WPS scoring, and automated DB verification.
 * **Fixed Weekly Calendar Window**: Locks trend benchmarking to calendar-locked cycles (Senin–Minggu / e.g. Sep 08 – Sep 15, 2026), preventing daily metric drift.
 
 ---
