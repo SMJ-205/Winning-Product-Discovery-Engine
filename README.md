@@ -93,23 +93,99 @@ flowchart LR
 
 ---
 
-## 🧮 The Winning Product Score (WPS) Formula
+## 🧮 The Winning Product Score (WPS) Framework
 
-Every sub-category is evaluated by a normalized multi-objective scoring formula (0–100 scale) calibrated for Southeast Asian marketplace dynamics:
+Every sub-category is evaluated by a normalized multi-objective scoring formula (0–100 scale) calibrated for Southeast Asian e-commerce marketplace dynamics:
 
-$$\text{WPS} = 0.35 \times \text{Demand} + 0.25 \times (100 - \text{Competition}) + 0.25 \times \text{Margin} + 0.15 \times \text{Gap}$$
+```text
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                   WINNING PRODUCT SCORE (WPS) FORMULA                                 │
+│                                                                                                       │
+│   WPS = [ 0.35 × Demand ] + [ 0.25 × (100 − Competition) ] + [ 0.25 × Margin ] + [ 0.15 × Gap ]       │
+│                                                                                                       │
+│   • Scale: 0 – 100 Points                                                                             │
+│   • Multi-Objective Optimization: Balances Volume, Defensibility, Profitability, and Differentiation │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
-| Dimension | Weight | Mathematical Formulation | Strategic Business Value |
-| :--- | :---: | :--- | :--- |
-| **Omnichannel Demand** | **35%** | $\text{Norm}(\text{monthly\_sold\_units} \times \text{omnichannel\_trend\_index})$ | Blends **Google Search Intent (70%)** and **TikTok Viral Velocity (30%)** to confirm genuine consumer appetite before sourcing. |
-| **Anti-Competition** | **25%** | $100 - \text{Norm}(\text{mall\_seller\_ratio} \times 100 + \text{avg\_review\_count})$ | Inverted competition index. Favors open markets dominated by non-brand sellers over saturated corporate-dominated niches. |
-| **Margin Potential** | **25%** | $\text{Norm}(\text{net\_margin\_pct} \times \text{median\_price})$ | Quantifies profit margin headroom after subtracting marketplace commissions (8.5–10%) and estimated ad spend against target HPP. |
-| **Customer Pain Gap** | **15%** | $\text{Norm}(\text{negative\_review\_rate})$ | High negative review ratios (1–2 stars) signal exploitable competitor defects that superior product engineering can conquer. |
+---
 
-### Sourcing Decision Tiers
-* **WPS $\ge$ 70 — High Priority / Immediate Sourcing**: Strong demand, healthy margins, and clear consumer pain points with low barrier to entry.
-* **WPS 50–69 — Monitor & Sample Testing**: Viable market, but requires deeper competitive pricing validation or supplier negotiation.
-* **WPS $<$ 50 — Reject / Saturated**: Overcrowded category with razor-thin margins or declining consumer search velocity.
+### Deep-Dive: The 4 Diagnostic Sourcing Pillars
+
+```
+                     ┌────────────────────────────────────────────────────────┐
+                     │            WINNING PRODUCT SCORE (100 pts)             │
+                     └───────────────────────────┬────────────────────────────┘
+         ┌───────────────────────┬───────────────┴───────────────┬───────────────────────┐
+         ▼                       ▼                               ▼                       ▼
+ ┌───────────────┐       ┌───────────────┐               ┌───────────────┐       ┌───────────────┐
+ │   1. DEMAND   │       │2. ANTI-COMPET.│               │   3. MARGIN   │       │ 4. DEFECT GAP │
+ │  Weight: 35%  │       │  Weight: 25%  │               │  Weight: 25%  │       │  Weight: 15%  │
+ └───────┬───────┘       └───────┬───────┘               └───────┬───────┘       └───────┬───────┘
+         │                       │                               │                       │
+         ▼                       ▼                               ▼                       ▼
+  • Monthly Sales         • Mall Seller Ratio             • Median Price          • 1-2 Star Reviews
+  • Google Trends 7D      • Competitor Review Count       • Target COGS (HPP)     • NLP Defect Mining
+  • TikTok Viral Buzz     • Market Fragmentation          • Net Margin (≥25%)     • Engineering Flaws
+```
+
+#### 1. 📈 Omnichannel Demand Velocity (Weight: 35%)
+* **Strategic Business Meaning**: Confirms genuine consumer purchase appetite before committing manufacturing capital, filtering out "empty buzz" that does not translate into sales.
+* **Under the Hood**:
+  * **Sales Volume**: Total monthly units sold aggregated across market listings.
+  * **Omnichannel Trend Blend**: Blends **Google Search Intent (70%)** for deliberate buying intent with **TikTok Viral Velocity (30%)** for emerging social momentum.
+* **Calculation**: `Normalize(Monthly Units Sold × Omnichannel Trend Index)`
+* **Ideal Sourcing Signal**: Sub-categories with accelerating 7-day momentum and sustained monthly unit volume (>5,000 units/mo).
+
+#### 2. 🛡️ Anti-Competition Whitespace (Weight: 25%)
+* **Strategic Business Meaning**: Inverted competition index that favors open markets accessible to independent challenger brands over niches monopolized by corporate mega-brands.
+* **Under the Hood**:
+  * **Mall Seller Penetration**: Proportion of listings held by official Mall/Brand accounts.
+  * **Review Barrier**: Average review count of incumbent listings (high review counts create formidable social proof moats).
+* **Calculation**: `100 − Normalize((Mall Seller Ratio × 100) + Average Review Count)`
+* **Ideal Sourcing Signal**: Markets dominated by non-mall sellers with moderate review counts (<500 reviews/listing), leaving room for rapid ranking.
+
+#### 3. 💰 Margin & Unit Economics Feasibility (Weight: 25%)
+* **Strategic Business Meaning**: Validates real financial profitability after accounting for factory manufacturing costs (HPP), marketplace commissions (8.5–10%), packaging, and customer acquisition costs (CAC).
+* **Under the Hood**:
+  * **Median Market Price**: Realistic retail selling price band.
+  * **Target Manufacturing HPP**: Maximum allowable factory sourcing cost (`cogs_ratio` × median price).
+  * **Platform Fees & Ads**: Marketplace transaction fees (8.5–10%) and allocated advertising budget (~10%).
+* **Calculation**: `Normalize(Net Margin % × Median Price)`
+* **Ideal Sourcing Signal**: Sub-categories where projected net profit margins exceed **≥ 25%** at target retail price points.
+
+#### 4. 🔍 Competitor Product Defect Gap (Weight: 15%)
+* **Strategic Business Meaning**: Mines negative buyer reviews via Indonesian NLP to identify structural flaws in existing best-sellers, providing a precise roadmap for product differentiation.
+* **Under the Hood**:
+  * **NLP Sentiment Ratio**: Proportion of 1-star and 2-star reviews in the category.
+  * **Aspect Classification**: Automated categorization of complaints (*Material Quality, Packaging Leaks, Durability, Cable Snapping*).
+* **Calculation**: `Normalize(Negative Review Rate)`
+* **Ideal Sourcing Signal**: Negative review rate > 12% centered on fixable engineering flaws (e.g. reinforced braided joints, leakproof double seal).
+
+---
+
+### Summary Evaluation Matrix
+
+| Sourcing Pillar | Weight | Primary Data Signals | Target Sweet Spot | Strategic Business Value |
+| :--- | :---: | :--- | :--- | :--- |
+| **1. Omnichannel Demand** | **35%** | Monthly Sales + Google Trends (70%) + TikTok (30%) | High unit velocity + rising 7D search momentum | Proves consumer willingness to pay |
+| **2. Anti-Competition** | **25%** | Mall Seller Ratio + Competitor Review Counts | Low Mall share + fragmented incumbent reviews | Confirms low barrier to market entry |
+| **3. Margin Potential** | **25%** | Median Retail Price vs. Manufacturing Target HPP | Projected Net Margin ≥ 25% | Guarantees unit-level business viability |
+| **4. Defect Gap** | **15%** | Negative Review Rate (1–2 Stars) + NLP Aspect Tags | High defect rate on specific structural flaws | Provides clear product upgrade blueprint |
+
+---
+
+### Sourcing Decision Framework
+
+```text
+┌───────────────┬──────────────────────────────────┬──────────────────────────────────────────────────────────┐
+│ WPS Score     │ Decision Tier                    │ Recommended Executive Action                             │
+├───────────────┼──────────────────────────────────┼──────────────────────────────────────────────────────────┤
+│ ≥ 70 Points   │ 🟢 High Priority Sourcing        │ Issue Supplier RFQ & Factory Sampling Immediately       │
+│ 50 – 69 Points│ 🟡 Monitor & Sample Validation   │ Negotiate Target HPP & Validate Packaging Costs          │
+│ < 50 Points   │ 🔴 Reject / Saturated Category   │ Avoid Capital Deployment; Market is Monopolized/Declining│
+└───────────────┴──────────────────────────────────┴──────────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -158,7 +234,7 @@ The dashboard is organized into three analytical views designed for category man
 ```
 
 ### View 1: Market Landscape & Opportunity Matrix
-1. **Scope Filter**: Filter by *All Categories*, *Winning Niches (WPS $\ge$ 70)*, or specific retail sectors.
+1. **Scope Filter**: Filter by *All Categories*, *Winning Niches (WPS ≥ 70)*, or specific retail sectors.
 2. **Dynamic KPI Scorecards**: Total Market GMV, Median Price Band, Number of Opportunities, and 8-Week cubic Bézier trendlines.
 3. **Interactive Bubble Chart**:
    - **X-Axis**: Competition Intensity (left = low competition, right = high saturation).
@@ -175,7 +251,7 @@ The dashboard is organized into three analytical views designed for category man
 
 ### View 3: Unit Economics & Sourcing Simulator
 1. **Customizable Inputs**: Retail Price, Supplier Unit Cost (HPP), Order Volume, Marketplace Fee (8.5–10%), and Ad Spend Allocation.
-2. **Waterfall Margin Decomposition**: Visual step-by-step breakdown of cost deduction to verify net profit margins exceed target thresholds ($\ge 25\%$).
+2. **Waterfall Margin Decomposition**: Visual step-by-step breakdown of cost deduction to verify net profit margins exceed target thresholds (≥ 25%).
 
 ---
 
