@@ -203,7 +203,7 @@ export default function Sidebar() {
       <div
         className="mobile-nav-top"
         style={{
-          position: 'sticky',
+          position: 'fixed',
           top: 0,
           left: 0,
           right: 0,
@@ -212,7 +212,7 @@ export default function Sidebar() {
           background: '#245366',
           borderBottom: '1px solid #1c4555',
           padding: '0 1rem',
-          zIndex: 40,
+          zIndex: 50,
           alignItems: 'center',
           justifyContent: 'space-between',
           boxShadow: '0 2px 10px rgba(0, 0, 0, 0.15)',

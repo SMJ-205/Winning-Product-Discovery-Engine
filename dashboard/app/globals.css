@@ -325,7 +325,7 @@ circle:focus {
 
   .main-content-layout {
     margin-left: 0 !important;
-    padding: 1rem 0.875rem 6.5rem 0.875rem !important;
+    padding: calc(54px + 1rem) 0.875rem 6.5rem 0.875rem !important;
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
