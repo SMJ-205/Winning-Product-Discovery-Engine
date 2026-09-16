@@ -14,7 +14,7 @@ async function getDefaultPrice() {
 }
 
 type Props = {
-  searchParams?: Promise<{ price?: string; category?: string; niche?: string }>
+  searchParams?: Promise<{ price?: string; category?: string; niche?: string; timeframe?: string }>
 }
 
 export default async function SourcingPage({ searchParams }: Props) {
@@ -28,6 +28,10 @@ export default async function SourcingPage({ searchParams }: Props) {
     ? parsedPrice
     : defaultPrice
 
+  const initialTimeframe = (params.timeframe === '7d' || params.timeframe === '30d' || params.timeframe === '90d')
+    ? (params.timeframe as '7d' | '30d' | '90d')
+    : '7d'
+
   return (
     <div style={{ maxWidth: 1440, margin: '0 auto' }}>
       {/* Header */}
@@ -39,6 +43,7 @@ export default async function SourcingPage({ searchParams }: Props) {
           defaultSellingPrice={initialSellingPrice}
           categoryScope={params.category}
           nicheScope={params.niche}
+          initialTimeframe={initialTimeframe}
         />
       </div>
     </div>

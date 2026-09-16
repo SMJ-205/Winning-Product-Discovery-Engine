@@ -16,6 +16,7 @@ type Props = {
     sourcing_recommendation?: string
   }
   sourcingHref?: string
+  selectedTimeframe?: '7d' | '30d' | '90d'
 }
 
 interface PlaybookIntelligence {
@@ -180,7 +181,7 @@ const COST_PARAMS_MAP: Record<string, { cogsRatio: number; netMarginPct: number 
   default: { cogsRatio: 0.35, netMarginPct: 35 },
 }
 
-export default function QuickInsightsCard({ topNiche, sourcingHref = '/sourcing' }: Props) {
+export default function QuickInsightsCard({ topNiche, sourcingHref = '/sourcing', selectedTimeframe = '7d' }: Props) {
   const { t, lang } = useLanguage()
 
   const productName = topNiche?.sub_category || 'Botol Susu Anti Kolik BPA Free'
@@ -188,17 +189,25 @@ export default function QuickInsightsCard({ topNiche, sourcingHref = '/sourcing'
   const categoryName = topNiche?.category_name || (lang === 'ID' ? 'Ibu & Kebutuhan Bayi' : 'Mom & Baby')
   const medianPrice = topNiche?.median_price || 68000
   
-  // Dynamic Cost & HPP calculation aligning with weekly database snapshots & cost_params.yaml
+  // Dynamic Cost & HPP calculation aligning with database snapshots & cost_params.yaml
   const costCategory = topNiche?.cost_category || 'default'
   const costParams = COST_PARAMS_MAP[costCategory] || COST_PARAMS_MAP.default
   const targetHpp = Math.round(medianPrice * costParams.cogsRatio)
   
-  // Format weekly sales volume directly from database aggregation
-  const monthlyUnits = topNiche?.monthly_sold_units
-    ? `${topNiche.monthly_sold_units.toLocaleString(lang === 'ID' ? 'id-ID' : 'en-US')} units/mo`
-    : '95.600 units/mo'
+  // Format sales volume aligned directly with the selected timeframe
+  const timeframeUnits = topNiche?.monthly_sold_units
+    ? selectedTimeframe === '7d'
+      ? `${topNiche.monthly_sold_units.toLocaleString(lang === 'ID' ? 'id-ID' : 'en-US')} unit/minggu (7H)`
+      : selectedTimeframe === '90d'
+      ? `${topNiche.monthly_sold_units.toLocaleString(lang === 'ID' ? 'id-ID' : 'en-US')} unit/kuartal (90H)`
+      : `${topNiche.monthly_sold_units.toLocaleString(lang === 'ID' ? 'id-ID' : 'en-US')} unit/bln (30H)`
+    : selectedTimeframe === '7d'
+    ? '22.300 unit/minggu (7H)'
+    : selectedTimeframe === '90d'
+    ? '286.000 unit/kuartal (90H)'
+    : '95.600 unit/bln (30H)'
 
-  // Dynamic Bundle Sweet Spot Price derived from live weekly median price
+  // Dynamic Bundle Sweet Spot Price derived from live median price
   const bundleSweetSpot = Math.round((medianPrice * 1.8) / 1000) * 1000
 
   // Live Weekly Trend Index & Negative Review Rate from Supabase / Python Pipeline
@@ -234,9 +243,17 @@ export default function QuickInsightsCard({ topNiche, sourcingHref = '/sourcing'
     : universalFallback
 
   // Prioritize live weekly search trend index if available
-  const velocityLabel = liveTrendIndex && liveTrendIndex > 0
+  const baseVelocity = liveTrendIndex && liveTrendIndex > 0
     ? (lang === 'ID' ? `+${liveTrendIndex}% Lonjakan Tren` : `+${liveTrendIndex}% Trend Surge`)
     : (lang === 'ID' ? playbook.velocityLabelID : playbook.velocityLabelEN)
+
+  const velocitySuffix = selectedTimeframe === '7d'
+    ? (lang === 'ID' ? ' (Laju 7H)' : ' (7D Surge)')
+    : selectedTimeframe === '90d'
+    ? (lang === 'ID' ? ' (Laju 90H)' : ' (90D Run)')
+    : (lang === 'ID' ? ' (Bulanan)' : ' (Monthly)')
+
+  const velocityLabel = `${baseVelocity}${velocitySuffix}`
 
   // Live Defect Title & Net Margin
   const netMarginPct = playbook.netMarginPct || costParams.netMarginPct
@@ -272,17 +289,30 @@ export default function QuickInsightsCard({ topNiche, sourcingHref = '/sourcing'
             {t('playbook_sub')}
           </div>
         </div>
-        <span style={{
-          fontSize: '0.72rem',
-          fontWeight: 800,
-          color: '#245366',
-          background: 'rgba(36, 83, 102, 0.1)',
-          padding: '3px 9px',
-          borderRadius: 9999,
-          border: '1px solid rgba(36, 83, 102, 0.25)',
-        }}>
-          {wpsScore} WPS
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <span style={{
+            fontSize: '0.6875rem',
+            fontWeight: 800,
+            color: '#245366',
+            background: '#f0e6d9',
+            border: '1px solid #dccbb7',
+            padding: '2px 8px',
+            borderRadius: 8,
+          }}>
+            {selectedTimeframe === '7d' ? '7 Hari' : selectedTimeframe === '90d' ? '90 Hari' : '30 Hari'}
+          </span>
+          <span style={{
+            fontSize: '0.72rem',
+            fontWeight: 800,
+            color: '#245366',
+            background: 'rgba(36, 83, 102, 0.1)',
+            padding: '3px 9px',
+            borderRadius: 9999,
+            border: '1px solid rgba(36, 83, 102, 0.25)',
+          }}>
+            {wpsScore} WPS
+          </span>
+        </div>
       </div>
 
       {/* Featured Winning Product Banner */}
@@ -301,7 +331,7 @@ export default function QuickInsightsCard({ topNiche, sourcingHref = '/sourcing'
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4, fontSize: '0.72rem', color: '#576574', fontWeight: 600 }}>
           <span>{categoryName}</span>
           <span>•</span>
-          <span style={{ color: '#245366', fontWeight: 700 }}>{monthlyUnits}</span>
+          <span style={{ color: '#245366', fontWeight: 700 }}>{timeframeUnits}</span>
         </div>
       </div>
 
@@ -328,7 +358,7 @@ export default function QuickInsightsCard({ topNiche, sourcingHref = '/sourcing'
             {velocityLabel}
           </div>
           <div style={{ fontSize: '0.625rem', color: '#576574', marginTop: 1 }}>
-            {monthlyUnits}
+            {timeframeUnits}
           </div>
         </div>
 

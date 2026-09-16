@@ -569,11 +569,11 @@ export default function MarketOverview({ initialData, categoryAnalytics }: Props
 
   // Dynamic Sourcing URL yang mengarah ke pricing simulator / calculator
   const sourcingHref = useMemo(() => {
-    if (selectedScope === 'all' || !categoryBaselinePrice) {
-      return '/sourcing'
-    }
-    return `/sourcing?price=${categoryBaselinePrice}&category=${encodeURIComponent(selectedScope)}`
-  }, [selectedScope, categoryBaselinePrice])
+    const targetPrice = categoryBaselinePrice || topProduct?.median_price || 68000
+    const targetCat = selectedScope === 'all' ? (topProduct?.category_name || '') : selectedScope
+    const targetNiche = topProduct?.sub_category || ''
+    return `/sourcing?price=${targetPrice}&category=${encodeURIComponent(targetCat)}&niche=${encodeURIComponent(targetNiche)}&timeframe=${selectedTimeframe}`
+  }, [selectedScope, categoryBaselinePrice, topProduct, selectedTimeframe])
 
   // Label scope text for clarification
   const scopeLabel = useMemo(() => {
@@ -658,6 +658,7 @@ export default function MarketOverview({ initialData, categoryAnalytics }: Props
           data={displayData}
           categoryScope={selectedScope}
           categoryMedianPrice={categoryBaselinePrice}
+          selectedTimeframe={selectedTimeframe}
         />
       </div>
 
@@ -675,6 +676,7 @@ export default function MarketOverview({ initialData, categoryAnalytics }: Props
         <QuickInsightsCard
           topNiche={topProduct}
           sourcingHref={sourcingHref}
+          selectedTimeframe={selectedTimeframe}
         />
       </div>
     </div>

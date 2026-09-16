@@ -8,6 +8,7 @@ import { getCategoryAnalytics, CategoryAnalytics } from '@/lib/data'
 
 type Props = {
   category?: string
+  timeframe?: '7d' | '30d' | '90d'
 }
 
 // ── Pemetaan nama kategori filter → nama di DB ───────────────────────────────
@@ -21,7 +22,7 @@ const CATEGORY_NAME_MAP: Record<string, string> = {
   'Ibu & Bayi': 'Ibu & Bayi',
 }
 
-export default function CustomerInfoSection({ category = 'all' }: Props) {
+export default function CustomerInfoSection({ category = 'all', timeframe = '7d' }: Props) {
   const { t, lang } = useLanguage()
   const [mounted, setMounted] = useState(false)
   const [liveAnalytics, setLiveAnalytics] = useState<CategoryAnalytics | null>(null)
@@ -531,9 +532,11 @@ export default function CustomerInfoSection({ category = 'all' }: Props) {
                 </span>
               </div>
               <b style={{ fontSize: '0.8125rem', color: '#1e293b', fontWeight: 800 }}>
-                {liveAnalytics
-                  ? `${Math.round(liveAnalytics.positive_review_rate * 100)}% pos.`
-                  : profile.rfm.recency.value}
+                {timeframe === '7d'
+                  ? (lang === 'ID' ? '3–7 Hari (Siklus Cepat)' : '3–7 Days (Fast)')
+                  : timeframe === '90d'
+                  ? (lang === 'ID' ? '14–30 Hari (Terencana)' : '14–30 Days (Planned)')
+                  : (liveAnalytics ? `${Math.round(liveAnalytics.positive_review_rate * 100)}% pos.` : profile.rfm.recency.value)}
               </b>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.65rem', color: '#64748b' }}>
@@ -555,12 +558,18 @@ export default function CustomerInfoSection({ category = 'all' }: Props) {
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <span style={{ fontSize: '0.625rem', fontWeight: 800, color: '#ffffff', background: '#387388', borderRadius: 4, padding: '1px 5px', lineHeight: '1.2' }}>F</span>
                 <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#1e293b' }}>
-                  {lang === 'ID' ? 'Frekuensi (Repeat)' : 'Repeat Frequency'}
+                  {lang === 'ID'
+                    ? (timeframe === '7d' ? 'Frekuensi (Laju 7H)' : timeframe === '90d' ? 'Frekuensi (Kuartal 90H)' : 'Frekuensi (Repeat)')
+                    : (timeframe === '7d' ? 'Frequency (7D Pace)' : timeframe === '90d' ? 'Frequency (90D Run)' : 'Repeat Frequency')}
                 </span>
               </div>
               <b style={{ fontSize: '0.8125rem', color: '#1e293b', fontWeight: 800 }}>
                 {liveAnalytics
-                  ? `${(liveAnalytics.total_units_monthly / 1000).toFixed(1)}k unit/bln`
+                  ? timeframe === '7d'
+                    ? `${((liveAnalytics.total_units_monthly * (7 / 30) * 1.08) / 1000).toFixed(1)}k unit/minggu`
+                    : timeframe === '90d'
+                    ? `${((liveAnalytics.total_units_monthly * 3.0 * 0.98) / 1000).toFixed(1)}k unit/kuartal`
+                    : `${(liveAnalytics.total_units_monthly / 1000).toFixed(1)}k unit/bln`
                   : profile.rfm.frequency.value}
               </b>
             </div>

@@ -39,9 +39,10 @@ type Props = {
   data: Row[]
   categoryScope?: string
   categoryMedianPrice?: number
+  selectedTimeframe?: '7d' | '30d' | '90d'
 }
 
-export default function WpsTable({ data, categoryScope, categoryMedianPrice }: Props) {
+export default function WpsTable({ data, categoryScope, categoryMedianPrice, selectedTimeframe = '7d' }: Props) {
   const { t } = useLanguage()
 
   const sorted = [...data]
@@ -75,16 +76,29 @@ export default function WpsTable({ data, categoryScope, categoryMedianPrice }: P
           </div>
         </div>
 
-        <div style={{
-          fontSize: '0.72rem',
-          fontWeight: 700,
-          color: '#245366',
-          padding: '0.25rem 0.75rem',
-          background: 'rgba(36, 83, 102, 0.1)',
-          borderRadius: 9999,
-          border: '1px solid rgba(36, 83, 102, 0.25)',
-        }}>
-          {sorted.length} {t('niche_analyzed')}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{
+            fontSize: '0.6875rem',
+            fontWeight: 800,
+            color: '#245366',
+            background: '#f0e6d9',
+            border: '1px solid #dccbb7',
+            padding: '2px 8px',
+            borderRadius: 8,
+          }}>
+            {selectedTimeframe === '7d' ? '7 Hari' : selectedTimeframe === '90d' ? '90 Hari' : '30 Hari'}
+          </span>
+          <div style={{
+            fontSize: '0.72rem',
+            fontWeight: 700,
+            color: '#245366',
+            padding: '0.25rem 0.75rem',
+            background: 'rgba(36, 83, 102, 0.1)',
+            borderRadius: 9999,
+            border: '1px solid rgba(36, 83, 102, 0.25)',
+          }}>
+            {sorted.length} {t('niche_analyzed')}
+          </div>
         </div>
       </div>
 
@@ -108,11 +122,12 @@ export default function WpsTable({ data, categoryScope, categoryMedianPrice }: P
               const badge = LABEL_STYLE[rec] ?? LABEL_STYLE['Reject - Saturated / Unfeasible']
               const wps = row.winning_product_score ?? 0
 
-              // Jika filter bukan 'all', gunakan baseline harga median kategori yang terfilter
-              // Kecuali filter diset ke overall ('all') -> tampilkan seperti as is saja (/sourcing)
-              const actionHref = (categoryScope && categoryScope !== 'all')
-                ? `/sourcing?price=${categoryMedianPrice || row.median_price}&category=${encodeURIComponent(categoryScope)}`
-                : '/sourcing'
+              // Bawa harga, kategori, niche, dan rentang waktu langsung ke pricing simulator
+              const targetCat = (categoryScope && categoryScope !== 'all')
+                ? categoryScope
+                : (row.category_name || '')
+
+              const actionHref = `/sourcing?price=${row.median_price}&category=${encodeURIComponent(targetCat)}&niche=${encodeURIComponent(row.sub_category)}&timeframe=${selectedTimeframe}`
 
               return (
                 <tr key={row.keyword_id}>

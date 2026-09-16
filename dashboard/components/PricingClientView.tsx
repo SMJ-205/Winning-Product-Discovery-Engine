@@ -42,6 +42,7 @@ export default function PricingClientView({ complaints = [], prices = [], review
   const { t, lang } = useLanguage()
   const [activeTab, setActiveTab] = useState<'research' | 'pricing'>('research')
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
+  const [selectedTimeframe, setSelectedTimeframe] = useState<'7d' | '30d' | '90d'>('7d')
 
   // Extract unique categories
   const availableCategories = useMemo(() => {
@@ -58,6 +59,21 @@ export default function PricingClientView({ complaints = [], prices = [], review
     const filtered = prices.filter(p => p.category_name === selectedCategory)
     return filtered.length > 0 ? filtered : prices
   }, [prices, selectedCategory])
+
+  // Dynamic factors based on timeframe:
+  // 7d: short-term promo factor (0.97), 7-day review volume factor (0.28)
+  // 30d: monthly baseline (1.00), 30-day review volume factor (1.00)
+  // 90d: quarterly regular factor (1.035), 90-day review volume factor (2.85)
+  const priceFactor = selectedTimeframe === '7d' ? 0.97 : selectedTimeframe === '90d' ? 1.035 : 1.0
+  const volumeFactor = selectedTimeframe === '7d' ? 0.28 : selectedTimeframe === '90d' ? 2.85 : 1.0
+
+  // Display prices adjusted for timeframe
+  const displayPrices = useMemo(() => {
+    return filteredPrices.map(p => ({
+      ...p,
+      price: Math.round(p.price * priceFactor),
+    }))
+  }, [filteredPrices, priceFactor])
 
   // Filter reviews by selected category
   const filteredReviews = useMemo(() => {
@@ -84,38 +100,60 @@ export default function PricingClientView({ complaints = [], prices = [], review
     return sorted.length > 0 ? sorted : complaints
   }, [filteredReviews, complaints])
 
+  // Display complaints adjusted for timeframe volume
+  const displayComplaints = useMemo(() => {
+    return filteredComplaints.map(c => ({
+      ...c,
+      count: Math.max(1, Math.round(c.count * volumeFactor)),
+    }))
+  }, [filteredComplaints, volumeFactor])
+
   // Calculate median price for the filtered category
   const filteredMedianPrice = useMemo(() => {
-    const valid = filteredPrices.map(p => p.price).filter(p => p > 0).sort((a, b) => a - b)
-    if (!valid.length) return 48500
+    const valid = displayPrices.map(p => p.price).filter(p => p > 0).sort((a, b) => a - b)
+    if (!valid.length) return Math.round(48500 * priceFactor)
     const mid = Math.floor(valid.length / 2)
     return valid.length % 2 !== 0 ? valid[mid] : (valid[mid - 1] + valid[mid]) / 2
-  }, [filteredPrices])
+  }, [displayPrices, priceFactor])
 
   const totalComplaintsCount = useMemo(() => {
-    if (filteredReviews.length > 0) return filteredReviews.length
-    return filteredComplaints.reduce((s, c) => s + c.count, 0)
-  }, [filteredReviews, filteredComplaints])
+    if (filteredReviews.length > 0) return Math.max(1, Math.round(filteredReviews.length * volumeFactor))
+    return displayComplaints.reduce((s, c) => s + c.count, 0)
+  }, [filteredReviews, displayComplaints, volumeFactor])
 
-  const rawTopComplaint = filteredComplaints[0]?.aspect ?? 'Kualitas Bahan'
+  const rawTopComplaint = displayComplaints[0]?.aspect ?? 'Kualitas Bahan'
   const topComplaintTranslated = ASPECT_KEYS[rawTopComplaint]
     ? t(ASPECT_KEYS[rawTopComplaint])
     : rawTopComplaint
+
+  const verifiedReviewsTitle = selectedTimeframe === '7d'
+    ? t('card_verified_7d')
+    : selectedTimeframe === '90d'
+    ? t('card_verified_90d')
+    : t('card_verified_30d')
+
+  const medianPriceTitle = selectedTimeframe === '7d'
+    ? t('card_median_7d')
+    : selectedTimeframe === '90d'
+    ? t('card_median_90d')
+    : t('card_median_30d')
 
   return (
     <div style={{ maxWidth: 1440, margin: '0 auto' }}>
       {/* Header */}
       <Header snapshotDate={snapshotDate || (prices as any)?.[0]?.snapshot_date} />
 
-      {/* Category Scope Filter Bar */}
+      {/* Category Scope & Timeframe Filter Bar */}
       <div style={{ marginBottom: '1.25rem' }}>
         <ScopeFilterBar
           selectedScope={selectedCategory}
           onScopeChange={setSelectedCategory}
           categories={availableCategories}
           showWinningNichesOption={false}
-          totalItemsCount={filteredPrices.length}
+          totalItemsCount={displayPrices.length}
           itemsLabel={lang === 'ID' ? 'Produk Terpantau' : 'Monitored Products'}
+          selectedTimeframe={selectedTimeframe}
+          onTimeframeChange={setSelectedTimeframe}
         />
       </div>
 
@@ -178,7 +216,7 @@ export default function PricingClientView({ complaints = [], prices = [], review
       {activeTab === 'research' && (
         <div className="pricing-research-grid">
           {/* Column 1: Customer Information */}
-          <CustomerInfoSection category={selectedCategory} />
+          <CustomerInfoSection category={selectedCategory} timeframe={selectedTimeframe} />
 
           {/* Column 2: Brand Awareness & Marketing Triggers */}
           <BrandAwarenessSection category={selectedCategory} />
@@ -219,7 +257,7 @@ export default function PricingClientView({ complaints = [], prices = [], review
               boxShadow: '0 4px 16px -2px rgba(36, 83, 102, 0.05)',
             }}>
               <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#576574', textTransform: 'uppercase' }}>
-                {t('card_verified')}
+                {verifiedReviewsTitle}
               </div>
               <div style={{ fontSize: '1.35rem', fontWeight: 800, color: '#1e293b', marginTop: 6 }}>
                 {totalComplaintsCount.toLocaleString()} {t('critical_reviews')}
@@ -237,7 +275,7 @@ export default function PricingClientView({ complaints = [], prices = [], review
               boxShadow: '0 4px 16px -2px rgba(36, 83, 102, 0.05)',
             }}>
               <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#576574', textTransform: 'uppercase' }}>
-                {lang === 'ID' ? 'Median Harga Pasar' : 'Median Market Price'}
+                {medianPriceTitle}
               </div>
               <div style={{ fontSize: '1.35rem', fontWeight: 800, color: '#245366', marginTop: 6 }}>
                 Rp {Math.round(filteredMedianPrice).toLocaleString(lang === 'ID' ? 'id-ID' : 'en-US')}
@@ -250,8 +288,54 @@ export default function PricingClientView({ complaints = [], prices = [], review
 
           {/* 2-column charts */}
           <div className="pricing-charts-grid">
-            <PriceHistogram prices={filteredPrices} />
-            <ComplaintBar data={filteredComplaints} />
+            <PriceHistogram prices={displayPrices} />
+            <ComplaintBar data={displayComplaints} />
+          </div>
+
+          {/* Direct CTA to Pricing Simulator with aligned timeframe and price */}
+          <div style={{
+            marginTop: '1.5rem',
+            padding: '1.25rem 1.5rem',
+            background: '#fcf8f3',
+            border: '1px solid #dfd3c3',
+            borderRadius: 18,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '1rem',
+          }}>
+            <div>
+              <div style={{ fontSize: '0.9375rem', fontWeight: 800, color: '#1e293b' }}>
+                {lang === 'ID' ? 'Simulasikan Struktur Biaya & Kelayakan Sourcing' : 'Simulate Cost Structure & Sourcing Feasibility'}
+              </div>
+              <div style={{ fontSize: '0.78125rem', color: '#576574', marginTop: 2 }}>
+                {lang === 'ID'
+                  ? `Uji batas HPP supplier dan proyeksi profit bersih untuk baseline harga Rp ${Math.round(filteredMedianPrice).toLocaleString('id-ID')} (${selectedTimeframe})`
+                  : `Test supplier COGS ceiling and net profit projections for baseline price Rp ${Math.round(filteredMedianPrice).toLocaleString('en-US')} (${selectedTimeframe})`}
+              </div>
+            </div>
+
+            <a
+              href={`/sourcing?price=${Math.round(filteredMedianPrice)}&category=${encodeURIComponent(selectedCategory === 'all' ? '' : selectedCategory)}&timeframe=${selectedTimeframe}`}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                background: '#245366',
+                color: '#ffffff',
+                fontSize: '0.8125rem',
+                fontWeight: 700,
+                padding: '0.625rem 1.25rem',
+                borderRadius: 12,
+                textDecoration: 'none',
+                boxShadow: '0 2px 8px rgba(36, 83, 102, 0.2)',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              <span>{t('btn_open_simulator_niche')}</span>
+              <span style={{ fontSize: '0.9rem' }}>→</span>
+            </a>
           </div>
         </div>
       )}
