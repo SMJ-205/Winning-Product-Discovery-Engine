@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Plus_Jakarta_Sans } from 'next/font/google'
 import Sidebar from '@/components/Sidebar'
 import { LanguageProvider } from '@/context/LanguageContext'
@@ -8,6 +8,12 @@ const font = Plus_Jakarta_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
 })
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+}
 
 export const metadata: Metadata = {
   title: 'Biz-In-Sight | Winning Product Discovery Engine',
@@ -19,17 +25,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="id" style={{ background: '#f3ece3', minHeight: '100%' }}>
       <body className={font.className} style={{ margin: 0, background: '#f3ece3', color: '#1e293b', minHeight: '100vh' }}>
         <LanguageProvider>
-          <div style={{ display: 'flex', minHeight: '100vh', width: '100%', background: '#f3ece3' }}>
+          <div className="app-layout-root">
             <Sidebar />
-            <main style={{
-              marginLeft: 240,
-              flex: 1,
-              minWidth: 0,
-              padding: '2rem 2.5rem',
-              boxSizing: 'border-box',
-              background: '#f3ece3',
-              minHeight: '100vh',
-            }}>
+            <main className="main-content-layout">
               {children}
             </main>
           </div>

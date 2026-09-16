@@ -71,13 +71,18 @@ export default function BubbleChart({ data }: { data: DataPoint[] }) {
   }))
 
   return (
-    <div style={{
-      background: '#fcf8f3',
-      border: '1px solid #dfd3c3',
-      borderRadius: 22,
-      padding: '1.5rem',
-      boxShadow: '0 4px 16px -2px rgba(36, 83, 102, 0.06)',
-    }}>
+    <div
+      className="bubble-chart-card"
+      style={{
+        background: '#fcf8f3',
+        border: '1px solid #dfd3c3',
+        borderRadius: 22,
+        padding: '1.5rem',
+        boxShadow: '0 4px 16px -2px rgba(36, 83, 102, 0.06)',
+        width: '100%',
+        boxSizing: 'border-box',
+      }}
+    >
       {/* Header with Title and Legends (Filter removed as represented in header scope filter) */}
       <div style={{
         display: 'flex',
@@ -110,7 +115,7 @@ export default function BubbleChart({ data }: { data: DataPoint[] }) {
       </div>
 
       <ResponsiveContainer width="100%" height={340} style={{ outline: 'none' }}>
-        <ScatterChart margin={{ top: 35, right: 25, bottom: 20, left: 0 }} style={{ outline: 'none' }}>
+        <ScatterChart margin={{ top: 30, right: 15, bottom: 20, left: -10 }} style={{ outline: 'none' }}>
           <CartesianGrid stroke="#e5dacb" strokeDasharray="3 3" vertical={false} />
           <XAxis
             dataKey="x"

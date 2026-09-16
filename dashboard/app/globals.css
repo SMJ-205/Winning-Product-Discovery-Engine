@@ -188,3 +188,226 @@ circle:focus {
   box-shadow: none !important;
   -webkit-tap-highlight-color: transparent !important;
 }
+
+/* ==========================================================================
+   Responsive Architecture (Desktop >= 1025px vs Mobile <= 1024px)
+   CRITICAL: Desktop styles remain 100% UNCHANGED
+   ========================================================================== */
+
+/* App Layout Root */
+.app-layout-root {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  width: 100%;
+  background: #f3ece3;
+}
+
+/* Main Layout Shell */
+.main-content-layout {
+  margin-left: 240px;
+  flex: 1;
+  min-width: 0;
+  padding: 2rem 2.5rem;
+  box-sizing: border-box;
+  background: #f3ece3;
+  min-height: 100vh;
+}
+
+/* Desktop Sidebar */
+.desktop-sidebar {
+  display: flex !important;
+}
+
+/* Mobile Nav Elements (Hidden on Desktop) */
+.mobile-nav-top {
+  display: none !important;
+}
+
+.mobile-bottom-nav {
+  display: none !important;
+}
+
+.mobile-drawer-overlay {
+  display: none !important;
+}
+
+/* Market Overview Grids */
+.market-overview-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 350px;
+  gap: 1.5rem;
+  padding: 0 2rem 3rem 2rem;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+
+.market-right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: sticky;
+  top: 2rem;
+}
+
+/* Pricing Page Grids */
+.pricing-research-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
+.pricing-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.75rem;
+}
+
+.pricing-charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+  gap: 1.75rem;
+}
+
+/* Simulator Grid */
+.simulator-inputs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+/* Header Title */
+.header-title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #1e293b;
+  letter-spacing: -0.025em;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile View Adaptations (max-width: 1024px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  body {
+    zoom: 1; /* Reset to 1 on mobile for crisp native touch coordinates */
+  }
+
+  .app-layout-root {
+    flex-direction: column !important;
+    width: 100% !important;
+    overflow-x: hidden !important;
+  }
+
+  .desktop-sidebar {
+    display: none !important;
+  }
+
+  .mobile-nav-top {
+    display: flex !important;
+  }
+
+  .mobile-bottom-nav {
+    display: flex !important;
+  }
+
+  .mobile-drawer-overlay {
+    display: block !important;
+  }
+
+  .main-content-layout {
+    margin-left: 0 !important;
+    padding: 1rem 0.875rem 6.5rem 0.875rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden;
+  }
+
+  .header-title {
+    font-size: 1.35rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .market-overview-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.25rem !important;
+    padding: 0 0 1.5rem 0 !important;
+  }
+
+  .kpi-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.85rem !important;
+  }
+
+  .market-right-col {
+    position: static !important;
+    top: auto !important;
+    gap: 1.25rem !important;
+  }
+
+  .pricing-research-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.25rem !important;
+  }
+
+  .pricing-summary-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.85rem !important;
+    margin-bottom: 1.25rem !important;
+  }
+
+  .pricing-charts-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.25rem !important;
+  }
+
+  .simulator-inputs-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.85rem !important;
+  }
+
+  @media (min-width: 480px) and (max-width: 1024px) {
+    .simulator-inputs-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+  }
+
+  /* Table Smooth Touch Scrolling */
+  .wps-table-compact-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+
+  /* Scope Filter Bar Responsive */
+  .scope-filter-container {
+    padding: 0.85rem 1rem !important;
+    gap: 0.75rem !important;
+  }
+  .scope-filter-right-section {
+    width: 100% !important;
+  }
+  .scope-filter-select-wrap {
+    width: 100% !important;
+  }
+  .scope-filter-select-wrap select {
+    width: 100% !important;
+    min-height: 42px !important;
+  }
+}
+
+

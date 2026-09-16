@@ -34,6 +34,7 @@ export default function ScopeFilterBar({
 
   return (
     <div
+      className="scope-filter-container"
       style={{
         background: '#fcf8f3',
         border: '1px solid #dfd3c3',
@@ -132,7 +133,7 @@ export default function ScopeFilterBar({
       </div>
 
       {/* Right Section: Dropdown Selector & Quick Stats */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+      <div className="scope-filter-right-section" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
         {/* Optional Total Items Counter */}
         {totalItemsCount !== undefined && itemsLabel && (
           <span
@@ -153,7 +154,7 @@ export default function ScopeFilterBar({
         )}
 
         {/* Custom Styled Select Dropdown */}
-        <div style={{ position: 'relative' }}>
+        <div className="scope-filter-select-wrap" style={{ position: 'relative' }}>
           <select
             value={selectedScope}
             onChange={(e) => onScopeChange(e.target.value)}

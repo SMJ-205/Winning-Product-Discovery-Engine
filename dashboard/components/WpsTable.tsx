@@ -89,7 +89,7 @@ export default function WpsTable({ data, categoryScope, categoryMedianPrice }: P
       </div>
 
       {/* Compact Table content */}
-      <div style={{ overflowX: 'auto' }}>
+      <div className="wps-table-compact-container" style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
         <table className="wps-table-compact">
           <thead>
             <tr style={{ background: '#ede3d5' }}>

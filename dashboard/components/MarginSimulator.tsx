@@ -131,7 +131,7 @@ export default function MarginSimulator({
           </button>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+        <div className="simulator-inputs-grid">
           {[
             { label: t('sim_selling_price_input'), value: sellingPrice, set: setSellingPrice },
             { label: t('sim_hpp_supplier'), value: hpp, set: setHpp },

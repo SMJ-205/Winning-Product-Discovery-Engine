@@ -286,12 +286,7 @@ export default function MarketOverview({ initialData, categoryAnalytics }: Props
   }, [selectedScope])
 
   return (
-    <div style={{
-      display: 'grid',
-      gridTemplateColumns: 'minmax(0, 1fr) 350px',
-      gap: '1.5rem',
-      padding: '0 2rem 3rem 2rem',
-    }}>
+    <div className="market-overview-grid">
       {/* Left Column: Scope Filter, KPIs, Chart, and Table */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         {/* Scope Filter Bar */}
@@ -305,12 +300,7 @@ export default function MarketOverview({ initialData, categoryAnalytics }: Props
         />
 
         {/* 3 Metric Cards with sparklines — Disesuaikan secara dinamis */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-          gap: '1rem',
-          width: '100%',
-        }}>
+        <div className="kpi-grid">
           <KpiCard
             title={`${t('kpi_gmv')} (${selectedScope === 'all' ? t('badge_overall') : t('badge_filtered')})`}
             value={formatCompactCurrency(totalRevenue, lang)}
@@ -346,13 +336,7 @@ export default function MarketOverview({ initialData, categoryAnalytics }: Props
       </div>
 
       {/* Right Column: Semi-circle Gauge & Quick Insights */}
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '1.5rem',
-        position: 'sticky',
-        top: '2rem',
-      }}>
+      <div className="market-right-col">
         {/* WPS Gauge Meter */}
         <WpsGaugeCard
           topScore={topWps || 87.6}

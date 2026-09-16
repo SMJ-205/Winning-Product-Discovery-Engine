@@ -76,9 +76,9 @@ export default function MarginWaterfall(props: Props) {
       </div>
 
       <ResponsiveContainer width="100%" height={290}>
-        <BarChart data={data} margin={{ top: 10, right: 10, bottom: 20, left: 0 }}>
+        <BarChart data={data} margin={{ top: 10, right: 10, bottom: 20, left: -12 }}>
           <CartesianGrid stroke="#e5dacb" strokeDasharray="3 3" vertical={false} />
-          <XAxis dataKey="name" tick={{ fill: '#576574', fontSize: 11 }} axisLine={{ stroke: '#dfd3c3' }} />
+          <XAxis dataKey="name" tick={{ fill: '#576574', fontSize: 10.5 }} axisLine={{ stroke: '#dfd3c3' }} />
           <YAxis
             tick={{ fill: '#576574', fontSize: 11 }}
             tickFormatter={v => `Rp ${(v/1000).toFixed(0)}k`}

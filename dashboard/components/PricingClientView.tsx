@@ -176,12 +176,7 @@ export default function PricingClientView({ complaints = [], prices = [], review
 
       {/* TAB 1: Market Research & Brand Opinion (3-Column Layout) */}
       {activeTab === 'research' && (
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-          gap: '1.25rem',
-          alignItems: 'stretch',
-        }}>
+        <div className="pricing-research-grid">
           {/* Column 1: Customer Information */}
           <CustomerInfoSection category={selectedCategory} />
 
@@ -197,12 +192,7 @@ export default function PricingClientView({ complaints = [], prices = [], review
       {activeTab === 'pricing' && (
         <div>
           {/* Summary highlight cards */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-            gap: '1.25rem',
-            marginBottom: '1.75rem',
-          }}>
+          <div className="pricing-summary-grid">
             <div style={{
               background: '#fcf8f3',
               border: '1px solid #dfd3c3',
@@ -259,11 +249,7 @@ export default function PricingClientView({ complaints = [], prices = [], review
           </div>
 
           {/* 2-column charts */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(460px, 1fr))',
-            gap: '1.75rem',
-          }}>
+          <div className="pricing-charts-grid">
             <PriceHistogram prices={filteredPrices} />
             <ComplaintBar data={filteredComplaints} />
           </div>

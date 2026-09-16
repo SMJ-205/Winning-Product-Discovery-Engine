@@ -144,14 +144,7 @@ export default function Header({
         </div>
       </div>
 
-      <h1 style={{
-        fontSize: '1.85rem',
-        fontWeight: 800,
-        color: '#1e293b',
-        letterSpacing: '-0.025em',
-        margin: 0,
-        lineHeight: 1.2,
-      }}>
+      <h1 className="header-title">
         {activeTitle}
       </h1>
       <p style={{
