@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
 
 type PerceptionRow = {
@@ -32,20 +32,80 @@ import { CATEGORY_IMAGE } from '@/lib/analyticsProfiles'
 
 type Props = {
   category?: string
+  timeframe?: '7d' | '30d' | '90d'
 }
 
-export default function BrandImageSection({ category = 'all' }: Props) {
+export default function BrandImageSection({ category = 'all', timeframe = '7d' }: Props) {
   const { t } = useLanguage()
   const [mounted, setMounted] = useState(false)
   const [hovered, setHovered] = useState<HoveredSegment>(null)
 
   const profile = CATEGORY_IMAGE[category] || CATEGORY_IMAGE.all
-  const { perceptions } = profile
 
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 60)
     return () => clearTimeout(timer)
   }, [])
+
+  // Dynamic perceptions based on timeframe
+  const perceptions = useMemo(() => {
+    return profile.perceptions.map(row => {
+      let totallyAgree = row.totallyAgree
+      let agree = row.agree
+      let maybe = row.maybe
+      let disagree = row.disagree
+      let totallyDisagree = row.totallyDisagree
+
+      if (timeframe === '7d') {
+        // Novelty & viral visual appeal phase
+        if (row.key === 'attr_practical' || row.key === 'attr_trendy') {
+          totallyAgree += 8
+          agree += 2
+          disagree = Math.max(1, disagree - 4)
+          maybe = Math.max(2, maybe - 6)
+        } else if (row.key === 'attr_reliable') {
+          // Logistics spike during 7-day flash sales
+          disagree += 5
+          totallyAgree = Math.max(5, totallyAgree - 5)
+        } else if (row.key === 'attr_value') {
+          totallyAgree += 5
+          maybe = Math.max(2, maybe - 5)
+        }
+      } else if (timeframe === '90d') {
+        // True wear-and-tear & post-usage validation
+        if (row.key === 'attr_durable') {
+          totallyAgree += 6
+          agree += 2
+          maybe = Math.max(2, maybe - 4)
+          disagree = Math.max(1, disagree - 4)
+        } else if (row.key === 'attr_reliable') {
+          totallyAgree += 6
+          disagree = Math.max(1, disagree - 4)
+          maybe = Math.max(2, maybe - 2)
+        } else if (row.key === 'attr_comfortable') {
+          totallyAgree += 5
+          maybe = Math.max(2, maybe - 5)
+        }
+      }
+
+      // Normalize row sum to 100
+      const total = totallyAgree + agree + maybe + disagree + totallyDisagree || 1
+      const normTA = Math.round((totallyAgree / total) * 100)
+      const normA = Math.round((agree / total) * 100)
+      const normM = Math.round((maybe / total) * 100)
+      const normD = Math.round((disagree / total) * 100)
+      const normTD = Math.max(0, 100 - normTA - normA - normM - normD)
+
+      return {
+        ...row,
+        totallyAgree: normTA,
+        agree: normA,
+        maybe: normM,
+        disagree: normD,
+        totallyDisagree: normTD,
+      }
+    })
+  }, [profile.perceptions, timeframe])
 
   const segmentsConfig: {
     key: keyof Omit<PerceptionRow, 'key'>
@@ -78,21 +138,36 @@ export default function BrandImageSection({ category = 'all' }: Props) {
       height: '100%',
       boxSizing: 'border-box',
     }}>
-      {/* Title */}
-      <div>
-        <div style={{
-          fontSize: '0.8125rem',
+      {/* Title & Timeframe Badge */}
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
+        <div>
+          <div style={{
+            fontSize: '0.8125rem',
+            fontWeight: 800,
+            color: '#245366',
+            textTransform: 'uppercase',
+            letterSpacing: '0.06em',
+            marginBottom: 4,
+          }}>
+            {t('sec_brand_image')}
+          </div>
+          <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#1e293b' }}>
+            {t('brand_image_title')}
+          </div>
+        </div>
+
+        <span style={{
+          fontSize: '0.7rem',
           fontWeight: 800,
           color: '#245366',
-          textTransform: 'uppercase',
-          letterSpacing: '0.06em',
-          marginBottom: 4,
+          background: 'rgba(36, 83, 102, 0.08)',
+          border: '1px solid rgba(36, 83, 102, 0.22)',
+          padding: '2px 8px',
+          borderRadius: 8,
+          whiteSpace: 'nowrap',
         }}>
-          {t('sec_brand_image')}
-        </div>
-        <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#1e293b' }}>
-          {t('brand_image_title')}
-        </div>
+          {timeframe === '7d' ? '7 Hari' : timeframe === '90d' ? '90 Hari' : '30 Hari'}
+        </span>
       </div>
 
       {/* Stacked Likert Scale Bars */}

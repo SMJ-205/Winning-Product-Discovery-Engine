@@ -207,8 +207,8 @@ export default function PricingClientView({ complaints = [], prices = [], review
 
         <div style={{ fontSize: '0.72rem', color: '#576574', fontWeight: 600 }}>
           {activeTab === 'research'
-            ? `${t('tab_view_research')} • ${selectedCategory === 'all' ? (lang === 'ID' ? 'Semua Kategori' : 'All Categories') : selectedCategory}`
-            : `${t('tab_view_pricing')} • ${selectedCategory === 'all' ? (lang === 'ID' ? 'Semua Kategori' : 'All Categories') : selectedCategory}`}
+            ? `${t('tab_view_research')} • ${selectedCategory === 'all' ? (lang === 'ID' ? 'Semua Kategori' : 'All Categories') : selectedCategory} • ${selectedTimeframe === '7d' ? '7 Hari' : selectedTimeframe === '90d' ? '90 Hari' : '30 Hari'}`
+            : `${t('tab_view_pricing')} • ${selectedCategory === 'all' ? (lang === 'ID' ? 'Semua Kategori' : 'All Categories') : selectedCategory} • ${selectedTimeframe === '7d' ? '7 Hari' : selectedTimeframe === '90d' ? '90 Hari' : '30 Hari'}`}
         </div>
       </div>
 
@@ -219,10 +219,10 @@ export default function PricingClientView({ complaints = [], prices = [], review
           <CustomerInfoSection category={selectedCategory} timeframe={selectedTimeframe} />
 
           {/* Column 2: Brand Awareness & Marketing Triggers */}
-          <BrandAwarenessSection category={selectedCategory} />
+          <BrandAwarenessSection category={selectedCategory} timeframe={selectedTimeframe} />
 
           {/* Column 3: Brand Image in Customer Mind */}
-          <BrandImageSection category={selectedCategory} />
+          <BrandImageSection category={selectedCategory} timeframe={selectedTimeframe} />
         </div>
       )}
 
