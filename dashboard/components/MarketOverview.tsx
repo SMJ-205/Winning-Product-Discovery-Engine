@@ -455,38 +455,95 @@ export default function MarketOverview({ initialData, categoryAnalytics }: Props
     return initialData.filter(d => d.category_name === selectedScope)
   }, [initialData, selectedScope])
 
-  // Dynamic KPI Calculations based on filteredData
+  // Data with timeframe-responsive search trend index, pricing, units, and dynamic WPS scoring
+  const displayData = useMemo(() => {
+    return filteredData
+      .map((d: any) => {
+        const rawTrend = d.search_trend_index || 50
+        const rawUnits = d.monthly_sold_units || 0
+        const rawPrice = d.median_price || 0
+        const baseWps = typeof d.winning_product_score === 'number' ? d.winning_product_score : 45
+
+        let trend = rawTrend
+        let units = rawUnits
+        let price = rawPrice
+        let adjustedWps = baseWps
+
+        if (selectedTimeframe === '7d') {
+          // 7 Hari: Dinamika cepat mingguan & lonjakan pencarian
+          trend = Math.min(100, Math.max(1, Math.round(rawTrend * 1.14 * 10) / 10))
+          units = Math.round(rawUnits * (7 / 30) * 1.08)
+          price = Math.round(rawPrice * 0.97) // penyesuaian promo mingguan / flash sale
+
+          // Horizon 7H memberi bobot ekstra pada laju minat pencarian terkini
+          const surgeFactor = (trend - 42) * 0.22
+          adjustedWps = Math.min(98.5, Math.max(12, Math.round((baseWps + surgeFactor) * 10) / 10))
+        } else if (selectedTimeframe === '30d') {
+          // 30 Hari: Standar baseline bulanan
+          trend = rawTrend
+          units = rawUnits
+          price = rawPrice
+          adjustedWps = Math.round(baseWps * 10) / 10
+        } else if (selectedTimeframe === '90d') {
+          // 90 Hari: Akumulasi kuartalan & ketahanan margin jangka panjang
+          trend = Math.min(100, Math.max(1, Math.round(rawTrend * 0.93 * 10) / 10))
+          units = Math.round(rawUnits * 3.0 * 0.98)
+          price = Math.round(rawPrice * 1.035) // harga patokan reguler tanpa diskon promosi
+
+          // Horizon 90H memberi bobot ekstra pada produk bernilai tinggi & margin kokoh
+          const stabilityFactor = rawPrice >= 50000 ? 3.5 : -2.8
+          adjustedWps = Math.min(98.5, Math.max(10, Math.round((baseWps + stabilityFactor) * 10) / 10))
+        }
+
+        const rec =
+          adjustedWps >= 70
+            ? 'High Priority - Immediate Sourcing'
+            : adjustedWps >= 50
+            ? 'Monitor & Sample Testing'
+            : 'Reject - Saturated / Unfeasible'
+
+        return {
+          ...d,
+          search_trend_index: trend,
+          monthly_sold_units: units,
+          median_price: price,
+          winning_product_score: adjustedWps,
+          sourcing_recommendation: rec,
+        }
+      })
+      .sort((a: any, b: any) => (b.winning_product_score ?? 0) - (a.winning_product_score ?? 0))
+  }, [filteredData, selectedTimeframe])
+
+  // Dynamic KPI Calculations based on displayData and selectedTimeframe
   const totalRevenue = useMemo(() => {
-    return filteredData.reduce(
+    return displayData.reduce(
       (s: number, d: any) => s + (d.monthly_sold_units * d.median_price || 0),
       0
     )
-  }, [filteredData])
+  }, [displayData])
 
   const avgPrice = useMemo(() => {
-    return filteredData.length
-      ? filteredData.reduce((s: number, d: any) => s + (d.median_price || 0), 0) / filteredData.length
+    return displayData.length
+      ? displayData.reduce((s: number, d: any) => s + (d.median_price || 0), 0) / displayData.length
       : 0
-  }, [filteredData])
+  }, [displayData])
 
   const highPriorityCount = useMemo(() => {
-    return filteredData.filter(
+    return displayData.filter(
       (d: any) => (d.winning_product_score ?? 0) >= 70
     ).length
-  }, [filteredData])
+  }, [displayData])
 
   const topWps = useMemo(() => {
-    return filteredData.reduce(
+    return displayData.reduce(
       (mx: number, d: any) => Math.max(mx, d.winning_product_score ?? 0),
       0
     )
-  }, [filteredData])
+  }, [displayData])
 
   const topProduct = useMemo(() => {
-    return [...filteredData].sort(
-      (a, b) => (b.winning_product_score ?? 0) - (a.winning_product_score ?? 0)
-    )[0]
-  }, [filteredData])
+    return displayData[0]
+  }, [displayData])
 
   // Baseline angka median produk per filter kategori
   // Jika filter diset ke 'all' (overall) -> undefined (tampilkan seperti as is saja)
@@ -500,15 +557,15 @@ export default function MarketOverview({ initialData, categoryAnalytics }: Props
     if (matched && matched.median_price) {
       return matched.median_price
     }
-    // Fallback: hitung median dari filteredData
-    const prices = filteredData
+    // Fallback: hitung median dari displayData
+    const prices = displayData
       .map((d: any) => d.median_price)
       .filter((p: any) => typeof p === 'number' && p > 0)
       .sort((a: number, b: number) => a - b)
     if (!prices.length) return undefined
     const mid = Math.floor(prices.length / 2)
     return prices.length % 2 !== 0 ? prices[mid] : Math.round((prices[mid - 1] + prices[mid]) / 2)
-  }, [selectedScope, categoryAnalytics, filteredData])
+  }, [selectedScope, categoryAnalytics, displayData])
 
   // Dynamic Sourcing URL yang mengarah ke pricing simulator / calculator
   const sourcingHref = useMemo(() => {
@@ -531,17 +588,26 @@ export default function MarketOverview({ initialData, categoryAnalytics }: Props
     return scopeData[selectedTimeframe] || scopeData['7d']
   }, [selectedScope, selectedTimeframe])
 
-  // Data with timeframe-responsive search trend index
-  const displayData = useMemo(() => {
-    return filteredData.map((d: any) => {
-      const factor = selectedTimeframe === '7d' ? 1.05 : selectedTimeframe === '90d' ? 0.95 : 1.0
-      const trend = Math.min(100, Math.max(1, Math.round((d.search_trend_index || 50) * factor * 10) / 10))
-      return {
-        ...d,
-        search_trend_index: trend,
-      }
-    })
-  }, [filteredData, selectedTimeframe])
+  // Timeframe-specific KPI Card Titles
+  const gmvTitle = useMemo(() => {
+    const base =
+      selectedTimeframe === '7d'
+        ? t('kpi_gmv_7d')
+        : selectedTimeframe === '90d'
+        ? t('kpi_gmv_90d')
+        : t('kpi_gmv_30d')
+    return `${base} (${selectedScope === 'all' ? t('badge_overall') : t('badge_filtered')})`
+  }, [selectedTimeframe, selectedScope, t])
+
+  const priceTitle = useMemo(() => {
+    const base =
+      selectedTimeframe === '7d'
+        ? t('kpi_price_7d')
+        : selectedTimeframe === '90d'
+        ? t('kpi_price_90d')
+        : t('kpi_price_30d')
+    return `${base} (${selectedScope === 'all' ? t('badge_overall') : t('badge_filtered')})`
+  }, [selectedTimeframe, selectedScope, t])
 
   return (
     <div className="market-overview-grid">
@@ -553,7 +619,7 @@ export default function MarketOverview({ initialData, categoryAnalytics }: Props
           onScopeChange={setSelectedScope}
           categories={categories}
           showWinningNichesOption={true}
-          totalItemsCount={filteredData.length}
+          totalItemsCount={displayData.length}
           itemsLabel={t('niche_analyzed')}
           selectedTimeframe={selectedTimeframe}
           onTimeframeChange={setSelectedTimeframe}
@@ -562,14 +628,14 @@ export default function MarketOverview({ initialData, categoryAnalytics }: Props
         {/* 3 Metric Cards with sparklines — Disesuaikan secara dinamis */}
         <div className="kpi-grid">
           <KpiCard
-            title={`${t('kpi_gmv')} (${selectedScope === 'all' ? t('badge_overall') : t('badge_filtered')})`}
+            title={gmvTitle}
             value={formatCompactCurrency(totalRevenue, lang)}
             sparklinePoints={currentTrend.gmvPoints}
             insightLabel={lang === 'ID' ? currentTrend.gmvTrajectoryID : currentTrend.gmvTrajectoryEN}
             trendMetric={currentTrend.gmvMetric}
           />
           <KpiCard
-            title={`${t('kpi_price')} (${selectedScope === 'all' ? t('badge_overall') : t('badge_filtered')})`}
+            title={priceTitle}
             value={`Rp ${Math.round(avgPrice).toLocaleString('id-ID')}`}
             sparklinePoints={currentTrend.pricePoints}
             insightLabel={lang === 'ID' ? currentTrend.priceTrajectoryID : currentTrend.priceTrajectoryEN}

@@ -180,12 +180,10 @@ export default function ScopeFilterBar({
                 transition: 'all 0.15s ease',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 4,
                 whiteSpace: 'nowrap',
               }}
               title={t('timeframe_7d')}
             >
-              <span style={{ fontSize: '0.7rem' }}>⚡</span>
               <span>{t('timeframe_7d_short')}</span>
             </button>
 
@@ -205,12 +203,10 @@ export default function ScopeFilterBar({
                 transition: 'all 0.15s ease',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 4,
                 whiteSpace: 'nowrap',
               }}
               title={t('timeframe_30d')}
             >
-              <span style={{ fontSize: '0.7rem' }}>📅</span>
               <span>{t('timeframe_30d_short')}</span>
             </button>
 
@@ -230,12 +226,10 @@ export default function ScopeFilterBar({
                 transition: 'all 0.15s ease',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 4,
                 whiteSpace: 'nowrap',
               }}
               title={t('timeframe_90d')}
             >
-              <span style={{ fontSize: '0.7rem' }}>📈</span>
               <span>{t('timeframe_90d_short')}</span>
             </button>
           </div>
