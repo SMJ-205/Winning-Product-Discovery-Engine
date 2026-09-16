@@ -9,6 +9,8 @@ type Props = {
   showWinningNichesOption?: boolean
   totalItemsCount?: number
   itemsLabel?: string
+  selectedTimeframe?: '7d' | '30d' | '90d'
+  onTimeframeChange?: (timeframe: '7d' | '30d' | '90d') => void
 }
 
 export default function ScopeFilterBar({
@@ -18,6 +20,8 @@ export default function ScopeFilterBar({
   showWinningNichesOption = false,
   totalItemsCount,
   itemsLabel,
+  selectedTimeframe,
+  onTimeframeChange,
 }: Props) {
   const { t, lang } = useLanguage()
 
@@ -115,7 +119,19 @@ export default function ScopeFilterBar({
                   boxShadow: '0 0 0 2px rgba(36, 83, 102, 0.25)',
                 }}
               />
-              <span>{activeDisplayLabel()}</span>
+              <span>
+                {activeDisplayLabel()}
+                {selectedTimeframe && (
+                  <span style={{ opacity: 0.85, fontWeight: 700 }}>
+                    {' '}&bull;{' '}
+                    {selectedTimeframe === '7d'
+                      ? t('timeframe_badge_7d')
+                      : selectedTimeframe === '30d'
+                      ? t('timeframe_badge_30d')
+                      : t('timeframe_badge_90d')}
+                  </span>
+                )}
+              </span>
             </span>
           </div>
 
@@ -132,8 +148,99 @@ export default function ScopeFilterBar({
         </div>
       </div>
 
-      {/* Right Section: Dropdown Selector & Quick Stats */}
-      <div className="scope-filter-right-section" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+      {/* Right Section: Timeframe Control + Dropdown Selector & Quick Stats */}
+      <div className="scope-filter-right-section" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+        {/* Timeframe Segmented Control (7d / 30d / 90d) */}
+        {onTimeframeChange && selectedTimeframe && (
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              background: '#f0e6d9',
+              border: '1px solid #dccbb7',
+              borderRadius: 12,
+              padding: '3px',
+              gap: '2px',
+              boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.04)',
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => onTimeframeChange('7d')}
+              style={{
+                padding: '0.4rem 0.75rem',
+                borderRadius: 9,
+                fontSize: '0.75rem',
+                fontWeight: selectedTimeframe === '7d' ? 800 : 600,
+                color: selectedTimeframe === '7d' ? '#ffffff' : '#475569',
+                background: selectedTimeframe === '7d' ? 'linear-gradient(135deg, #245366 0%, #163947 100%)' : 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                boxShadow: selectedTimeframe === '7d' ? '0 2px 5px rgba(36, 83, 102, 0.25)' : 'none',
+                transition: 'all 0.15s ease',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 4,
+                whiteSpace: 'nowrap',
+              }}
+              title={t('timeframe_7d')}
+            >
+              <span style={{ fontSize: '0.7rem' }}>⚡</span>
+              <span>{t('timeframe_7d_short')}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onTimeframeChange('30d')}
+              style={{
+                padding: '0.4rem 0.75rem',
+                borderRadius: 9,
+                fontSize: '0.75rem',
+                fontWeight: selectedTimeframe === '30d' ? 800 : 600,
+                color: selectedTimeframe === '30d' ? '#ffffff' : '#475569',
+                background: selectedTimeframe === '30d' ? 'linear-gradient(135deg, #245366 0%, #163947 100%)' : 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                boxShadow: selectedTimeframe === '30d' ? '0 2px 5px rgba(36, 83, 102, 0.25)' : 'none',
+                transition: 'all 0.15s ease',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 4,
+                whiteSpace: 'nowrap',
+              }}
+              title={t('timeframe_30d')}
+            >
+              <span style={{ fontSize: '0.7rem' }}>📅</span>
+              <span>{t('timeframe_30d_short')}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onTimeframeChange('90d')}
+              style={{
+                padding: '0.4rem 0.75rem',
+                borderRadius: 9,
+                fontSize: '0.75rem',
+                fontWeight: selectedTimeframe === '90d' ? 800 : 600,
+                color: selectedTimeframe === '90d' ? '#ffffff' : '#475569',
+                background: selectedTimeframe === '90d' ? 'linear-gradient(135deg, #245366 0%, #163947 100%)' : 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                boxShadow: selectedTimeframe === '90d' ? '0 2px 5px rgba(36, 83, 102, 0.25)' : 'none',
+                transition: 'all 0.15s ease',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 4,
+                whiteSpace: 'nowrap',
+              }}
+              title={t('timeframe_90d')}
+            >
+              <span style={{ fontSize: '0.7rem' }}>📈</span>
+              <span>{t('timeframe_90d_short')}</span>
+            </button>
+          </div>
+        )}
+
         {/* Optional Total Items Counter */}
         {totalItemsCount !== undefined && itemsLabel && (
           <span

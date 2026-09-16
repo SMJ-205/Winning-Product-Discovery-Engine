@@ -112,15 +112,36 @@ def load_from_cache(keyword: str) -> Optional[dict]:
 
 def compute_metrics(series: pd.Series) -> dict:
     if series.empty or series.mean() == 0:
-        return {"avg_interest": 0.0, "volatility_cv": 999.0, "latest_index": 0.0}
+        return {
+            "avg_interest": 0.0,
+            "volatility_cv": 999.0,
+            "latest_index": 0.0,
+            "trend_7d": 0.0,
+            "trend_30d": 0.0,
+            "trend_90d": 0.0,
+        }
 
     avg       = float(series.mean())
     cv        = float(series.std() / avg) if avg > 0 else 999.0
     latest    = float(series.iloc[-1])
+
+    # Multi-window slicing tanpa extra API call:
+    # 7-hari (mingguan), 30-hari (bulanan), dan 90-hari (kuartalan)
+    s_7d  = series.iloc[-1:] if len(series) < 7 else series.iloc[-7:]
+    s_30d = series.iloc[-4:] if len(series) < 30 else series.iloc[-30:]
+    s_90d = series.iloc[-12:] if len(series) < 90 else series.iloc[-90:]
+
+    trend_7d  = round(float(s_7d.mean()), 2)
+    trend_30d = round(float(s_30d.mean()), 2)
+    trend_90d = round(float(s_90d.mean()), 2)
+
     return {
         "avg_interest":  round(avg, 2),
         "volatility_cv": round(cv, 4),
         "latest_index":  round(latest, 2),
+        "trend_7d":      trend_7d,
+        "trend_30d":     trend_30d,
+        "trend_90d":     trend_90d,
     }
 
 
