@@ -29,7 +29,7 @@ In Southeast Asian e-commerce marketplaces (Shopee, Tokopedia, TikTok Shop), **o
 The following diagram illustrates the complete end-to-end data lifecycle—from multi-channel ingestion and AI enrichment to automated scoring and executive visualization:
 
 <p align="center">
-  <img src="docs/assets/architecture_flow.png" alt="Biz-In-Sight End-to-End Architecture & Data Pipeline Flow" width="100%" />
+  <img src="docs/assets/architecture_flow.png" alt="Biz-In-Sight End-to-End Architecture & Data Pipeline Flow" width="70%" />
 </p>
 
 ---
