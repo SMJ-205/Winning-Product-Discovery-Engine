@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
 import { CATEGORY_AWARENESS } from '@/lib/analyticsProfiles'
+import HoverTooltip from './HoverTooltip'
 
 type Props = {
   category?: string
@@ -182,16 +183,18 @@ export default function BrandAwarenessSection({ category = 'all', timeframe = '7
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.5rem' }}>
             {brandsRecognized.map((b, idx) => (
               <div key={b.name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{
-                  fontSize: '0.7rem',
-                  color: '#576574',
-                  width: 105,
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                }}>
-                  {b.name}
-                </span>
+                <HoverTooltip
+                  text={b.name}
+                  width={120}
+                  textStyle={{
+                    fontSize: '0.7rem',
+                    color: '#576574',
+                    fontWeight: 500,
+                  }}
+                  containerStyle={{
+                    flexShrink: 0,
+                  }}
+                />
                 <div style={{ flex: 1, height: 16, background: '#e5dacb', borderRadius: 4, overflow: 'hidden' }}>
                   <div style={{
                     width: mounted ? `${b.share}%` : '0%',
@@ -223,16 +226,18 @@ export default function BrandAwarenessSection({ category = 'all', timeframe = '7
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.5rem' }}>
             {customerLoyalty.map((b, idx) => (
               <div key={b.name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{
-                  fontSize: '0.7rem',
-                  color: '#576574',
-                  width: 105,
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                }}>
-                  {b.name}
-                </span>
+                <HoverTooltip
+                  text={b.name}
+                  width={120}
+                  textStyle={{
+                    fontSize: '0.7rem',
+                    color: '#576574',
+                    fontWeight: 500,
+                  }}
+                  containerStyle={{
+                    flexShrink: 0,
+                  }}
+                />
                 <div style={{ flex: 1, height: 16, background: '#e5dacb', borderRadius: 4, overflow: 'hidden' }}>
                   <div style={{
                     width: mounted ? `${b.loyalty}%` : '0%',
@@ -275,16 +280,18 @@ export default function BrandAwarenessSection({ category = 'all', timeframe = '7
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
             {emotionalThemes.map((item, idx) => (
               <div key={item.name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{
-                  fontSize: '0.7rem',
-                  color: '#334155',
-                  width: 120,
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                }}>
-                  {item.name}
-                </span>
+                <HoverTooltip
+                  text={item.name}
+                  width={135}
+                  textStyle={{
+                    fontSize: '0.7rem',
+                    color: '#334155',
+                    fontWeight: 500,
+                  }}
+                  containerStyle={{
+                    flexShrink: 0,
+                  }}
+                />
                 <div style={{ flex: 1, height: 16, background: '#e5dacb', borderRadius: 4, overflow: 'hidden' }}>
                   <div style={{
                     width: mounted ? `${(item.score / 5) * 100}%` : '0%',
@@ -375,17 +382,18 @@ export default function BrandAwarenessSection({ category = 'all', timeframe = '7
                     transition: 'background 0.15s ease',
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, minWidth: 0, flex: 1 }}>
                     <span style={{ width: 8, height: 8, borderRadius: '50%', background: ch.color, flexShrink: 0 }} />
-                    <span style={{
-                      color: '#475569',
-                      fontWeight: 600,
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                    }}>
-                      {ch.name}
-                    </span>
+                    <HoverTooltip
+                      text={ch.name}
+                      subtext={`${ch.value}%`}
+                      containerStyle={{ minWidth: 0, flex: 1 }}
+                      textStyle={{
+                        color: '#475569',
+                        fontWeight: 600,
+                        fontSize: '0.72rem',
+                      }}
+                    />
                   </div>
                   <span style={{ fontWeight: 800, color: '#1e293b', fontSize: '0.78rem', marginLeft: 8, flexShrink: 0 }}>
                     {ch.value}%

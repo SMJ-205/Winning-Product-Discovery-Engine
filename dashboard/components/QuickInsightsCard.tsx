@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useLanguage } from '@/context/LanguageContext'
+import HoverTooltip from './HoverTooltip'
 
 type Props = {
   topNiche?: {
@@ -325,9 +326,18 @@ export default function QuickInsightsCard({ topNiche, sourcingHref = '/sourcing'
         <div style={{ fontSize: '0.65rem', fontWeight: 800, color: '#245366', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
           Top Opportunity Target
         </div>
-        <div style={{ fontSize: '0.9375rem', fontWeight: 800, color: '#1e293b', marginTop: 3 }}>
-          {productName}
-        </div>
+        <HoverTooltip
+          text={productName}
+          subtext={`${categoryName} • ${timeframeUnits}`}
+          maxWidth="100%"
+          textStyle={{
+            fontSize: '0.9375rem',
+            fontWeight: 800,
+            color: '#1e293b',
+            marginTop: 3,
+          }}
+          containerStyle={{ width: '100%' }}
+        />
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4, fontSize: '0.72rem', color: '#576574', fontWeight: 600 }}>
           <span>{categoryName}</span>
           <span>•</span>
@@ -354,9 +364,17 @@ export default function QuickInsightsCard({ topNiche, sourcingHref = '/sourcing'
               {t('pillar_demand')}
             </span>
           </div>
-          <div style={{ fontSize: '0.8125rem', fontWeight: 800, color: '#245366', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-            {velocityLabel}
-          </div>
+          <HoverTooltip
+            text={velocityLabel}
+            subtext={timeframeUnits}
+            maxWidth="100%"
+            textStyle={{
+              fontSize: '0.8125rem',
+              fontWeight: 800,
+              color: '#245366',
+            }}
+            containerStyle={{ width: '100%' }}
+          />
           <div style={{ fontSize: '0.625rem', color: '#576574', marginTop: 1 }}>
             {timeframeUnits}
           </div>
@@ -396,12 +414,27 @@ export default function QuickInsightsCard({ topNiche, sourcingHref = '/sourcing'
               {t('pillar_flaw')}
             </span>
           </div>
-          <div style={{ fontSize: '0.8125rem', fontWeight: 800, color: '#c2533a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-            {defectTitle}
-          </div>
-          <div style={{ fontSize: '0.625rem', color: '#576574', marginTop: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-            {defectSub}
-          </div>
+          <HoverTooltip
+            text={defectTitle}
+            subtext={defectSub}
+            maxWidth="100%"
+            textStyle={{
+              fontSize: '0.8125rem',
+              fontWeight: 800,
+              color: '#c2533a',
+            }}
+            containerStyle={{ width: '100%' }}
+          />
+          <HoverTooltip
+            text={defectSub}
+            maxWidth="100%"
+            textStyle={{
+              fontSize: '0.625rem',
+              color: '#576574',
+              marginTop: 1,
+            }}
+            containerStyle={{ width: '100%' }}
+          />
         </div>
 
         {/* Pillar 4: Supplier Readiness */}
@@ -417,12 +450,27 @@ export default function QuickInsightsCard({ topNiche, sourcingHref = '/sourcing'
               {t('pillar_oem')}
             </span>
           </div>
-          <div style={{ fontSize: '0.8125rem', fontWeight: 800, color: '#1e293b', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-            {supplierTitle}
-          </div>
-          <div style={{ fontSize: '0.625rem', color: '#576574', marginTop: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-            {supplierSub}
-          </div>
+          <HoverTooltip
+            text={supplierTitle}
+            subtext={supplierSub}
+            maxWidth="100%"
+            textStyle={{
+              fontSize: '0.8125rem',
+              fontWeight: 800,
+              color: '#1e293b',
+            }}
+            containerStyle={{ width: '100%' }}
+          />
+          <HoverTooltip
+            text={supplierSub}
+            maxWidth="100%"
+            textStyle={{
+              fontSize: '0.625rem',
+              color: '#576574',
+              marginTop: 1,
+            }}
+            containerStyle={{ width: '100%' }}
+          />
         </div>
       </div>
 

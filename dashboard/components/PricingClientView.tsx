@@ -8,6 +8,7 @@ import CustomerInfoSection from '@/components/CustomerInfoSection'
 import BrandAwarenessSection from '@/components/BrandAwarenessSection'
 import BrandImageSection from '@/components/BrandImageSection'
 import ScopeFilterBar from '@/components/ScopeFilterBar'
+import HoverTooltip from '@/components/HoverTooltip'
 import { useLanguage } from '@/context/LanguageContext'
 
 type PriceItem = { price: number; product_id: string; category_name?: string }
@@ -241,9 +242,18 @@ export default function PricingClientView({ complaints = [], prices = [], review
               <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#576574', textTransform: 'uppercase' }}>
                 {t('card_pain_point')}
               </div>
-              <div style={{ fontSize: '1.35rem', fontWeight: 800, color: '#c2533a', marginTop: 6, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                {topComplaintTranslated}
-              </div>
+              <HoverTooltip
+                text={topComplaintTranslated}
+                subtext={selectedCategory === 'all' ? t('card_pain_sub') : `${selectedCategory}`}
+                maxWidth="100%"
+                textStyle={{
+                  fontSize: '1.35rem',
+                  fontWeight: 800,
+                  color: '#c2533a',
+                  marginTop: 6,
+                }}
+                containerStyle={{ width: '100%' }}
+              />
               <div style={{ fontSize: '0.72rem', color: '#576574', marginTop: 4 }}>
                 {selectedCategory === 'all' ? t('card_pain_sub') : `${selectedCategory}`}
               </div>
