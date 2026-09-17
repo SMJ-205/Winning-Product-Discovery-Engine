@@ -23,7 +23,7 @@ export default function Sidebar() {
       ),
     },
     {
-      href: '/pricing',
+      href: '/insight',
       label: t('tab_analytics'),
       mobileLabel: 'Insight',
       sublabel: t('tab_analytics_sub'),
@@ -154,7 +154,7 @@ export default function Sidebar() {
           </div>
 
           {navLinks.map(link => {
-            const active = pathname === link.href
+            const active = pathname === link.href || (link.href === '/insight' && pathname === '/pricing')
             return (
               <Link
                 key={link.href}
@@ -328,7 +328,7 @@ export default function Sidebar() {
         }}
       >
         {navLinks.map(link => {
-          const active = pathname === link.href
+          const active = pathname === link.href || (link.href === '/insight' && pathname === '/pricing')
           return (
             <Link
               key={link.href}
@@ -482,7 +482,7 @@ export default function Sidebar() {
               </div>
 
               {navLinks.map(link => {
-                const active = pathname === link.href
+                const active = pathname === link.href || (link.href === '/insight' && pathname === '/pricing')
                 return (
                   <Link
                     key={link.href}

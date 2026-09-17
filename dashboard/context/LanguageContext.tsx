@@ -21,7 +21,7 @@ const DICTIONARY: Record<Language, Translations> = {
     // Header
     weekly_cycle: 'Siklus Mingguan:',
     sub_overall: 'Analitik mendalam untuk product discovery dan validasi kelayakan sourcing (Khusus Pasar Indonesia)',
-    sub_analytics: 'Analisis sweet spot harga jual dan titik kelemahan produk kompetitor (Pasar Indonesia)',
+    sub_analytics: 'Insight, statistik sweet spot harga jual dan titik kelemahan produk kompetitor (Pasar Indonesia)',
     sub_pricing_sim: 'Validasi batas maksimal HPP supplier sebelum melakukan pemesanan stok (Pasar Indonesia)',
 
     // Scope Filter & KPI Cards
@@ -263,7 +263,7 @@ const DICTIONARY: Record<Language, Translations> = {
     // Header
     weekly_cycle: 'Weekly Cycle:',
     sub_overall: 'In-depth analytics for e-commerce product discovery and sourcing feasibility (Indonesian Market Only)',
-    sub_analytics: 'Sweet spot pricing analysis and competitor pain points intelligence (Indonesian Market)',
+    sub_analytics: 'Insights, sweet spot pricing statistics and competitor pain points intelligence (Indonesian Market)',
     sub_pricing_sim: 'Validate supplier COGS ceiling before placing pilot stock orders (Indonesian Market)',
 
     // Scope Filter & KPI Cards

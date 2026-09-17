@@ -19,8 +19,10 @@ export default function Header({
   const { lang, toggleLang, t } = useLanguage()
 
   // Tentukan nama tab aktif saat ini
+  const isInsightTab = pathname === '/insight' || pathname === '/pricing'
+
   const currentTab =
-    pathname === '/pricing'
+    isInsightTab
       ? t('tab_analytics')
       : pathname === '/sourcing'
       ? t('tab_pricing_sim')
@@ -28,13 +30,13 @@ export default function Header({
 
   const activeTitle = title
     ? (title === 'Overall Summary' ? t('tab_overall') : title === 'Pricing Intelligence & Pain Points' ? t('analytics_title') : title === 'Pricing & Sourcing Simulator' ? t('sim_title') : title)
-    : pathname === '/pricing'
+    : isInsightTab
     ? t('analytics_title')
     : pathname === '/sourcing'
     ? t('sim_title')
     : t('tab_overall')
   const activeSubtitle = subtitle || (
-    pathname === '/pricing'
+    isInsightTab
       ? t('sub_analytics')
       : pathname === '/sourcing'
       ? t('sub_pricing_sim')
