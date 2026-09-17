@@ -2,11 +2,6 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
-import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid,
-  Tooltip, ResponsiveContainer, Cell, PieChart, Pie,
-} from 'recharts'
-
 import { CATEGORY_AWARENESS } from '@/lib/analyticsProfiles'
 
 type Props = {
@@ -322,50 +317,79 @@ export default function BrandAwarenessSection({ category = 'all', timeframe = '7
             <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#1e293b', marginBottom: 2 }}>
               {t('channel_title')}
             </div>
-            <div style={{ fontSize: '0.6875rem', color: '#64748b', marginBottom: '0.5rem' }}>
+            <div style={{ fontSize: '0.6875rem', color: '#64748b', marginBottom: '0.85rem' }}>
               Traffic & Video Showcase
             </div>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
-            <div style={{ width: 110, height: 110, position: 'relative' }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Tooltip
-                    contentStyle={{
-                      background: '#ffffff',
-                      border: '1px solid #245366',
-                      borderRadius: 10,
-                      fontSize: 12,
-                      color: '#1e293b',
-                    }}
-                    formatter={(v: any) => [`${v}%`, 'Share']}
-                  />
-                  <Pie
-                    data={discoveryChannels}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={30}
-                    outerRadius={50}
-                    paddingAngle={3}
-                    dataKey="value"
-                  >
-                    {discoveryChannels.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                </PieChart>
-              </ResponsiveContainer>
+          <div>
+            {/* Horizontal 100% Segmented Stacked Bar (Zero-clipping, responsive) */}
+            <div style={{
+              display: 'flex',
+              height: 22,
+              borderRadius: 8,
+              overflow: 'hidden',
+              background: '#e5dacb',
+              boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.08)',
+            }}>
+              {discoveryChannels.map((ch, idx) => (
+                <div
+                  key={ch.name}
+                  style={{
+                    width: mounted ? `${ch.value}%` : '0%',
+                    height: '100%',
+                    background: ch.color,
+                    borderRight: idx < discoveryChannels.length - 1 ? '1.5px solid #f5ede2' : 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'width 1.1s cubic-bezier(0.16, 1, 0.3, 1)',
+                    transitionDelay: `${idx * 75}ms`,
+                    fontSize: '0.6875rem',
+                    fontWeight: 800,
+                    color: ch.color === '#dfbfa8' ? '#1e293b' : '#ffffff',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                  }}
+                  title={`${ch.name}: ${ch.value}%`}
+                >
+                  {ch.value >= 14 ? `${ch.value}%` : ''}
+                </div>
+              ))}
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, flex: 1 }}>
-              {discoveryChannels.map(ch => (
-                <div key={ch.name} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.6875rem' }}>
-                  <span style={{ width: 7, height: 7, borderRadius: '50%', background: ch.color }} />
-                  <span style={{ color: '#576574', flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    {ch.name}
+            {/* Segment Breakdown Cards with Color Swatches */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', marginTop: '0.85rem' }}>
+              {discoveryChannels.map((ch) => (
+                <div
+                  key={ch.name}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '0.4rem 0.65rem',
+                    background: 'rgba(255, 255, 255, 0.75)',
+                    border: '1px solid rgba(223, 211, 195, 0.7)',
+                    borderRadius: 9,
+                    fontSize: '0.72rem',
+                    transition: 'background 0.15s ease',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, minWidth: 0 }}>
+                    <span style={{ width: 8, height: 8, borderRadius: '50%', background: ch.color, flexShrink: 0 }} />
+                    <span style={{
+                      color: '#475569',
+                      fontWeight: 600,
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}>
+                      {ch.name}
+                    </span>
+                  </div>
+                  <span style={{ fontWeight: 800, color: '#1e293b', fontSize: '0.78rem', marginLeft: 8, flexShrink: 0 }}>
+                    {ch.value}%
                   </span>
-                  <b style={{ color: '#1e293b' }}>{ch.value}%</b>
                 </div>
               ))}
             </div>
