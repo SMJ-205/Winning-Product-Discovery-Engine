@@ -43,10 +43,8 @@ export default function Header({
       : t('sub_overall')
   )
 
-  // Fixed Weekly Window: Terkunci pada tanggal batch snapshot pipeline aktual
-  // (misal 8 Sep – 15 Sep 2026), tidak bergeser harian.
-  const weekRangeText = useMemo(() => {
-    // Gunakan snapshotDate dari data pipeline riil, atau fallback ke tanggal batch aktif
+  // Data Freshness: Terkunci pada tanggal batch snapshot pipeline ETL aktual
+  const formattedSnapshotDate = useMemo(() => {
     let anchor: Date
     if (snapshotDate) {
       anchor = new Date(snapshotDate)
@@ -58,16 +56,11 @@ export default function Header({
       anchor = new Date('2026-09-15')
     }
 
-    // 7 hari siklus mingguan: anchor - 7 hari hingga anchor
-    const start = new Date(anchor)
-    start.setDate(anchor.getDate() - 7)
-
-    const formatDate = (d: Date) =>
-      d.toLocaleDateString(lang === 'ID' ? 'id-ID' : 'en-US', { day: '2-digit', month: 'short' })
-    const formatFullDate = (d: Date) =>
-      d.toLocaleDateString(lang === 'ID' ? 'id-ID' : 'en-US', { day: '2-digit', month: 'short', year: 'numeric' })
-
-    return `${formatDate(start)} – ${formatFullDate(anchor)}`
+    return anchor.toLocaleDateString(lang === 'ID' ? 'id-ID' : 'en-US', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    })
   }, [lang, snapshotDate])
 
   return (
@@ -97,9 +90,9 @@ export default function Header({
           <span style={{ color: '#1e293b', fontWeight: 800 }}>{currentTab}</span>
         </div>
 
-        {/* Right Controls: Rentang Waktu 1 Minggu & Switch Bahasa */}
+        {/* Right Controls: Data Freshness Badge & Switch Bahasa */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
-          {/* Rentang waktu 1 minggu */}
+          {/* Status Kesegaran Data Pipeline */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
@@ -113,7 +106,7 @@ export default function Header({
             fontWeight: 600,
           }}>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#245366' }} />
-            <span>{lang === 'ID' ? 'Siklus Mingguan:' : 'Weekly Window:'} <b style={{ color: '#1e293b' }}>{weekRangeText}</b> <span style={{ color: '#245366', fontWeight: 700 }}>(7D)</span></span>
+            <span>{lang === 'ID' ? 'Snapshot Pipeline:' : 'Pipeline Snapshot:'} <b style={{ color: '#1e293b' }}>{formattedSnapshotDate}</b></span>
           </div>
 
           {/* Icon / Button Fitur Bahasa ENG & IND */}
