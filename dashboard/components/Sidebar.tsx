@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useLanguage } from '@/context/LanguageContext'
@@ -9,6 +9,25 @@ export default function Sidebar() {
   const pathname = usePathname()
   const { t, lang, toggleLang } = useLanguage()
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+
+  // Prevent background scrolling and close drawer on Escape key
+  useEffect(() => {
+    if (!isDrawerOpen) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsDrawerOpen(false)
+      }
+    }
+
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isDrawerOpen])
 
   const navLinks = [
     {
@@ -297,6 +316,7 @@ export default function Sidebar() {
               justifyContent: 'center',
               color: '#ffffff',
               cursor: 'pointer',
+              transition: 'transform 0.15s ease, background 0.15s ease',
             }}
           >
             <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -370,37 +390,17 @@ export default function Sidebar() {
       </div>
 
       {/* ================================================================
-          4. MOBILE DRAWER OVERLAY (Side menu for phone view)
+          4. MOBILE DRAWER OVERLAY (Side menu for phone view with smooth animation)
           ================================================================ */}
-      {isDrawerOpen && (
+      <div
+        className={`mobile-drawer-overlay ${isDrawerOpen ? 'open' : ''}`}
+        aria-hidden={!isDrawerOpen}
+        onClick={closeDrawer}
+      >
         <div
-          className="mobile-drawer-overlay"
-          style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 60,
-            background: 'rgba(15, 23, 42, 0.65)',
-            backdropFilter: 'blur(3px)',
-          }}
-          onClick={closeDrawer}
+          className="mobile-drawer-panel"
+          onClick={e => e.stopPropagation()}
         >
-          <div
-            style={{
-              position: 'fixed',
-              top: 0,
-              bottom: 0,
-              left: 0,
-              width: '80%',
-              maxWidth: 300,
-              background: '#245366',
-              padding: '1.75rem 1.25rem',
-              display: 'flex',
-              flexDirection: 'column',
-              boxShadow: '4px 0 25px rgba(0, 0, 0, 0.4)',
-              boxSizing: 'border-box',
-            }}
-            onClick={e => e.stopPropagation()}
-          >
             {/* Drawer Header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -459,6 +459,7 @@ export default function Sidebar() {
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: 'pointer',
+                  transition: 'transform 0.15s ease, background 0.15s ease',
                 }}
               >
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -541,7 +542,6 @@ export default function Sidebar() {
             </div>
           </div>
         </div>
-      )}
     </>
   )
 }
