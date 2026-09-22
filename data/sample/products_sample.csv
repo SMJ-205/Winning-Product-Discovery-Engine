@@ -1,26 +1,66 @@
-product_id,keyword_id,product_name,price,item_sold,shop_name,shop_type,location
-P101,1,Kabel Data Type C Fast Charging 66W 6A Tebal,18500,4500,GadgetOfficial,official,Jakarta Barat
-P102,1,Kabel Data Type C Braided 1 Meter Quick Charge,12000,8200,BintangAksesoris,star,Jakarta Utara
-P103,1,Kabel Charger Type C Silikon Anti Kusut 120W,15000,3100,TokoKabelMurah,regular,Surabaya
-P104,1,Kabel Type C to Type C PD 60W Laptop & HP,28000,1900,AnkerStyleStore,star,Tangerang
-P105,1,Kabel Type C Magnetic Fast Charge 5A,9500,6700,AksesorisKita,regular,Bandung
-P201,2,Earphone Gaming TWS Bluetooth 5.3 Low Latency,89000,3200,GamersHub,star,Jakarta Selatan
-P202,2,Headset Gaming Wired 3.5mm Surround Stereo,45000,5800,SoundProID,regular,Bekasi
-P203,2,Earphone Kabel In-Ear Gaming Noise Cancel,32000,7400,AudioMurah,regular,Surabaya
-P204,2,TWS Earbuds Gaming RGB 40ms Latency,125000,1500,TechGearOfficial,official,Jakarta Pusat
-P205,2,Earphone Gaming Wired 7.1 Virtual Surround,55000,2900,GamersStore,regular,Depok
-P301,3,Holder HP Motor Sepeda 360 Rotasi Anti Getar,18000,9800,MotoAccessory,star,Jakarta Timur
-P302,3,Dudukan HP Motor Universal Waterproof,25000,5400,BikerGear,regular,Bandung
-P303,3,Holder Handphone Motor Carbon Fiber Look,35000,2100,RacingStyle,regular,Surabaya
-P304,3,Bracket HP Motor Aluminium CNC Anti Slip,42000,1700,AlumStyle,regular,Tangerang
-P305,3,Holder HP Motor Adjustable Clamp Wide,15500,12300,MurahMeriah,regular,Semarang
-P401,4,Botol Susu Bayi Anti Kolik 250ml BPA Free,78000,6500,BabyLand,official,Jakarta Barat
-P402,4,Botol Susu Kaca Bayi 150ml Slow Flow,95000,3200,NaturalBaby,star,Surabaya
-P403,4,Botol Susu Newborn PP 120ml Anti Bingung Puting,55000,8100,BundaShop,regular,Bandung
-P404,4,Botol PPSU Bayi 240ml Wide Neck Anti Kolik,135000,1400,PremiumBaby,official,Jakarta Selatan
-P405,4,Botol Susu Silikon Bayi 160ml Squeeze,68000,4300,SilikonBaby,regular,Depok
-P501,5,Bumbu Instan Rendang Serbaguna Halal 80gr,12500,14500,BumbuNusantara,star,Padang
-P502,5,Bumbu Instan Gulai Kambing Otentik,9800,11200,DapurMinang,regular,Jakarta Pusat
-P503,5,Bumbu Racik Soto Ayam 3 Rempah Asli,7500,18900,BumbuSurabaya,regular,Surabaya
-P504,5,Bumbu Instan Opor Ayam Premium Ibu Rumahan,11000,9700,RumahBumbu,regular,Semarang
-P505,5,Bumbu Nasi Goreng Kampoeng 3 Pcs,15000,7800,BumbuOfficialStore,official,Bogor
+product_id,search_keyword,product_name,price,item_sold,shop_name,shop_type,location
+P101,kabel data type c,Kabel Data Type C Fast Charging 66W 6A Tebal,18500,4500,GadgetOfficial,official,Jakarta Barat
+P102,kabel data type c,Kabel Data Type C Braided 1 Meter Quick Charge,12000,8200,BintangAksesoris,star,Jakarta Utara
+P103,kabel data type c,Kabel Charger Type C Silikon Anti Kusut 120W,15000,3100,TokoKabelMurah,regular,Surabaya
+P104,kabel data type c,Kabel Type C to Type C PD 60W Laptop & HP,28000,1900,AnkerStyleStore,star,Tangerang
+P105,kabel data type c,Kabel Type C Magnetic Fast Charge 5A,9500,6700,AksesorisKita,regular,Bandung
+P201,earphone gaming murah,Earphone Gaming TWS Bluetooth 5.3 Low Latency,89000,3200,GamersHub,star,Jakarta Selatan
+P202,earphone gaming murah,Headset Gaming Wired 3.5mm Surround Stereo,45000,5800,SoundProID,regular,Bekasi
+P203,earphone gaming murah,Earphone Kabel In-Ear Gaming Noise Cancel,32000,7400,AudioMurah,regular,Surabaya
+P204,earphone gaming murah,TWS Earbuds Gaming RGB 40ms Latency,125000,1500,TechGearOfficial,official,Jakarta Pusat
+P205,earphone gaming murah,Earphone Gaming Wired 7.1 Virtual Surround,55000,2900,GamersStore,regular,Depok
+P301,holder hp motor,Holder HP Motor Sepeda 360 Rotasi Anti Getar,18000,9800,MotoAccessory,star,Jakarta Timur
+P302,holder hp motor,Dudukan HP Motor Universal Waterproof,25000,5400,BikerGear,regular,Bandung
+P303,holder hp motor,Holder Handphone Motor Carbon Fiber Look,35000,2100,RacingStyle,regular,Surabaya
+P304,holder hp motor,Bracket HP Motor Aluminium CNC Anti Slip,42000,1700,AlumStyle,regular,Tangerang
+P305,holder hp motor,Holder HP Motor Adjustable Clamp Wide,15500,12300,MurahMeriah,regular,Semarang
+P401,botol susu bayi,Botol Susu Bayi Anti Kolik 250ml BPA Free,78000,6500,BabyLand,official,Jakarta Barat
+P402,botol susu bayi,Botol Susu Kaca Bayi 150ml Slow Flow,95000,3200,NaturalBaby,star,Surabaya
+P403,botol susu bayi,Botol Susu Newborn PP 120ml Anti Bingung Puting,55000,8100,BundaShop,regular,Bandung
+P404,botol susu bayi,Botol PPSU Bayi 240ml Wide Neck Anti Kolik,135000,1400,PremiumBaby,official,Jakarta Selatan
+P405,botol susu bayi,Botol Susu Silikon Bayi 160ml Squeeze,68000,4300,SilikonBaby,regular,Depok
+P501,bumbu instan,Bumbu Instan Rendang Serbaguna Halal 80gr,12500,14500,BumbuNusantara,star,Padang
+P502,bumbu instan,Bumbu Instan Gulai Kambing Otentik,9800,11200,DapurMinang,regular,Jakarta Pusat
+P503,bumbu instan,Bumbu Racik Soto Ayam 3 Rempah Asli,7500,18900,BumbuSurabaya,regular,Surabaya
+P504,bumbu instan,Bumbu Instan Opor Ayam Premium Ibu Rumahan,11000,9700,RumahBumbu,regular,Semarang
+P505,bumbu instan,Bumbu Nasi Goreng Kampoeng 3 Pcs,15000,7800,BumbuOfficialStore,official,Bogor
+P601,rak bumbu dapur,Rak Bumbu Dapur Stainless 3 Susun,45000,7200,KitchenMate,star,Jakarta Utara
+P602,rak bumbu dapur,Organizer Bumbu Dapur Putar 360 Derajat,38000,5100,HomeDeco,regular,Bandung
+P603,rak bumbu dapur,Rak Botol Kaca Dapur Gantung Dinding,32000,3800,WallOrganizer,regular,Surabaya
+P604,rak bumbu dapur,Rak Bumbu Plastik Tahan Panas 2 Tingkat,22000,8600,PlasticHouse,regular,Bekasi
+P605,rak bumbu dapur,Rak Bumbu Bambu Natural Eco Kitchen,55000,2400,EcoLiving,regular,Yogyakarta
+P701,saringan minyak goreng,Saringan Minyak Goreng Stainless 18cm,28000,11300,KitchenTools,star,Jakarta Selatan
+P702,saringan minyak goreng,Penyaring Minyak Plastik Anti Tumpah 2L,18500,8700,DapurPraktis,regular,Surabaya
+P703,saringan minyak goreng,Saringan Minyak Goreng Kaca Borosilikat,65000,2300,GlassKitchen,regular,Bandung
+P704,saringan minyak goreng,Tempat Minyak Goreng Bekas Stainless Filter,42000,5100,CleanKitchen,regular,Tangerang
+P705,saringan minyak goreng,Oil Strainer Pot Anti Panas 1.5L,35000,4200,KooKing,regular,Semarang
+P801,talenan kayu,Talenan Kayu Akasia Premium Tebal 2cm,85000,4600,WoodCraft,star,Jepara
+P802,talenan kayu,Talenan Kayu Bambu Anti Bakteri 30x20cm,45000,7800,BambooLife,regular,Bandung
+P803,talenan kayu,Cutting Board Kayu Ramin Ukir Motif,65000,2900,UkirArt,regular,Yogyakarta
+P804,talenan kayu,Talenan Kayu Mangga Natural Handmade,38000,5400,WoodHome,regular,Jakarta Timur
+P805,talenan kayu,Talenan Kayu Kecil Set 3 Ukuran Mini,55000,3300,MiniCraft,regular,Surabaya
+P901,rak sepatu minimalis,Rak Sepatu Minimalis Susun 3 Besi,95000,8900,RakStyle,star,Jakarta Barat
+P902,rak sepatu minimalis,Rak Sepatu Plastik 6 Pasang Murah,45000,15600,ShoeOrganizer,regular,Surabaya
+P903,rak sepatu minimalis,Rak Sepatu Kayu Skandinavia 4 Level,145000,2100,ScandyHome,regular,Bandung
+P904,rak sepatu minimalis,Rak Sepatu Besi Lipat 2 Tingkat,72000,5800,IronHome,regular,Bekasi
+P905,rak sepatu minimalis,Shoe Rack Bambu 5 Susun Eco,88000,3400,BambooRack,regular,Yogyakarta
+PA01,organizer laci kamar,Organizer Laci Kamar Set 6 Pcs,68000,6700,LivingSpace,star,Jakarta Selatan
+PA02,organizer laci kamar,Sekat Laci Baju Lipat Bambu Adjustable,45000,8200,HomeOrganize,regular,Bandung
+PA03,organizer laci kamar,Drawer Organizer Plastik Bertumpuk,32000,11400,PlasticHome,regular,Surabaya
+PA04,organizer laci kamar,Box Organizer Kain Laci 10 Compartment,58000,4500,FabricBox,regular,Tangerang
+PA05,organizer laci kamar,Laci Kamar Organizer Akrilik Transparan,89000,2800,AcrylicHome,regular,Jakarta Pusat
+PB01,serum pencerah wajah,Serum Pencerah Wajah Niacinamide 10%,85000,18700,GlowingBeauty,official,Jakarta Selatan
+PB02,serum pencerah wajah,Serum Vitamin C Brightening 30ml,75000,22300,SkinCarePro,star,Surabaya
+PB03,serum pencerah wajah,Serum Pencerah AHA BHA 2% Anti Kusam,95000,12100,DrBeauty,star,Bandung
+PB04,serum pencerah wajah,Brightening Serum Kojic Acid 20ml,65000,8500,NaturalGlow,regular,Jakarta Pusat
+PB05,serum pencerah wajah,Serum Whitening Licorice Extract 25ml,110000,5900,WhiteBeauty,official,Surabaya
+PC01,organizer makeup meja rias,Organizer Makeup Meja Rias Akrilik 360,185000,4200,BeautyShelf,official,Jakarta Barat
+PC02,organizer makeup meja rias,Rak Kosmetik Putar 3 Tingkat Plastik,88000,7600,MakeupOrganize,regular,Bandung
+PC03,organizer makeup meja rias,Makeup Organizer Kotak Set 5 Kompartemen,65000,9800,DressingBox,regular,Surabaya
+PC04,organizer makeup meja rias,Tempat Kosmetik Drawer Bambu 3 Laci,125000,3100,BambooBeauty,regular,Yogyakarta
+PC05,organizer makeup meja rias,Acrylic Makeup Organizer Tower 5 Layer,210000,1900,LuxuryBeauty,official,Jakarta Selatan
+PD01,cermin kaca rias,Cermin Kaca Rias LED Touchscreen Bulat,225000,5800,MirrorLux,official,Jakarta Pusat
+PD02,cermin kaca rias,Cermin Meja Rias Lipat 2 Sisi Adjustable,88000,9400,MirrorHome,regular,Bandung
+PD03,cermin kaca rias,Kaca Cermin Dinding Standing Full Body,165000,3600,GlassDecor,regular,Surabaya
+PD04,cermin kaca rias,Cermin Makeup LED 10x Magnify Meja,145000,4100,LedMirror,star,Jakarta Selatan
+PD05,cermin kaca rias,Cermin Rias Bulat Rose Gold Frame,95000,7200,BeautyMirror,regular,Tangerang

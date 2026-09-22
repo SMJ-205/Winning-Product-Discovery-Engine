@@ -162,7 +162,11 @@ def update_trend_index(keyword_id: int, latest_index: float, engine) -> None:
                 FROM dim_competitor_product dcp
                 WHERE fps.product_id = dcp.product_id
                   AND dcp.keyword_id = :kid
-                  AND fps.snapshot_date = CURRENT_DATE
+                  AND fps.snapshot_date = (
+                      SELECT MAX(s.snapshot_date)
+                      FROM fact_product_snapshot s
+                      WHERE s.product_id = fps.product_id
+                  )
             """),
             {"idx": latest_index, "kid": keyword_id},
         )

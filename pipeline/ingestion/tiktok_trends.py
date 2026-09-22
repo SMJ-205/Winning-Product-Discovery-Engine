@@ -387,7 +387,11 @@ def sync_trends_to_database(results: list[dict], engine=None) -> int:
                         JOIN dim_category_keyword dck ON dcp.keyword_id = dck.keyword_id
                         WHERE fps.product_id = dcp.product_id
                           AND LOWER(dck.search_keyword) = LOWER(:kw)
-                          AND fps.snapshot_date = CURRENT_DATE;
+                          AND fps.snapshot_date = (
+                              SELECT MAX(s.snapshot_date)
+                              FROM fact_product_snapshot s
+                              WHERE s.product_id = fps.product_id
+                          );
                     """),
                     {"velocity": velocity, "kw": keyword},
                 )

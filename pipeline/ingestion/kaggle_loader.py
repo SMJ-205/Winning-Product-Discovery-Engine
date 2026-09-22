@@ -34,9 +34,9 @@ log = logging.getLogger(__name__)
 BASE_DIR   = Path(__file__).resolve().parents[2]
 RAW_DIR    = BASE_DIR / "data" / "raw"
 
-# Kolom wajib yang harus ada di dataset Kaggle
-REQUIRED_PRODUCT_COLS = {"product_id", "product_name", "price", "item_sold", "shop_name", "shop_type", "location", "search_keyword"}
-REQUIRED_REVIEW_COLS  = {"review_id", "product_id", "rating_star", "review_text"}
+# Kolom wajib yang harus ada di dataset produk (harus memuat minimal salah satu dari search_keyword atau keyword_id)
+REQUIRED_BASE_PRODUCT_COLS = {"product_id", "product_name", "price", "item_sold", "shop_name", "shop_type", "location"}
+REQUIRED_REVIEW_COLS       = {"review_id", "product_id", "rating_star", "review_text"}
 
 
 # ---------------------------------------------------------------------------
@@ -57,9 +57,13 @@ def load_products_csv(filepath: str = "data/raw/products.csv") -> Optional[pd.Da
     df = pd.read_csv(path, dtype={"product_id": str})
     log.info("Dimuat: %d baris dari %s", len(df), path.name)
 
-    missing = REQUIRED_PRODUCT_COLS - set(df.columns)
-    if missing:
-        log.error("Kolom wajib hilang di products.csv: %s", missing)
+    missing = REQUIRED_BASE_PRODUCT_COLS - set(df.columns)
+    has_keyword_col = ("search_keyword" in df.columns) or ("keyword_id" in df.columns)
+    if missing or not has_keyword_col:
+        err_cols = set(missing)
+        if not has_keyword_col:
+            err_cols.add("search_keyword | keyword_id")
+        log.error("Kolom wajib hilang di products.csv: %s", err_cols)
         return None
 
     return df
@@ -181,7 +185,7 @@ def transform_reviews(df: pd.DataFrame) -> pd.DataFrame:
 # 3. Upsert ke Supabase dengan idempotency
 # ---------------------------------------------------------------------------
 
-def upsert_products(df: pd.DataFrame, engine) -> tuple[int, int]:
+def upsert_products(df: pd.DataFrame, engine, snapshot_date: Optional[str] = None) -> tuple[int, int]:
     """Insert produk ke dim_competitor_product + fact_product_snapshot."""
     inserted_dim = 0
     inserted_fact = 0
@@ -220,15 +224,16 @@ def upsert_products(df: pd.DataFrame, engine) -> tuple[int, int]:
                 text("""
                     INSERT INTO fact_product_snapshot
                         (product_id, snapshot_date, price, units_sold_monthly)
-                    VALUES (:pid, CURRENT_DATE, :price, :sold)
+                    VALUES (:pid, COALESCE(CAST(:snap_date AS DATE), CURRENT_DATE), :price, :sold)
                     ON CONFLICT (product_id, snapshot_date) DO UPDATE
                     SET price = EXCLUDED.price,
                         units_sold_monthly = EXCLUDED.units_sold_monthly
                 """),
                 {
-                    "pid":   str(row["product_id"]),
-                    "price": float(row.get("price") or 0),
-                    "sold":  int(row.get("item_sold") or 0),
+                    "pid":       str(row["product_id"]),
+                    "snap_date": snapshot_date,
+                    "price":     float(row.get("price") or 0),
+                    "sold":      int(row.get("item_sold") or 0),
                 },
             )
             inserted_fact += res.rowcount
@@ -269,6 +274,7 @@ def upsert_reviews(df: pd.DataFrame, engine) -> int:
 def run_kaggle_loader(
     products_path: str = "data/raw/products.csv",
     reviews_path:  str = "data/raw/reviews.csv",
+    snapshot_date: Optional[str] = None,
 ) -> dict:
     """Jalankan full load & upsert. Kembalikan ringkasan statistik."""
     database_url = os.getenv("DATABASE_URL")
@@ -293,9 +299,11 @@ def run_kaggle_loader(
     # Transform & upsert products
     if df_products is not None:
         df_products = transform_products(df_products, keyword_map=keyword_map)
-        ins_dim, ins_snap = upsert_products(df_products, engine)
+        ins_dim, ins_snap = upsert_products(df_products, engine, snapshot_date=snapshot_date)
         stats["products_inserted"]  = ins_dim
         stats["snapshots_inserted"] = ins_snap
+    else:
+        raise RuntimeError("Gagal memuat dataset produk: file tidak ditemukan atau skema kolom wajib hilang.")
 
     # Transform & upsert reviews
     if df_reviews is not None:
