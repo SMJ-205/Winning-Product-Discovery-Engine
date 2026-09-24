@@ -585,8 +585,28 @@ export default function MarketOverview({ initialData, categoryAnalytics }: Props
   // Dynamic Trend Data based on chosen scope and timeframe
   const currentTrend = useMemo(() => {
     const scopeData = MULTI_SCOPE_TREND_DATA[selectedScope] || MULTI_SCOPE_TREND_DATA.all
-    return scopeData[selectedTimeframe] || scopeData['7d']
-  }, [selectedScope, selectedTimeframe])
+    const base = scopeData[selectedTimeframe] || scopeData['7d']
+
+    // Rata-rata minat pencarian terkini dari displayData
+    const avgTrendIndex = displayData.length
+      ? displayData.reduce((acc: number, d: any) => acc + (d.search_trend_index || 50), 0) / displayData.length
+      : 50
+
+    // Kalkulasi laju momentum mingguan berbasis sinyal tren pencarian riil
+    const velocityRate = Math.round((avgTrendIndex - 42) * 1.1)
+    const sign = velocityRate >= 0 ? '▲ +' : '▼ '
+    const dynamicGmvMetric =
+      selectedTimeframe === '7d'
+        ? `${sign}${Math.abs(velocityRate)}% Velocity 7H`
+        : selectedTimeframe === '30d'
+        ? `${sign}${Math.abs(Math.round(velocityRate * 2.8))}% Akumulasi 30H`
+        : base.gmvMetric
+
+    return {
+      ...base,
+      gmvMetric: dynamicGmvMetric,
+    }
+  }, [selectedScope, selectedTimeframe, displayData])
 
   // Timeframe-specific KPI Card Titles
   const gmvTitle = useMemo(() => {

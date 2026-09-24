@@ -37,8 +37,10 @@ CONFIG    = yaml.safe_load((BASE_DIR / "config" / "keywords_discovery.yaml").rea
 CACHE_DIR = BASE_DIR / "data" / "cache"
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
+import random
+
 PYTRENDS_CFG  = CONFIG.get("pytrends", {})
-MAX_PER_RUN   = PYTRENDS_CFG.get("max_keywords_per_run", 5)
+MAX_PER_RUN   = min(3, PYTRENDS_CFG.get("max_keywords_per_run", 3))
 GEO           = PYTRENDS_CFG.get("geo", "ID")
 TIMEFRAME     = PYTRENDS_CFG.get("timeframe", "today 12-m")
 
@@ -220,7 +222,7 @@ def run_trends_ingestion() -> list[dict]:
             log.info("  %-30s avg=%.1f  cv=%.3f  latest=%.1f",
                      kw, metrics["avg_interest"], metrics["volatility_cv"], metrics["latest_index"])
 
-        time.sleep(3)  # Jeda antar batch
+        time.sleep(random.uniform(4.0, 6.5))  # Jeda aman dengan random jitter antar batch
 
     log.info("Trends ingestion selesai: %d keyword diproses.", len(results))
     return results

@@ -42,18 +42,8 @@ def main() -> None:
     log.info("Pipeline run dimulai. Run ID: %s", run_id)
     log.info("=" * 60)
 
-    # ── Step 1: Kaggle Loader ─────────────────────────────────────────────
-    log.info("[1/6] Kaggle Loader")
-    try:
-        from pipeline.ingestion.kaggle_loader import run_kaggle_loader
-        stats = run_kaggle_loader()
-        log.info("Kaggle loader selesai: %s", stats)
-    except Exception as exc:
-        log.error("Kaggle loader gagal: %s", exc)
-        # Lanjutkan — data mungkin sudah ada dari run sebelumnya
-
-    # ── Step 2: Google Trends Ingestion ──────────────────────────────────
-    log.info("[2/6] Google Trends Ingestion")
+    # ── Step 1: Google Trends Ingestion ──────────────────────────────────
+    log.info("[1/6] Google Trends Ingestion (Omnichannel Demand)")
     try:
         from pipeline.ingestion.trends_ingestion import run_trends_ingestion
         trends_results = run_trends_ingestion()
@@ -61,8 +51,8 @@ def main() -> None:
     except Exception as exc:
         log.warning("Trends ingestion gagal (non-fatal, menggunakan cache): %s", exc)
 
-    # ── Step 2b: TikTok Creative Center Weekly Trends ───────────────────
-    log.info("[2b/6] TikTok Creative Center Weekly Ingestion")
+    # ── Step 1b: TikTok Creative Center Weekly Trends ───────────────────
+    log.info("[1b/6] TikTok Creative Center Weekly Ingestion")
     try:
         # Otomasi ekstraksi & update data/raw/tiktok_weekly_trends.csv via Playwright
         try:
@@ -77,6 +67,16 @@ def main() -> None:
         log.info("TikTok trends selesai: %d keyword diproses", len(tiktok_results))
     except Exception as exc:
         log.warning("TikTok trends gagal (non-fatal): %s", exc)
+
+    # ── Step 2: Dynamic Weekly Market & Kaggle Loader ────────────────────
+    log.info("[2/6] Market Snapshot & Product Loader (Weekly Dynamic Evolution)")
+    try:
+        from pipeline.ingestion.kaggle_loader import run_kaggle_loader
+        stats = run_kaggle_loader()
+        log.info("Market loader selesai: %s", stats)
+    except Exception as exc:
+        log.error("Market loader gagal: %s", exc)
+        sys.exit(1)
 
     # ── Step 3: NLP Pipeline ──────────────────────────────────────────────
     log.info("[3/6] NLP Pipeline")
