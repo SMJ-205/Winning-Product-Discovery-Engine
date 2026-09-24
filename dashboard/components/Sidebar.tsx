@@ -146,12 +146,13 @@ export default function Sidebar() {
               Biz-In-Sight
             </div>
             <div style={{
-              fontSize: '0.6875rem',
+              fontSize: '0.625rem',
               color: '#a8d4e2',
               fontWeight: 700,
-              letterSpacing: '0.04em',
+              letterSpacing: '0.03em',
               textTransform: 'uppercase',
-              marginTop: 2,
+              marginTop: 3,
+              lineHeight: 1.25,
             }}>
               {t('brand_sub')}
             </div>
@@ -440,7 +441,15 @@ export default function Sidebar() {
                 </div>
                 <div>
                   <div style={{ fontSize: '1rem', fontWeight: 800, color: '#ffffff' }}>Biz-In-Sight</div>
-                  <div style={{ fontSize: '0.65rem', color: '#a8d4e2', fontWeight: 700 }}>
+                  <div style={{
+                    fontSize: '0.6rem',
+                    color: '#a8d4e2',
+                    fontWeight: 700,
+                    letterSpacing: '0.03em',
+                    textTransform: 'uppercase',
+                    marginTop: 2,
+                    lineHeight: 1.2,
+                  }}>
                     {t('brand_sub')}
                   </div>
                 </div>

@@ -9,7 +9,7 @@ type Translations = Record<string, string>
 const DICTIONARY: Record<Language, Translations> = {
   ID: {
     // Brand & Navigation
-    brand_sub: 'PRODUCT DISCOVERY',
+    brand_sub: 'EVERGREEN PRODUCT DISCOVERY',
     menu: 'MENU',
     tab_overall: 'Overall Summary',
     tab_overall_sub: 'Lanskap Pasar',
@@ -20,9 +20,9 @@ const DICTIONARY: Record<Language, Translations> = {
 
     // Header
     weekly_cycle: 'Siklus Mingguan:',
-    sub_overall: 'Analitik mendalam untuk product discovery dan validasi kelayakan sourcing (Khusus Pasar Indonesia)',
-    sub_analytics: 'Insight, statistik sweet spot harga jual dan titik kelemahan produk kompetitor (Pasar Indonesia)',
-    sub_pricing_sim: 'Validasi batas maksimal HPP supplier sebelum melakukan pemesanan stok (Pasar Indonesia)',
+    sub_overall: 'Analitik mendalam untuk evergreen product discovery dan validasi kelayakan sourcing (Khusus Pasar Indonesia)',
+    sub_analytics: 'Insight, statistik sweet spot harga jual dan titik kelemahan produk kompetitor evergreen (Pasar Indonesia)',
+    sub_pricing_sim: 'Validasi batas maksimal HPP supplier untuk produk evergreen sebelum pemesanan stok (Pasar Indonesia)',
 
     // Scope Filter & KPI Cards
     scope_filter_label: 'Filter Cakupan Kategori:',
@@ -251,7 +251,7 @@ const DICTIONARY: Record<Language, Translations> = {
   },
   EN: {
     // Brand & Navigation
-    brand_sub: 'PRODUCT DISCOVERY',
+    brand_sub: 'EVERGREEN PRODUCT DISCOVERY',
     menu: 'MENU',
     tab_overall: 'Overall Summary',
     tab_overall_sub: 'Market Landscape',
@@ -262,9 +262,9 @@ const DICTIONARY: Record<Language, Translations> = {
 
     // Header
     weekly_cycle: 'Weekly Cycle:',
-    sub_overall: 'In-depth analytics for e-commerce product discovery and sourcing feasibility (Indonesian Market Only)',
-    sub_analytics: 'Insights, sweet spot pricing statistics and competitor pain points intelligence (Indonesian Market)',
-    sub_pricing_sim: 'Validate supplier COGS ceiling before placing pilot stock orders (Indonesian Market)',
+    sub_overall: 'In-depth analytics for e-commerce evergreen product discovery and sourcing feasibility (Indonesian Market Only)',
+    sub_analytics: 'Insights, sweet spot pricing statistics and competitor pain points intelligence for evergreen products (Indonesian Market)',
+    sub_pricing_sim: 'Validate supplier COGS ceiling for evergreen products before placing pilot stock orders (Indonesian Market)',
 
     // Scope Filter & KPI Cards
     scope_filter_label: 'Category Scope Filter:',
