@@ -37,7 +37,7 @@ log = logging.getLogger("run_all")
 
 
 def main() -> None:
-    run_id = os.getenv("GITHUB_RUN_ID", f"local-{datetime.now().strftime('%Y%m%d%H%M%S')}")
+    run_id = os.getenv("PIPELINE_RUN_ID") or os.getenv("GITHUB_RUN_ID", f"local-{datetime.now().strftime('%Y%m%d%H%M%S')}")
     log.info("=" * 60)
     log.info("Pipeline run dimulai. Run ID: %s", run_id)
     log.info("=" * 60)

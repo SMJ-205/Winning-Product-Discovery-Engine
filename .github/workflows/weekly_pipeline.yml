@@ -68,6 +68,7 @@ jobs:
       - name: Run full pipeline
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          PIPELINE_RUN_ID: ${{ steps.run_meta.outputs.pipeline_run_id }}
           GITHUB_RUN_ID: ${{ steps.run_meta.outputs.pipeline_run_id }}
         run: python pipeline/run_all.py
 
@@ -75,18 +76,19 @@ jobs:
       - name: Verify scoring results in DB
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          PIPELINE_RUN_ID: ${{ steps.run_meta.outputs.pipeline_run_id }}
         run: |
           python - <<'EOF'
           import os
           from sqlalchemy import create_engine, text
 
           engine = create_engine(os.environ["DATABASE_URL"])
-          run_id = "${{ steps.run_meta.outputs.pipeline_run_id }}"
+          run_id = os.environ.get("PIPELINE_RUN_ID", "${{ steps.run_meta.outputs.pipeline_run_id }}")
 
           with engine.connect() as conn:
               result = conn.execute(
-                  text("SELECT COUNT(*) FROM fact_sourcing_opportunity WHERE pipeline_run_id = :rid"),
-                  {"rid": run_id}
+                  text("SELECT COUNT(*) FROM fact_sourcing_opportunity WHERE pipeline_run_id IN (:rid, :rid_clean)"),
+                  {"rid": run_id, "rid_clean": run_id.replace("gh-", "")}
               ).scalar()
 
           if result == 0:
